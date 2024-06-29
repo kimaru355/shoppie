@@ -40,6 +40,41 @@ export const createProduct = async (
   }
   return res.status(200).json(response);
 };
+export const createProducts = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const productService = new ProductService();
+  const productsInput: ProductImagesArray[] = req.body;
+  const products: Product[] = productsInput.map((productInput) => {
+    return {
+      ...productInput,
+      images: productInput.images.join(":::::"),
+    };
+  });
+  products.filter(
+    (product) =>
+      product.name &&
+      product.price &&
+      product.description &&
+      product.type &&
+      product.size &&
+      product.quantity &&
+      product.stockLimit &&
+      product.images
+  );
+
+  products.forEach((product) => {
+    product.id = v4();
+  });
+  const response: Res<null> = await productService.createProducts(products);
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
 
 export const updateProduct = async (
   req: Request,

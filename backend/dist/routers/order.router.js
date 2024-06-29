@@ -2,11 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const order_controller_1 = require("../controllers/order.controller");
+const verifyAdmin_1 = require("../middlewares/verifyAdmin");
 const OrderRouter = (0, express_1.Router)();
 OrderRouter.post("/create", order_controller_1.createOrder);
 OrderRouter.get("/completed", order_controller_1.getCompletedOrders);
 OrderRouter.get("/incomplete", order_controller_1.getIncompleteOrders);
 OrderRouter.get("/all", order_controller_1.getAllOrders);
 OrderRouter.get("/product/:productId", order_controller_1.getOrdersByProductId);
-OrderRouter.get("/user/:userId", order_controller_1.getOrdersByUserId);
+OrderRouter.get("/user", order_controller_1.getUserOrders);
+OrderRouter.get("/users/:userId", verifyAdmin_1.verifyAdmin, order_controller_1.getOrdersByUserId);
 exports.default = OrderRouter;

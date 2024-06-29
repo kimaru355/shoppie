@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createProduct,
+  createProducts,
   deleteProduct,
   getAllProducts,
   getProduct,
@@ -12,6 +13,7 @@ import { verifyAdmin } from "../middlewares/verifyAdmin";
 const ProductRouter = Router();
 
 ProductRouter.post("/create", createProduct);
+ProductRouter.post("/create-many", createProducts);
 ProductRouter.put("/update", verifyAdmin, updateProduct);
 ProductRouter.delete("/delete/:id", verifyAdmin, deleteProduct);
 ProductRouter.get("/all", getAllProducts);

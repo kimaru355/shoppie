@@ -102,6 +102,37 @@ export const getOrdersByUserId = async (
 ): Promise<Response> => {
   const orderService = new OrderService();
   const userId = req.params.userId;
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
+    userId
+  );
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getUserOrders = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const orderService = new OrderService();
+  const userId = getIdFromToken(req);
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    });
+  }
   const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
     userId
   );

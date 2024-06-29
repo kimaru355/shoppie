@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductsByName = exports.getProductsByTourType = exports.getAllProducts = exports.getProduct = exports.deleteProduct = exports.updateProduct = exports.createProduct = void 0;
+exports.getProductsByName = exports.getProductsByTourType = exports.getAllProducts = exports.getProduct = exports.deleteProduct = exports.updateProduct = exports.createProducts = exports.createProduct = void 0;
 const product_service_1 = require("../services/product.service");
 const uuid_1 = require("uuid");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,6 +42,33 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     return res.status(200).json(response);
 });
 exports.createProduct = createProduct;
+const createProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const productService = new product_service_1.ProductService();
+    const productsInput = req.body;
+    const products = productsInput.map((productInput) => {
+        return Object.assign(Object.assign({}, productInput), { images: productInput.images.join(":::::") });
+    });
+    products.filter((product) => product.name &&
+        product.price &&
+        product.description &&
+        product.type &&
+        product.size &&
+        product.quantity &&
+        product.stockLimit &&
+        product.images);
+    products.forEach((product) => {
+        product.id = (0, uuid_1.v4)();
+    });
+    const response = yield productService.createProducts(products);
+    if (response.success) {
+        return res.status(200).json(response);
+    }
+    else if (response.message !== "An Error Occurred") {
+        return res.status(200).json(response);
+    }
+    return res.status(200).json(response);
+});
+exports.createProducts = createProducts;
 const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productService = new product_service_1.ProductService();
     const productImagesArray = req.body;

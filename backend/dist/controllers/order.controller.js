@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOrdersByUserId = exports.getOrdersByProductId = exports.getIncompleteOrders = exports.getCompletedOrders = exports.getAllOrders = exports.createOrder = void 0;
+exports.getUserOrders = exports.getOrdersByUserId = exports.getOrdersByProductId = exports.getIncompleteOrders = exports.getCompletedOrders = exports.getAllOrders = exports.createOrder = void 0;
 const uuid_1 = require("uuid");
 const order_service_1 = require("../services/order.service");
 const get_id_from_token_1 = require("../helpers/get_id_from_token");
@@ -94,6 +94,13 @@ exports.getOrdersByProductId = getOrdersByProductId;
 const getOrdersByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orderService = new order_service_1.OrderService();
     const userId = req.params.userId;
+    if (!userId) {
+        return res.status(200).json({
+            success: false,
+            message: "Invalid data",
+            data: null,
+        });
+    }
     const response = yield orderService.getOrdersByUserId(userId);
     if (response.success) {
         return res.status(200).json(response);
@@ -104,3 +111,23 @@ const getOrdersByUserId = (req, res) => __awaiter(void 0, void 0, void 0, functi
     return res.status(200).json(response);
 });
 exports.getOrdersByUserId = getOrdersByUserId;
+const getUserOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const orderService = new order_service_1.OrderService();
+    const userId = (0, get_id_from_token_1.getIdFromToken)(req);
+    if (!userId) {
+        return res.status(200).json({
+            success: false,
+            message: "Unauthorized",
+            data: null,
+        });
+    }
+    const response = yield orderService.getOrdersByUserId(userId);
+    if (response.success) {
+        return res.status(200).json(response);
+    }
+    else if (response.message !== "An Error Occurred") {
+        return res.status(200).json(response);
+    }
+    return res.status(200).json(response);
+});
+exports.getUserOrders = getUserOrders;

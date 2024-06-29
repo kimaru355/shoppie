@@ -5,6 +5,7 @@ const product_controller_1 = require("../controllers/product.controller");
 const verifyAdmin_1 = require("../middlewares/verifyAdmin");
 const ProductRouter = (0, express_1.Router)();
 ProductRouter.post("/create", product_controller_1.createProduct);
+ProductRouter.post("/create-many", product_controller_1.createProducts);
 ProductRouter.put("/update", verifyAdmin_1.verifyAdmin, product_controller_1.updateProduct);
 ProductRouter.delete("/delete/:id", verifyAdmin_1.verifyAdmin, product_controller_1.deleteProduct);
 ProductRouter.get("/all", product_controller_1.getAllProducts);

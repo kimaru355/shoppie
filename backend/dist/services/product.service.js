@@ -36,6 +36,27 @@ class ProductService {
             }
         });
     }
+    createProducts(products) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.prisma.product.createMany({
+                    data: products,
+                });
+                return {
+                    success: true,
+                    message: "Products successfully created",
+                    data: null,
+                };
+            }
+            catch (error) {
+                return {
+                    success: false,
+                    message: "An Error Occurred",
+                    data: null,
+                };
+            }
+        });
+    }
     updateProduct(product) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

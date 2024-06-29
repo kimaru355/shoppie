@@ -25,6 +25,25 @@ export class ProductService implements ProductServices {
     }
   }
 
+  async createProducts(products: Product[]): Promise<Res<null>> {
+    try {
+      await this.prisma.product.createMany({
+        data: products,
+      });
+      return {
+        success: true,
+        message: "Products successfully created",
+        data: null,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
   async updateProduct(product: Product): Promise<Res<null>> {
     try {
       await this.prisma.product.update({
