@@ -15,7 +15,7 @@ export const createReview = async (
   review.userId = getIdFromToken(req);
   if (
     !review.id ||
-    !review.eventId ||
+    !review.productId ||
     !review.userId ||
     !review.rating ||
     !review.comment ||
@@ -68,14 +68,14 @@ export const getReviewsByUserId = async (
   return res.status(200).json(response);
 };
 
-export const getReviewsByEventId = async (
+export const getReviewsByProductId = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const reviewService = new ReviewService();
-  const eventId: string = req.params.eventId;
+  const productId: string = req.params.productId;
   const response: Res<Review[] | null> =
-    await reviewService.getReviewsByEventId(eventId);
+    await reviewService.getReviewsByProductId(productId);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {

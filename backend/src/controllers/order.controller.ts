@@ -1,34 +1,33 @@
 import { v4 } from "uuid";
-import { BookingService } from "../services/booking.service";
+import { OrderService } from "../services/order.service";
 import { Request, Response } from "express";
-import { Booking } from "../interfaces/booking";
+import { Order } from "../interfaces/order";
 import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 
-export const createBooking = async (
+export const createOrder = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
-  const booking: Booking = req.body;
-  booking.id = v4();
-  booking.userId = getIdFromToken(req);
-  if (!booking.userId) {
-    return res.status(200).json({
-      success: false,
-      message: "Unauthorized",
-      data: null,
-    });
-  }
-  if (!booking.eventId || !booking.bookingDate) {
+  const orderService = new OrderService();
+  const order: Order = req.body;
+  if (!order.productId && order.productNumber) {
     return res.status(200).json({
       success: false,
       message: "Invalid data",
       data: null,
     });
   }
-
-  const response: Res<null> = await bookingService.createBooking(booking);
+  order.userId = getIdFromToken(req);
+  if (!order.userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    });
+  }
+  order.id = v4();
+  const response: Res<null> = await orderService.createOrder(order);
   if (response.success) {
     return res.status(201).json(response);
   } else if (response.message !== "An error occurred") {
@@ -37,12 +36,12 @@ export const createBooking = async (
   return res.status(200).json(response);
 };
 
-export const getAllBookings = async (
+export const getAllOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
-  const response: Res<Booking[] | null> = await bookingService.getAllBookings();
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> = await orderService.getAllOrders();
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -51,13 +50,12 @@ export const getAllBookings = async (
   return res.status(200).json(response);
 };
 
-export const getCompletedBookings = async (
+export const getCompletedOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
-  const response: Res<Booking[] | null> =
-    await bookingService.getCompletedBookings();
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> = await orderService.getCompletedOrders();
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -66,13 +64,13 @@ export const getCompletedBookings = async (
   return res.status(200).json(response);
 };
 
-export const getIncompleteBookings = async (
+export const getIncompleteOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
-  const response: Res<Booking[] | null> =
-    await bookingService.getIncompleteBookings();
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> =
+    await orderService.getIncompleteOrders();
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -81,14 +79,15 @@ export const getIncompleteBookings = async (
   return res.status(200).json(response);
 };
 
-export const getBookingsByEventId = async (
+export const getOrdersByProductId = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
-  const eventId = req.params.eventId;
-  const response: Res<Booking[] | null> =
-    await bookingService.getBookingsByEventId(eventId);
+  const orderService = new OrderService();
+  const productId = req.params.productId;
+  const response: Res<Order[] | null> = await orderService.getOrdersByProductId(
+    productId
+  );
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -97,14 +96,15 @@ export const getBookingsByEventId = async (
   return res.status(200).json(response);
 };
 
-export const getBookingsByUserId = async (
+export const getOrdersByUserId = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const bookingService = new BookingService();
+  const orderService = new OrderService();
   const userId = req.params.userId;
-  const response: Res<Booking[] | null> =
-    await bookingService.getBookingsByUserId(userId);
+  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
+    userId
+  );
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {

@@ -1,29 +1,30 @@
 import { Request, Response } from "express";
 import { Res } from "../interfaces/res";
-import { EventService } from "../services/event.service";
-import { Event, EventImagesArray } from "../interfaces/event";
+import { ProductService } from "../services/product.service";
+import { Product, ProductImagesArray } from "../interfaces/product";
 import { v4 } from "uuid";
 
-export const createEvent = async (
+export const createProduct = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
-  const eventInput: EventImagesArray = req.body;
-  const event: Event = {
-    ...eventInput,
-    images: eventInput.images.join(":::::"),
+  const productService = new ProductService();
+  const productInput: ProductImagesArray = req.body;
+  const product: Product = {
+    ...productInput,
+    images: productInput.images.join(":::::"),
   };
-  event.id = v4();
+  product.id = v4();
   if (
-    !event.id ||
-    !event.destination ||
-    !event.country ||
-    !event.duration ||
-    !event.durationType ||
-    !event.price ||
-    !event.tourType ||
-    !event.images
+    !product.id ||
+    !product.name ||
+    !product.price ||
+    !product.description ||
+    !product.type ||
+    !product.size ||
+    !product.quantity ||
+    !product.stockLimit ||
+    !product.images
   ) {
     return res.status(200).json({
       success: false,
@@ -31,7 +32,7 @@ export const createEvent = async (
       data: null,
     });
   }
-  const response: Res<null> = await eventService.createEvent(event);
+  const response: Res<null> = await productService.createProduct(product);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -40,13 +41,17 @@ export const createEvent = async (
   return res.status(200).json(response);
 };
 
-export const updateEvent = async (
+export const updateProduct = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
-  const event: Event = req.body;
-  const response: Res<null> = await eventService.updateEvent(event);
+  const productService = new ProductService();
+  const productImagesArray: ProductImagesArray = req.body;
+  const product: Product = {
+    ...productImagesArray,
+    images: productImagesArray.images.join(":::::"),
+  };
+  const response: Res<null> = await productService.updateProduct(product);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -55,11 +60,11 @@ export const updateEvent = async (
   return res.status(200).json(response);
 };
 
-export const deleteEvent = async (
+export const deleteProduct = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
+  const productService = new ProductService();
   const id: string = req.params.id;
   if (!id) {
     return res.status(200).json({
@@ -68,7 +73,7 @@ export const deleteEvent = async (
       data: null,
     });
   }
-  const response: Res<null> = await eventService.deleteEvent(id);
+  const response: Res<null> = await productService.deleteProduct(id);
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -77,15 +82,15 @@ export const deleteEvent = async (
   return res.status(200).json(response);
 };
 
-export const getEvent = async (
+export const getProduct = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
+  const productService = new ProductService();
   const id: string = req.params.id;
-  const response: Res<Event | null> = await eventService.getEvent(id);
+  const response: Res<Product | null> = await productService.getProduct(id);
   if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray> = {
+    const updatedResponse: Res<ProductImagesArray> = {
       ...response,
       data: {
         ...response.data,
@@ -99,20 +104,20 @@ export const getEvent = async (
   return res.status(200).json(response);
 };
 
-export const getAllEvents = async (
+export const getAllProducts = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
-  const response: Res<Event[] | null> = await eventService.getAllEvents();
+  const productService = new ProductService();
+  const response: Res<Product[] | null> = await productService.getAllProducts();
   if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
+    const updatedResponse: Res<ProductImagesArray[]> = {
       success: response.success,
       message: response.message,
-      data: response.data.map((event) => {
+      data: response.data.map((product) => {
         return {
-          ...event,
-          images: event.images.split(":::::"),
+          ...product,
+          images: product.images.split(":::::"),
         };
       }),
     };
@@ -123,23 +128,22 @@ export const getAllEvents = async (
   return res.status(200).json(response);
 };
 
-export const getEventsByTourType = async (
+export const getProductsByTourType = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
+  const productService = new ProductService();
   const tourType: string = req.params.tourType;
-  const response: Res<Event[] | null> = await eventService.getEventsByTourType(
-    tourType
-  );
+  const response: Res<Product[] | null> =
+    await productService.getProductsByType(tourType);
   if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
+    const updatedResponse: Res<ProductImagesArray[]> = {
       success: response.success,
       message: response.message,
-      data: response.data.map((event) => {
+      data: response.data.map((product) => {
         return {
-          ...event,
-          images: event.images.split(":::::"),
+          ...product,
+          images: product.images.split(":::::"),
         };
       }),
     };
@@ -150,23 +154,22 @@ export const getEventsByTourType = async (
   return res.status(200).json(response);
 };
 
-export const getEventsByName = async (
+export const getProductsByName = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const eventService = new EventService();
-  const eventName: string = req.params.eventName;
-  const response: Res<Event[] | null> = await eventService.getEventsByName(
-    eventName
-  );
+  const productService = new ProductService();
+  const productName: string = req.params.productName;
+  const response: Res<Product[] | null> =
+    await productService.getProductsByName(productName);
   if (response.success && response.data) {
-    const updatedResponse: Res<EventImagesArray[]> = {
+    const updatedResponse: Res<ProductImagesArray[]> = {
       success: response.success,
       message: response.message,
-      data: response.data.map((event) => {
+      data: response.data.map((product) => {
         return {
-          ...event,
-          images: event.images.split(":::::"),
+          ...product,
+          images: product.images.split(":::::"),
         };
       }),
     };

@@ -3,50 +3,71 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { ReviewServices } from "../interfaces/review_service";
 import { Review } from "../interfaces/review";
 import { Res } from "../interfaces/res";
-import { Booking } from "../interfaces/booking";
-import { isEventCompleted } from "../helpers/calculateDate";
-import { Event } from "../interfaces/event";
+import { Order } from "../interfaces/order";
+import { Product } from "../interfaces/product";
 
 export class ReviewService implements ReviewServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
   async createReview(review: Review): Promise<Res<null>> {
     try {
-      const event: Event | null = await this.prisma.event.findUnique({
+      const product: Product | null = await this.prisma.product.findUnique({
         where: {
-          id: review.eventId,
+          id: review.productId,
           isDeleted: false,
         },
       });
-      if (!event) {
+      if (!product) {
         return {
           success: false,
-          message: "Event does not exist",
+          message: "Product does not exist",
           data: null,
         };
       }
-      const booking: Booking | null = await this.prisma.booking.findFirst({
+      const orders: Order[] | null = await this.prisma.order.findMany({
         where: {
           userId: review.userId,
-          eventId: review.eventId,
+          productId: review.productId,
         },
       });
-      if (!booking) {
+      if (!orders) {
         return {
           success: false,
-          message: "User has not booked this event",
+          message: "User has not booked this product",
           data: null,
         };
       }
-      booking.isEventCompleted = isEventCompleted(event, booking);
-      if (!booking.isEventCompleted) {
+      const prevReviews: Review[] | null = await this.prisma.review.findMany({
+        where: {
+          userId: review.userId,
+          productId: review.productId,
+        },
+      });
+      if (prevReviews && prevReviews.length <= orders.length) {
         return {
           success: false,
-          message: "Travel is not completed",
+          message: "User has already reviewed this product",
           data: null,
         };
       }
-      review.bookingId = booking.id;
+      orders.map((order) => {
+        let isReviewed: boolean = false;
+        prevReviews.map((prevReview) => {
+          if (prevReview.orderId === order.id) {
+            isReviewed = true;
+          }
+        });
+        if (!isReviewed) {
+          review.orderId = order.id;
+        }
+      });
+      if (!review.orderId) {
+        return {
+          success: false,
+          message: "User has already reviewed this product",
+          data: null,
+        };
+      }
       await this.prisma.review.create({
         data: review,
       });
@@ -102,23 +123,25 @@ export class ReviewService implements ReviewServices {
     }
   }
 
-  async getReviewsByEventId(eventId: string): Promise<Res<Review[] | null>> {
+  async getReviewsByProductId(
+    productId: string
+  ): Promise<Res<Review[] | null>> {
     try {
-      const event: Event | null = await this.prisma.event.findUnique({
+      const product: Product | null = await this.prisma.product.findUnique({
         where: {
-          id: eventId,
+          id: productId,
         },
       });
-      if (!event) {
+      if (!product) {
         return {
           success: false,
-          message: "Event does not exist",
+          message: "Product does not exist",
           data: null,
         };
       }
       const reviews = await this.prisma.review.findMany({
         where: {
-          eventId,
+          productId,
         },
       });
       return {
@@ -182,7 +205,7 @@ export class ReviewService implements ReviewServices {
       if (error.message.includes("Record to delete does not exist.")) {
         return {
           success: false,
-          message: "Event not found",
+          message: "Product not found",
           data: null,
         };
       }

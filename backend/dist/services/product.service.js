@@ -9,74 +9,114 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.OrderService = void 0;
+exports.ProductService = void 0;
 const client_1 = require("@prisma/client");
-class OrderService {
+class ProductService {
     constructor(prisma = new client_1.PrismaClient()) {
         this.prisma = prisma;
     }
-    createOrder(order) {
+    createProduct(product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.prisma.product.create({
+                    data: product,
+                });
+                return {
+                    success: true,
+                    message: "Product successfully created",
+                    data: null,
+                };
+            }
+            catch (error) {
+                return {
+                    success: false,
+                    message: "An Error Occurred",
+                    data: null,
+                };
+            }
+        });
+    }
+    updateProduct(product) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.prisma.product.update({
+                    where: {
+                        id: product.id,
+                    },
+                    data: product,
+                });
+                return {
+                    success: true,
+                    message: "Product successfully updated",
+                    data: null,
+                };
+            }
+            catch (error) {
+                return {
+                    success: false,
+                    message: "An Error Occurred",
+                    data: null,
+                };
+            }
+        });
+    }
+    deleteProduct(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.prisma.product.update({
+                    where: {
+                        id: id,
+                        isDeleted: false,
+                    },
+                    data: {
+                        isDeleted: true,
+                    },
+                });
+                return {
+                    success: true,
+                    message: "Product successfully deleted",
+                    data: null,
+                };
+            }
+            catch (error) {
+                if (error instanceof client_1.Prisma.PrismaClientKnownRequestError) {
+                    if (error.message.includes("Record to update not found")) {
+                        return {
+                            success: false,
+                            message: "Product not found",
+                            data: null,
+                        };
+                    }
+                }
+                return {
+                    success: false,
+                    message: "An Error Occurred",
+                    data: null,
+                };
+            }
+        });
+    }
+    getProduct(productId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const product = yield this.prisma.product.findUnique({
                     where: {
-                        id: order.productId,
+                        id: productId,
                         isDeleted: false,
                     },
                 });
                 if (!product) {
                     return {
                         success: false,
-                        message: "Product does not exist",
+                        message: "Product not found",
                         data: null,
                     };
                 }
-                const prevOrder = yield this.prisma.order.findFirst({
-                    where: {
-                        userId: order.userId,
-                        productId: order.productId,
-                    },
-                });
-                if (prevOrder) {
-                    return {
-                        success: false,
-                        message: "User has already booked this product",
-                        data: null,
-                    };
-                }
-                yield this.prisma.order.create({
-                    data: order,
-                });
+                delete product.isDeleted;
                 return {
                     success: true,
-                    message: "Order successfully created",
-                    data: null,
-                };
-            }
-            catch (error) {
-                if (error.message.includes("Foreign key constraint failed")) {
-                    return {
-                        success: false,
-                        message: "Invalid Product or User Id",
-                        data: null,
-                    };
-                }
-                return {
-                    success: false,
-                    message: "An Error Occurred",
-                    data: null,
-                };
-            }
-        });
-    }
-    getAllOrders() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const orders = yield this.prisma.order.findMany();
-                return {
-                    success: true,
-                    message: "Orders successfully retrieved",
-                    data: orders,
+                    message: "Product found",
+                    data: product,
                 };
             }
             catch (error) {
@@ -88,18 +128,21 @@ class OrderService {
             }
         });
     }
-    getCompletedOrders() {
+    getAllProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const orders = yield this.prisma.order.findMany({
+                const products = yield this.prisma.product.findMany({
                     where: {
-                        isProductCompleted: true,
+                        isDeleted: false,
                     },
+                });
+                products.forEach((product) => {
+                    delete product.isDeleted;
                 });
                 return {
                     success: true,
-                    message: "Completed orders successfully retrieved",
-                    data: orders,
+                    message: "Products found",
+                    data: products,
                 };
             }
             catch (error) {
@@ -111,18 +154,19 @@ class OrderService {
             }
         });
     }
-    getIncompleteOrders() {
+    getProductsByType(type) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const orders = yield this.prisma.order.findMany({
+                const products = yield this.prisma.product.findMany({
                     where: {
-                        isProductCompleted: false,
+                        type: type,
+                        isDeleted: false,
                     },
                 });
                 return {
                     success: true,
-                    message: "Incomplete orders successfully retrieved",
-                    data: orders,
+                    message: "Products found",
+                    data: products,
                 };
             }
             catch (error) {
@@ -134,41 +178,21 @@ class OrderService {
             }
         });
     }
-    getOrdersByProductId(productId) {
+    getProductsByName(productName) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const orders = yield this.prisma.order.findMany({
+                const products = yield this.prisma.product.findMany({
                     where: {
-                        productId: productId,
+                        isDeleted: false,
+                        name: {
+                            contains: productName,
+                        },
                     },
                 });
                 return {
                     success: true,
-                    message: "Orders successfully retrieved",
-                    data: orders,
-                };
-            }
-            catch (error) {
-                return {
-                    success: false,
-                    message: "An Error Occurred",
-                    data: null,
-                };
-            }
-        });
-    }
-    getOrdersByUserId(userId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const orders = yield this.prisma.order.findMany({
-                    where: {
-                        userId: userId,
-                    },
-                });
-                return {
-                    success: true,
-                    message: "Orders successfully retrieved",
-                    data: orders,
+                    message: "Products found",
+                    data: products,
                 };
             }
             catch (error) {
@@ -181,4 +205,4 @@ class OrderService {
         });
     }
 }
-exports.OrderService = OrderService;
+exports.ProductService = ProductService;

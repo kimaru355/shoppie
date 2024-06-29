@@ -8,5 +8,5 @@ ReviewRouter.put("/update/:id", review_controller_1.updateReview);
 ReviewRouter.delete("/delete/:id", review_controller_1.deleteReview);
 ReviewRouter.get("/all", review_controller_1.getReviews);
 ReviewRouter.get("/user/:userId", review_controller_1.getReviewsByUserId);
-ReviewRouter.get("/event/:eventId", review_controller_1.getReviewsByEventId);
+ReviewRouter.get("/product/:productId", review_controller_1.getReviewsByProductId);
 exports.default = ReviewRouter;

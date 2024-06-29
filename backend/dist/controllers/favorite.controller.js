@@ -17,7 +17,7 @@ const createFavorite = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const favoriteService = new favorite_service_1.FavoriteService();
     const favorite = req.body;
     favorite.id = (0, uuid_1.v4)();
-    if (!favorite.id || !favorite.eventId || !favorite.userId) {
+    if (!favorite.id || !favorite.productId || !favorite.userId) {
         return res.status(200).json({
             success: false,
             message: "Invalid data",

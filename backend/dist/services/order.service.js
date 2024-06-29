@@ -31,19 +31,6 @@ class OrderService {
                         data: null,
                     };
                 }
-                const prevOrder = yield this.prisma.order.findFirst({
-                    where: {
-                        userId: order.userId,
-                        productId: order.productId,
-                    },
-                });
-                if (prevOrder) {
-                    return {
-                        success: false,
-                        message: "User has already booked this product",
-                        data: null,
-                    };
-                }
                 yield this.prisma.order.create({
                     data: order,
                 });
@@ -93,7 +80,7 @@ class OrderService {
             try {
                 const orders = yield this.prisma.order.findMany({
                     where: {
-                        isProductCompleted: true,
+                        isOrderCompleted: true,
                     },
                 });
                 return {
@@ -116,7 +103,7 @@ class OrderService {
             try {
                 const orders = yield this.prisma.order.findMany({
                     where: {
-                        isProductCompleted: false,
+                        isOrderCompleted: false,
                     },
                 });
                 return {
