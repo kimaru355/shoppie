@@ -1,0 +1,215 @@
+<app-navbar></app-navbar>
+
+
+<div class="dir">
+  <span class="dirs">Home </span> > <span class="dirs"> Shop </span>
+</div>
+
+
+<div class="main">
+  <!-- Sidebar start -->
+  <div class="sidebar">
+    <div class="innerSidebar">
+      <!-- Main sdebar -->
+      <div class="top1f">
+        <div class="filters">Filters</div>
+        <div class="iconFilter"><img style="height: 30px;" src="/assets/icons/icons8-control.gif" alt=""></div>
+      </div>
+
+      <!--  Filtering byt cloth type-->
+      <div class="types">
+        <div class="type">
+          <div class="tshirt">Tshirt</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+        <div class="type">
+          <div class="short">Shorts</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+        <div class="type">
+          <div class="jeans">Jeans</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+        <div class="type">
+          <div class="shoes">Shoes</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+        <div class="type">
+          <div class="hoodie">Hoodie</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+        <div class="type">
+          <div class="shirts">Shirts</div>
+          <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
+        </div>
+
+      </div>
+      <!-- Cloth type ends here -->
+
+      <!-- Filter by price -->
+      <div class="wrapper">
+        <div class="byPrice">
+          Price (Ksh.)
+        </div>
+
+        <div class="slider">
+          <div class="progress" [style.left.%]="(minPrice / 100000) * 100"
+            [style.right.%]="100 - (maxPrice / 100000) * 100"></div>
+        </div>
+
+        <div class="range-input">
+          <input type="range" class="range-min" min="0" max="100000" [(ngModel)]="minPrice" (input)="updatePriceRange()"
+            step="100">
+          <input type="range" class="range-max" min="0" max="100000" [(ngModel)]="maxPrice" (input)="updatePriceRange()"
+            step="100">
+        </div>
+        <div class="price-input">
+          <div class="field">
+            <!-- <span>Min</span> -->
+            <input style="background-color: transparent;" type="number" class="input-min" [(ngModel)]="minPrice"
+              (input)="updatePriceRange()">
+          </div>
+          <div class="separator">-</div>
+          <div class="field">
+            <!-- <span>Max</span> -->
+            <input style="background-color: transparent;" type="number" class="input-max" [(ngModel)]="maxPrice"
+              (input)="updatePriceRange()">
+          </div>
+        </div>
+      </div>
+      <!-- Filter by price ends here -->
+
+      <!-- Filter by size -->
+      <div class="bySize">
+        <div class="size">Size</div>
+        <div class="sizes">
+          <div class="sizze">Small</div>
+          <div class="sizze">Medium</div>
+          <div class="sizze">Large</div>
+          <div class="sizze">XL</div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- ---------------------Products list start-->
+
+  <div class="productsContainer">
+    <div class="products">
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+      <div class="product">
+        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+        <div class="productName">
+          Deep gray masterpiece
+        </div>
+        <div class="rating">
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
+          <div class="rate">4.5/5</div>
+        </div>
+        <div class="productPrice">
+          Ksh. 34,000
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+  </div>
+</div>
