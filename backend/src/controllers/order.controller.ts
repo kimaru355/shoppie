@@ -1,34 +1,47 @@
-import { Request, Response } from "express";
-import { Review } from "../interfaces/review";
-import { ReviewService } from "../services/review.service";
-import { Res } from "../interfaces/res";
 import { v4 } from "uuid";
+import { OrderService } from "../services/order.service";
+import { Request, Response } from "express";
+import { Order } from "../interfaces/order";
+import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 
-export const createReview = async (
+export const createOrder = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const review: Review = req.body;
-  review.id = v4();
-  review.userId = getIdFromToken(req);
-  if (
-    !review.id ||
-    !review.productId ||
-    !review.userId ||
-    !review.rating ||
-    !review.comment ||
-    review.rating < 1 ||
-    review.rating > 5
-  ) {
+  const orderService = new OrderService();
+  const order: Order = req.body;
+  if (!order.productId && order.productNumber) {
     return res.status(200).json({
       success: false,
       message: "Invalid data",
       data: null,
     });
   }
-  const response: Res<null> = await reviewService.createReview(review);
+  order.userId = getIdFromToken(req);
+  if (!order.userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    });
+  }
+  order.id = v4();
+  const response: Res<null> = await orderService.createOrder(order);
+  if (response.success) {
+    return res.status(201).json(response);
+  } else if (response.message !== "An error occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getAllOrders = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> = await orderService.getAllOrders();
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -37,12 +50,12 @@ export const createReview = async (
   return res.status(200).json(response);
 };
 
-export const getReviews = async (
+export const getCompletedOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const response: Res<Review[] | null> = await reviewService.getAllReviews();
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> = await orderService.getCompletedOrders();
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
@@ -51,13 +64,52 @@ export const getReviews = async (
   return res.status(200).json(response);
 };
 
-export const getReviewsByUserId = async (
+export const getIncompleteOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const userId: string = req.params.userId;
-  const response: Res<Review[] | null> = await reviewService.getReviewsByUserId(
+  const orderService = new OrderService();
+  const response: Res<Order[] | null> =
+    await orderService.getIncompleteOrders();
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getOrdersByProductId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const orderService = new OrderService();
+  const productId = req.params.productId;
+  const response: Res<Order[] | null> = await orderService.getOrdersByProductId(
+    productId
+  );
+  if (response.success) {
+    return res.status(200).json(response);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getOrdersByUserId = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const orderService = new OrderService();
+  const userId = req.params.userId;
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
     userId
   );
   if (response.success) {
@@ -68,69 +120,22 @@ export const getReviewsByUserId = async (
   return res.status(200).json(response);
 };
 
-export const getReviewsByProductId = async (
+export const getUserOrders = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const reviewService = new ReviewService();
-  const productId: string = req.params.productId;
-  const response: Res<Review[] | null> =
-    await reviewService.getReviewsByProductId(productId);
-  if (response.success) {
-    return res.status(200).json(response);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const updateReview = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const review: Review = req.body;
+  const orderService = new OrderService();
   const userId = getIdFromToken(req);
-  const id: string = req.params.id;
-  review.id = id;
-  review.userId = userId;
-  if (
-    !review.id ||
-    !review.userId ||
-    !review.rating ||
-    !review.comment ||
-    review.rating < 1 ||
-    review.rating > 5
-  ) {
+  if (!userId) {
     return res.status(200).json({
       success: false,
-      message: "Invalid data",
+      message: "Unauthorized",
       data: null,
     });
   }
-  const reviewService = new ReviewService();
-  const response: Res<null> = await reviewService.updateReview(review);
-  if (response.success) {
-    return res.status(200).json(response);
-  } else if (response.message !== "An Error Occurred") {
-    return res.status(200).json(response);
-  }
-  return res.status(200).json(response);
-};
-
-export const deleteReview = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const id: string = req.params.id;
-  if (!id) {
-    return res.status(200).json({
-      success: false,
-      message: "Invalid data",
-      data: null,
-    });
-  }
-  const reviewService = new ReviewService();
-  const response: Res<null> = await reviewService.deleteReview(id);
+  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
+    userId
+  );
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {

@@ -1,19 +1,19 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Event } from "../interfaces/event";
-import { EventServices } from "../interfaces/event_service";
+import { Product } from "../interfaces/product";
+import { ProductServices } from "../interfaces/product_service";
 import { Res } from "../interfaces/res";
 
-export class EventService implements EventServices {
+export class ProductService implements ProductServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
-  async createEvent(event: Event): Promise<Res<null>> {
+  async createProduct(product: Product): Promise<Res<null>> {
     try {
-      await this.prisma.event.create({
-        data: event,
+      await this.prisma.product.create({
+        data: product,
       });
       return {
         success: true,
-        message: "Event successfully created",
+        message: "Product successfully created",
         data: null,
       };
     } catch (error: any) {
@@ -25,17 +25,36 @@ export class EventService implements EventServices {
     }
   }
 
-  async updateEvent(event: Event): Promise<Res<null>> {
+  async createProducts(products: Product[]): Promise<Res<null>> {
     try {
-      await this.prisma.event.update({
+      await this.prisma.product.createMany({
+        data: products,
+      });
+      return {
+        success: true,
+        message: "Products successfully created",
+        data: null,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async updateProduct(product: Product): Promise<Res<null>> {
+    try {
+      await this.prisma.product.update({
         where: {
-          id: event.id,
+          id: product.id,
         },
-        data: event,
+        data: product,
       });
       return {
         success: true,
-        message: "Event successfully updated",
+        message: "Product successfully updated",
         data: null,
       };
     } catch (error: any) {
@@ -47,9 +66,9 @@ export class EventService implements EventServices {
     }
   }
 
-  async deleteEvent(id: string): Promise<Res<null>> {
+  async deleteProduct(id: string): Promise<Res<null>> {
     try {
-      await this.prisma.event.update({
+      await this.prisma.product.update({
         where: {
           id: id,
           isDeleted: false,
@@ -60,7 +79,7 @@ export class EventService implements EventServices {
       });
       return {
         success: true,
-        message: "Event successfully deleted",
+        message: "Product successfully deleted",
         data: null,
       };
     } catch (error: unknown) {
@@ -68,7 +87,7 @@ export class EventService implements EventServices {
         if (error.message.includes("Record to update not found")) {
           return {
             success: false,
-            message: "Event not found",
+            message: "Product not found",
             data: null,
           };
         }
@@ -82,26 +101,26 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEvent(eventId: string): Promise<Res<Event | null>> {
+  async getProduct(productId: string): Promise<Res<Product | null>> {
     try {
-      const event: Event | null = await this.prisma.event.findUnique({
+      const product: Product | null = await this.prisma.product.findUnique({
         where: {
-          id: eventId,
+          id: productId,
           isDeleted: false,
         },
       });
-      if (!event) {
+      if (!product) {
         return {
           success: false,
-          message: "Event not found",
+          message: "Product not found",
           data: null,
         };
       }
-      delete event.isDeleted;
+      delete product.isDeleted;
       return {
         success: true,
-        message: "Event found",
-        data: event,
+        message: "Product found",
+        data: product,
       };
     } catch (error: any) {
       return {
@@ -112,20 +131,20 @@ export class EventService implements EventServices {
     }
   }
 
-  async getAllEvents(): Promise<Res<Event[] | null>> {
+  async getAllProducts(): Promise<Res<Product[] | null>> {
     try {
-      const events: Event[] = await this.prisma.event.findMany({
+      const products: Product[] = await this.prisma.product.findMany({
         where: {
           isDeleted: false,
         },
       });
-      events.forEach((event) => {
-        delete event.isDeleted;
+      products.forEach((product) => {
+        delete product.isDeleted;
       });
       return {
         success: true,
-        message: "Events found",
-        data: events,
+        message: "Products found",
+        data: products,
       };
     } catch (error: any) {
       return {
@@ -136,18 +155,18 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByTourType(tourType: string): Promise<Res<Event[] | null>> {
+  async getProductsByType(type: string): Promise<Res<Product[] | null>> {
     try {
-      const events = await this.prisma.event.findMany({
+      const products = await this.prisma.product.findMany({
         where: {
-          tourType: tourType,
+          type: type,
           isDeleted: false,
         },
       });
       return {
         success: true,
-        message: "Events found",
-        data: events,
+        message: "Products found",
+        data: products,
       };
     } catch (error: any) {
       return {
@@ -158,20 +177,20 @@ export class EventService implements EventServices {
     }
   }
 
-  async getEventsByName(eventName: string): Promise<Res<Event[] | null>> {
+  async getProductsByName(productName: string): Promise<Res<Product[] | null>> {
     try {
-      const events = await this.prisma.event.findMany({
+      const products = await this.prisma.product.findMany({
         where: {
           isDeleted: false,
-          destination: {
-            contains: eventName,
+          name: {
+            contains: productName,
           },
         },
       });
       return {
         success: true,
-        message: "Events found",
-        data: events,
+        message: "Products found",
+        data: products,
       };
     } catch (error: any) {
       return {

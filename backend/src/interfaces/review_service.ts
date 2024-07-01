@@ -7,5 +7,5 @@ export interface ReviewServices {
   deleteReview(id: string): Promise<Res<null>>;
   getAllReviews(): Promise<Res<Review[] | null>>;
   getReviewsByUserId(userId: string): Promise<Res<Review[] | null>>;
-  getReviewsByEventId(eventId: string): Promise<Res<Review[] | null>>;
+  getReviewsByProductId(productId: string): Promise<Res<Review[] | null>>;
 }

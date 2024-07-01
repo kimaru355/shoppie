@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReviewService = void 0;
 const client_1 = require("@prisma/client");
 const library_1 = require("@prisma/client/runtime/library");
-const calculateDate_1 = require("../helpers/calculateDate");
 class ReviewService {
     constructor(prisma = new client_1.PrismaClient()) {
         this.prisma = prisma;
@@ -20,41 +19,63 @@ class ReviewService {
     createReview(review) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const event = yield this.prisma.event.findUnique({
+                const product = yield this.prisma.product.findUnique({
                     where: {
-                        id: review.eventId,
+                        id: review.productId,
                         isDeleted: false,
                     },
                 });
-                if (!event) {
+                if (!product) {
                     return {
                         success: false,
-                        message: "Event does not exist",
+                        message: "Product does not exist",
                         data: null,
                     };
                 }
-                const booking = yield this.prisma.booking.findFirst({
+                const orders = yield this.prisma.order.findMany({
                     where: {
                         userId: review.userId,
-                        eventId: review.eventId,
+                        productId: review.productId,
                     },
                 });
-                if (!booking) {
+                if (!orders) {
                     return {
                         success: false,
-                        message: "User has not booked this event",
+                        message: "User has not booked this product",
                         data: null,
                     };
                 }
-                booking.isEventCompleted = (0, calculateDate_1.isEventCompleted)(event, booking);
-                if (!booking.isEventCompleted) {
+                const prevReviews = yield this.prisma.review.findMany({
+                    where: {
+                        userId: review.userId,
+                        productId: review.productId,
+                    },
+                });
+                if (prevReviews && prevReviews.length <= orders.length) {
                     return {
                         success: false,
-                        message: "Travel is not completed",
+                        message: "User has already reviewed this product",
                         data: null,
                     };
                 }
-                review.bookingId = booking.id;
+                orders.map((order) => {
+                    let isReviewed = false;
+                    prevReviews.map((prevReview) => {
+                        if (prevReview.orderId === order.id) {
+                            isReviewed = true;
+                        }
+                    });
+                    if (!isReviewed) {
+                        review.orderId = order.id;
+                    }
+                });
+                if (!review.orderId) {
+                    return {
+                        success: false,
+                        message: "User has already reviewed this product",
+                        data: null,
+                    };
+                }
                 yield this.prisma.review.create({
                     data: review,
                 });
@@ -115,24 +136,24 @@ class ReviewService {
             }
         });
     }
-    getReviewsByEventId(eventId) {
+    getReviewsByProductId(productId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const event = yield this.prisma.event.findUnique({
+                const product = yield this.prisma.product.findUnique({
                     where: {
-                        id: eventId,
+                        id: productId,
                     },
                 });
-                if (!event) {
+                if (!product) {
                     return {
                         success: false,
-                        message: "Event does not exist",
+                        message: "Product does not exist",
                         data: null,
                     };
                 }
                 const reviews = yield this.prisma.review.findMany({
                     where: {
-                        eventId,
+                        productId,
                     },
                 });
                 return {
@@ -200,7 +221,7 @@ class ReviewService {
                 if (error.message.includes("Record to delete does not exist.")) {
                     return {
                         success: false,
-                        message: "Event not found",
+                        message: "Product not found",
                         data: null,
                     };
                 }

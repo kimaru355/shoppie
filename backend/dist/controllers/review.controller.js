@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteReview = exports.updateReview = exports.getReviewsByEventId = exports.getReviewsByUserId = exports.getReviews = exports.createReview = void 0;
+exports.deleteReview = exports.updateReview = exports.getReviewsByProductId = exports.getReviewsByUserId = exports.getReviews = exports.createReview = void 0;
 const review_service_1 = require("../services/review.service");
 const uuid_1 = require("uuid");
 const get_id_from_token_1 = require("../helpers/get_id_from_token");
@@ -19,7 +19,7 @@ const createReview = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     review.id = (0, uuid_1.v4)();
     review.userId = (0, get_id_from_token_1.getIdFromToken)(req);
     if (!review.id ||
-        !review.eventId ||
+        !review.productId ||
         !review.userId ||
         !review.rating ||
         !review.comment ||
@@ -66,10 +66,10 @@ const getReviewsByUserId = (req, res) => __awaiter(void 0, void 0, void 0, funct
     return res.status(200).json(response);
 });
 exports.getReviewsByUserId = getReviewsByUserId;
-const getReviewsByEventId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getReviewsByProductId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const reviewService = new review_service_1.ReviewService();
-    const eventId = req.params.eventId;
-    const response = yield reviewService.getReviewsByEventId(eventId);
+    const productId = req.params.productId;
+    const response = yield reviewService.getReviewsByProductId(productId);
     if (response.success) {
         return res.status(200).json(response);
     }
@@ -78,7 +78,7 @@ const getReviewsByEventId = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
     return res.status(200).json(response);
 });
-exports.getReviewsByEventId = getReviewsByEventId;
+exports.getReviewsByProductId = getReviewsByProductId;
 const updateReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const review = req.body;
     const userId = (0, get_id_from_token_1.getIdFromToken)(req);

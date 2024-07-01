@@ -1,8 +1,8 @@
 export interface Review {
   id: string;
-  eventId: string;
+  productId: string;
   userId: string;
-  bookingId: string;
+  orderId: string;
   rating: number;
   comment: string;
   createdAt?: Date;

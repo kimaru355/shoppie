@@ -2,9 +2,9 @@ import express, { NextFunction, Request, Response, json } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import AuthRouter from "./routers/auth.router";
-import BookingRouter from "./routers/booking.router";
+import OrderRouter from "./routers/order.router";
 import ReviewRouter from "./routers/review.router";
-import EventRouter from "./routers/event.router";
+import ProductRouter from "./routers/product.router";
 import FavoriteRouter from "./routers/favorite.router";
 import { verifyToken } from "./middlewares/verifyToken";
 import UsersRouter from "./routers/users.router";
@@ -33,9 +33,9 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/auth", AuthRouter);
-app.use("/bookings", verifyToken, BookingRouter);
+app.use("/orders", verifyToken, OrderRouter);
 app.use("/reviews", verifyToken, ReviewRouter);
-app.use("/events", EventRouter);
+app.use("/products", ProductRouter);
 app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);
 app.use("/user", verifyToken, UserRouter);

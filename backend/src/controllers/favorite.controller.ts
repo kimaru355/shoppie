@@ -12,7 +12,7 @@ export const createFavorite = async (
   const favoriteService = new FavoriteService();
   const favorite: Favorite = req.body;
   favorite.id = v4();
-  if (!favorite.id || !favorite.eventId || !favorite.userId) {
+  if (!favorite.id || !favorite.productId || !favorite.userId) {
     return res.status(200).json({
       success: false,
       message: "Invalid data",
