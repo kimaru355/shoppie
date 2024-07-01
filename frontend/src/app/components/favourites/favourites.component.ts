@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-history',
+  selector: 'app-favourites',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent],
-  templateUrl: './history.component.html',
-  styleUrl: './history.component.css'
+  imports: [CommonModule, NavbarComponent],
+  templateUrl: './favourites.component.html',
+  styleUrl: './favourites.component.css'
 })
-export class HistoryComponent {
+export class FavouritesComponent {
   products = [
     {
     id: 1,

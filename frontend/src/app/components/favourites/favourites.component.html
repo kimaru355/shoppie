@@ -3,13 +3,13 @@
 </head>
 
 <body>
+  <app-navbar></app-navbar>
   <main>
-    <app-navbar></app-navbar>
     <div class="dir">
-      <span>Home</span> > <span>Shop</span> > <span>History</span>
+      <span>Home</span> > <span>Cart</span> > <span>Wishlist</span>
       <div class="cartTop">
-        <div class="ctxt">
-          Purchase History
+        <div class="ctxt" style="text-align: center; width: 100%;">
+         WishList
         </div>
       </div>
       <div class="container">
@@ -37,21 +37,16 @@
               </div>
 
               <div class="quantity">
-                : {{product.quantity}}
+                Quantity: {{product.quantity}}
               </div>
               <div class="size">
                 Size: {{product.size}}
               </div>
             </div>
           </div>
-
-
-
           <!-- ?End of inidividual cart item -->
         </div>
         <!-- End of cart items -->
-
-
 
 
 
