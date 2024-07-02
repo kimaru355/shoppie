@@ -5,6 +5,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
 import { Router, RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../interfaces/cart';
 
 @Component({
   selector: 'app-shop',
@@ -46,5 +48,6 @@ export class ShopComponent {
 
   viewProduct(id: string): void {
     this.router.navigate(['/product', id]);
+    console.log("Product Id:" + id);
   }
 }

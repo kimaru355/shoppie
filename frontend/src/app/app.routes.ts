@@ -18,5 +18,6 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'history', component: HistoryComponent },
   { path: 'favourites', component: FavouritesComponent },
-  {path: 'admin', component: AdminframeComponent}
+  {path: 'admin', component: AdminframeComponent},
+  { path: 'product/:id', component: ProductComponent },
 ];

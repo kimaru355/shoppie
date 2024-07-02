@@ -4,6 +4,7 @@
 ,
 
 <body>
+  <app-navbar></app-navbar>
   <div class="dir">
     <span>Home</span> > <span> Shop</span> > <span>Selected product</span>
   </div>
@@ -12,20 +13,19 @@
     <div class="image">
       <div class="subImages">
         <img style="height: 100px;"
-          src="/assets/imgs/men-s-casual-t-shirshort-sleeve-o-neck-t-shirt-lestyleparfait-kenya-t-shirts-1.webp" alt="">
+          src={{this.product?.images}} alt="">
         <img style="height: 100px;"
-          src="/assets/imgs/men-s-casual-t-shirshort-sleeve-o-neck-t-shirt-lestyleparfait-kenya-t-shirts-1.webp" alt="">
+        src={{this.product?.images}} alt="">
         <img style="height: 100px;"
-          src="/assets/imgs/men-s-casual-t-shirshort-sleeve-o-neck-t-shirt-lestyleparfait-kenya-t-shirts-1.webp" alt="">
+        src={{this.product?.images}} alt="">
       </div>
-      <img src="/assets/imgs/men-s-casual-t-shirshort-sleeve-o-neck-t-shirt-lestyleparfait-kenya-t-shirts-1.webp"
-        alt="">
+      <img   src={{this.product?.images}} alt="">
     </div>
 
     <div class="details">
 
       <div class="name">
-        Casual short sleeve T-Shirt
+       {{this.product?.name}}
       </div>
 
       <div class="rating">
@@ -39,13 +39,11 @@
       </div>
 
       <div class="price">
-        Ksh. 2,600
+        Ksh. {{this.product?.price}}
       </div>
 
       <div style="display: flex; flex-wrap: wrap; width: 100%;" class="descripton">
-        This t-shirt which is perfect for casual occasion. <br> Crafted from a soft and breathable fabric, it offers
-        superior
-        comfort and style.
+       {{this.product?.description}}
       </div>
 
       <div class="toCart">
