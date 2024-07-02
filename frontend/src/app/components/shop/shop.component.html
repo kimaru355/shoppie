@@ -189,10 +189,11 @@
         </div>
       </div>
 
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+
+      <div class="product" *ngFor="let product of products">
+        <img style="height: 260px;" src="{{product.images[0]}}" alt="">
         <div class="productName">
-          Deep gray masterpiece
+          {{ product.name}}
         </div>
         <div class="rating">
           <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
@@ -202,10 +203,9 @@
           <div class="rate">4.5/5</div>
         </div>
         <div class="productPrice">
-          Ksh. 34,000
+          Ksh. {{product.price}}
         </div>
       </div>
-
 
 
 

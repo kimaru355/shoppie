@@ -19,6 +19,7 @@ interface Order {
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent {
+  selectedOrder: Order | null = null;
   orders: Order[] = [
     {
       clientProfile: 'https://example.com/client1.jpg',
@@ -38,6 +39,14 @@ export class OrdersComponent {
       quantity: 1,
       amountPaid: 1800
     },
-    // Add more orders as needed
+
   ];
+
+  showPopup(order: Order) {
+    this.selectedOrder = order;
+  }
+
+  closePopup() {
+    this.selectedOrder = null;
+  }
 }

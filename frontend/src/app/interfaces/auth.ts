@@ -4,6 +4,7 @@ export interface UserRegister {
   phoneNumber: string;
   country: string;
   password: string;
+  confirmPassword?: string;
 }
 
 export interface UserLogin {

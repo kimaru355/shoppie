@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../interfaces/product';
 
 @Component({
   selector: 'app-shop',
@@ -15,9 +17,16 @@ export class ShopComponent {
   minPrice: number = 500;
   maxPrice: number = 100000;
   progressWidth: string = '0%';
+  products: Product[] = [];
 
-  constructor() {
+  constructor(private productService: ProductService) {
     this.updateProgressWidth();
+    this.productService.getAllProducts().subscribe(response => {
+      console.log(response);
+      if (response.success && response.data) {
+        this.products = response.data;
+      }
+    });
   }
   updatePriceRange(): void {
     if (this.minPrice > this.maxPrice) {

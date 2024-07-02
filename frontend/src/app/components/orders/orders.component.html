@@ -31,13 +31,14 @@
           <img src="/assets/icons/actions.png" alt="More actions">
         </button>
         <div class="dropdown-actions">
-          <button class="icon-btn view-details">
+          <button class="icon-btn view-details" (click)="showPopup(order)">
             <img src="/assets/icons/search.gif" alt="View details">
             <span>View Details</span>
           </button>
+
           <button class="icon-btn set-delivered">
             <img src="/assets/icons/delivery.png" alt="Set to delivered">
-            <span>Set to Delivered</span>
+            <span>Complete Delivery</span>
           </button>
         </div>
       </td>
@@ -45,3 +46,30 @@
     </tr>
   </tbody>
 </table>
+
+<!-- PPoppup element on view order -->
+<div class="overlay" *ngIf="selectedOrder" (click)="closePopup()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closePopup()">×</button>
+    <div class="popup-content">
+      <div class="profile-section">
+        <img [src]="selectedOrder.clientProfile" alt="Client Profile" class="popup-profile-img">
+        <h2>{{ selectedOrder.name }}</h2>
+      </div>
+      <div class="product-section">
+
+
+        <!-- uncomment after updat of linkings -->
+        <!-- <img [src]="selectedOrder.productImage" alt="Product Image" class="popup-product-img"> -->
+        <h3>{{ selectedOrder.product }}</h3>
+      </div>
+      <div class="details-section">
+        <p><strong>Quantity:</strong> {{ selectedOrder.quantity }}</p>
+        <p><strong>Status:</strong> <span [ngClass]="{'delivered': selectedOrder.status === 'delivered', 'pending': selectedOrder.status === 'pending'}">{{ selectedOrder.status }}</span></p>
+        <p><strong>Amount Paid:</strong> {{ selectedOrder.amountPaid }}</p>
+        <p><strong>Date of Purchase:</strong> {{ selectedOrder.date }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
