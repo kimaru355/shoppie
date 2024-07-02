@@ -4,30 +4,23 @@ import { Request, Response } from "express";
 import { Order } from "../interfaces/order";
 import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
+import { Cart, CartItem } from "../interfaces/cart";
+import { CartService } from "../services/cart.service";
 
 export const createOrder = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
-  const order: Order = req.body;
-  if (!order.productId && order.productNumber) {
-    return res.status(200).json({
-      success: false,
-      message: "Invalid data",
-      data: null,
-    });
-  }
-  order.userId = getIdFromToken(req);
-  if (!order.userId) {
+  const userId = getIdFromToken(req);
+  if (!userId) {
     return res.status(200).json({
       success: false,
       message: "Unauthorized",
       data: null,
     });
   }
-  order.id = v4();
-  const response: Res<null> = await orderService.createOrder(order);
+  const response: Res<null> = await orderService.createOrder(userId);
   if (response.success) {
     return res.status(201).json(response);
   } else if (response.message !== "An error occurred") {

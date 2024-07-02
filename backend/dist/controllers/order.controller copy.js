@@ -10,19 +10,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserOrders = exports.getOrdersByUserId = exports.getOrdersByProductId = exports.getIncompleteOrders = exports.getCompletedOrders = exports.getAllOrders = exports.createOrder = void 0;
+const uuid_1 = require("uuid");
 const order_service_1 = require("../services/order.service");
 const get_id_from_token_1 = require("../helpers/get_id_from_token");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orderService = new order_service_1.OrderService();
-    const userId = (0, get_id_from_token_1.getIdFromToken)(req);
-    if (!userId) {
+    const order = req.body;
+    if (!order.productId && order.productNumber) {
+        return res.status(200).json({
+            success: false,
+            message: "Invalid data",
+            data: null,
+        });
+    }
+    order.userId = (0, get_id_from_token_1.getIdFromToken)(req);
+    if (!order.userId) {
         return res.status(200).json({
             success: false,
             message: "Unauthorized",
             data: null,
         });
     }
-    const response = yield orderService.createOrder(userId);
+    order.id = (0, uuid_1.v4)();
+    const response = yield orderService.createOrder(order);
     if (response.success) {
         return res.status(201).json(response);
     }

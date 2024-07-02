@@ -3,7 +3,7 @@ export interface Order {
   productId: string;
   userId: string;
   productNumber: number;
-  isOrderCompleted: boolean;
+  isOrderCompleted?: boolean;
   createdAt?: Date;
   updateAt?: Date;
 }
