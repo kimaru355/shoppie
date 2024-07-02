@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 .buttonAdd{
   display: flex;
   align-items: center;
@@ -77,7 +78,7 @@
   gap: 10px;
 }
 .div2{
-
+  font-family: 'Abel', sans-serif;
 }
 .div3{
   display: flex;
