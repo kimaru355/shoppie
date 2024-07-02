@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -19,7 +20,7 @@ export class ShopComponent {
   progressWidth: string = '0%';
   products: Product[] = [];
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService, private router: Router) {
     this.updateProgressWidth();
     this.productService.getAllProducts().subscribe(response => {
       console.log(response);
@@ -43,4 +44,7 @@ export class ShopComponent {
     this.progressWidth = `${progressPercentage}%`;
   }
 
+  viewProduct(id: string): void {
+    this.router.navigate(['/product', id]);
+  }
 }

@@ -1,22 +1,20 @@
 <app-navbar></app-navbar>
 
-
 <div class="dir">
-  <span class="dirs">Home </span> > <span class="dirs"> Shop </span>
+  <span class="dirs" routerLink="/">Home</span> > <span class="dirs">Shop</span>
 </div>
-
 
 <div class="main">
   <!-- Sidebar start -->
   <div class="sidebar">
     <div class="innerSidebar">
-      <!-- Main sdebar -->
+      <!-- Main sidebar -->
       <div class="top1f">
         <div class="filters">Filters</div>
         <div class="iconFilter"><img style="height: 30px;" src="/assets/icons/icons8-control.gif" alt=""></div>
       </div>
 
-      <!--  Filtering byt cloth type-->
+      <!-- Filtering by cloth type -->
       <div class="types">
         <div class="type">
           <div class="tshirt">Tshirt</div>
@@ -70,13 +68,11 @@
         </div>
         <div class="price-input">
           <div class="field">
-            <!-- <span>Min</span> -->
             <input style="background-color: transparent;" type="number" class="input-min" [(ngModel)]="minPrice"
               (input)="updatePriceRange()">
           </div>
           <div class="separator">-</div>
           <div class="field">
-            <!-- <span>Max</span> -->
             <input style="background-color: transparent;" type="number" class="input-max" [(ngModel)]="maxPrice"
               (input)="updatePriceRange()">
           </div>
@@ -95,19 +91,18 @@
         </div>
       </div>
 
-
     </div>
   </div>
 
-  <!-- ---------------------Products list start-->
+  <!-- Products list start -->
 
   <div class="productsContainer">
+    <h2 class="title" style="padding: 0 40px; text-align: center; margin-top: -40px;">Clothing Collection</h2>
     <div class="products">
-
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
+      <div class="product" *ngFor="let product of products" (click)="viewProduct(product.id)">
+        <img style="height: 260px;" [src]="product.images[0]" alt="">
         <div class="productName">
-          Deep gray masterpiece
+          {{ product.name }}
         </div>
         <div class="rating">
           <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
@@ -117,99 +112,9 @@
           <div class="rate">4.5/5</div>
         </div>
         <div class="productPrice">
-          Ksh. 34,000
+          Ksh. {{ product.price }}
         </div>
       </div>
-
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
-        <div class="productName">
-          Deep gray masterpiece
-        </div>
-        <div class="rating">
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="rate">4.5/5</div>
-        </div>
-        <div class="productPrice">
-          Ksh. 34,000
-        </div>
-      </div>
-
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
-        <div class="productName">
-          Deep gray masterpiece
-        </div>
-        <div class="rating">
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="rate">4.5/5</div>
-        </div>
-        <div class="productPrice">
-          Ksh. 34,000
-        </div>
-      </div>
-
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
-        <div class="productName">
-          Deep gray masterpiece
-        </div>
-        <div class="rating">
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="rate">4.5/5</div>
-        </div>
-        <div class="productPrice">
-          Ksh. 34,000
-        </div>
-      </div>
-
-      <div class="product">
-        <img style="height: 260px;" src="/assets/imgs/darkgrey.webp" alt="">
-        <div class="productName">
-          Deep gray masterpiece
-        </div>
-        <div class="rating">
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="rate">4.5/5</div>
-        </div>
-        <div class="productPrice">
-          Ksh. 34,000
-        </div>
-      </div>
-
-
-      <div class="product" *ngFor="let product of products">
-        <img style="height: 260px;" src="{{product.images[0]}}" alt="">
-        <div class="productName">
-          {{ product.name}}
-        </div>
-        <div class="rating">
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="star"><img style="height: 22px;" src="/assets/icons/star.png" alt=""></div>
-          <div class="rate">4.5/5</div>
-        </div>
-        <div class="productPrice">
-          Ksh. {{product.price}}
-        </div>
-      </div>
-
-
-
-
     </div>
   </div>
 </div>

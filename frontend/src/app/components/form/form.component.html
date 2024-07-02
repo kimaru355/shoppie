@@ -1,58 +1,62 @@
-
 <div class="form-holder">
   <div class="form-and-image">
     <div class="form">
-      <form>
+      <form (ngSubmit)="onSubmit()">
         <div class="description">
           <label for="product-name">Product Name</label>
-          <input type="name" placeholder="product name ...">
+          <input type="text" id="product-name" [(ngModel)]="name" name="name" placeholder="product name ...">
         </div>
 
         <div class="description">
           <label for="description">Description</label>
-          <textarea name="description" placeholder="provide description"></textarea>
+          <textarea id="description" [(ngModel)]="description" name="description" placeholder="provide description"></textarea>
         </div>
 
         <div class="description">
-          <label for="category">Cartegory</label>
-          <input type="cartegory" placeholder="cartegory ...">
+          <label for="category">Category</label>
+          <input type="text" id="category" [(ngModel)]="category" name="category" placeholder="category ...">
         </div>
 
         <div class="description">
           <label for="quantity">Stock Quantity</label>
-          <input type="number" placeholder="0">
+          <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" placeholder="0">
         </div>
-        
+
         <div class="price-and-size">
           <div class="price-holder">
             <label for="price">Regular Price</label>
-            <input class="small" type="number" placeholder="Ksh: 0">
+            <input class="small" type="number" id="price" [(ngModel)]="price" name="price" placeholder="Ksh: 0">
           </div>
 
           <div>
             <label for="size">Size</label>
-            <input class="small" type="size" placeholder="Large">
+            <input class="small" type="text" id="size" [(ngModel)]="size" name="size" placeholder="Large">
           </div>
         </div>
       </form>
     </div>
     <div class="image-holder">
       <div class="image">
-        <img src="../../../assets/imgs/3d-men-s-hoodies-burning-head-hoodies-lestyleparfait-kenya-hoodie-1.webp" alt="">
+        <ng-container *ngIf="product && product.images.length > 0; else noImageAvailable">
+          <img [src]="product.images[0]" [alt]="product.name" style="height: 80px;">
+        </ng-container>
+        <ng-template #noImageAvailable>
+          <img src="/assets/imgs/suitsuit.jpg" alt="Alternative Image">
+        </ng-template>
       </div>
       <div class="gallery">
         <h3>Product Gallery</h3>
         <div class="image-placeholder">
-          <img src="../../../assets/icons/7585628.png" alt="">
+          <img src="/assets/icons/7585628.png" alt="">
           <p>Drop your image here, or browse jpeg, png are allowed.</p>
         </div>
       </div>
     </div>
   </div>
   <div class="buttons">
-    <button class="create">CREATE</button>
-    <button class="update">UPDATE</button>
-    <button class="delete">SOFT DELETE</button>
-    <button class="cancel">CANCEL</button>
+    <button class="create" type="submit" form="form" *ngIf="formMode === 'create'">CREATE</button>
+    <button class="update" type="submit" form="form" *ngIf="formMode === 'update'">UPDATE</button>
+    <button class="delete" *ngIf="formMode === 'update'">SOFT DELETE</button>
+    <button class="cancel" (click)="onCancel()">CANCEL</button>
   </div>
 </div>

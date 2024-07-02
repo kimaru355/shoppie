@@ -5,7 +5,8 @@ import { RouterLink } from '@angular/router';
 import { AdminVisualsComponent } from '../admin-visuals/admin-visuals.component';
 import { OrdersComponent } from '../orders/orders.component';
 import { ProductsAdminComponent } from '../products-admin/products-admin.component';
-import { FormComponent } from '../form/form.component';
+import { FormComponent } from '../form/form.component'
+import { Product } from '../../interfaces/product';
 
 @Component({
   selector: 'app-adminframe',
@@ -17,15 +18,24 @@ import { FormComponent } from '../form/form.component';
 export class AdminframeComponent {
   selectedOption: string = 'dashboard';
 
-  selectOption(option: string) {
-    this.selectedOption = option;
-  }
+
 
   totalOrders = 50;
   pendingOrders = 20;
   completedOrders = 30;
   totalEarnings = 10000;
 
+  editProduct: Product | null = null;
 
+  selectOption(option: string) {
+    this.selectedOption = option;
+  }
 
+  handleEditProductEvent(product: Product) {
+    this.editProduct = product;
+    this.selectOption('settings');
+  }
+  handleCancelEdit() {
+    this.selectOption('products');
+  }
 }
