@@ -7,6 +7,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { HistoryComponent } from './components/history/history.component';
+import { AdminframeComponent } from './components/adminframe/adminframe.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -17,4 +18,5 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'history', component: HistoryComponent },
   { path: 'favourites', component: FavouritesComponent },
+  {path: 'admin', component: AdminframeComponent}
 ];
