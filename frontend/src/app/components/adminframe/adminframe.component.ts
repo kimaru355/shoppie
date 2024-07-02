@@ -15,6 +15,11 @@ import { FormComponent } from '../form/form.component';
   styleUrl: './adminframe.component.css'
 })
 export class AdminframeComponent {
+  selectedOption: string = 'dashboard';
+
+  selectOption(option: string) {
+    this.selectedOption = option;
+  }
 
   totalOrders = 50;
   pendingOrders = 20;

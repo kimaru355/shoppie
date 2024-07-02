@@ -1,6 +1,3 @@
-<p>products-admin works!</p>
-
-
 <div class="addproducts">
   <button class="buttonAdd">
     <div class="icon">
@@ -13,20 +10,47 @@
 </div>
 
 <div class="products">
-  <div class="product">
+  <div class="product" *ngFor="let product of products">
     <div class="div1">
       <div class="img">
-        
-<!-- IMAGE HERE -->
+        <img [src]="product.image" [alt]="product.name" style="height: 80px;">
       </div>
       <div class="details">
-        <!-- Details here -->
+        <p style="font-size: 16px; font-weight: 300;" class="productName">{{ product.name }}</p>
+        <p class="productType">{{ product.type }}</p>
+        <p style="font-weight: 700;" class="productPrice">Ksh. {{ product.price }}</p>
       </div>
-
       <div class="controls">
-        <!-- Controls here -->
+        <button class="more">
+          <img height="20px" src="/assets/icons/more.png" alt="">
+        </button>
+        <div class="dropdown">
+          <button class="edit">
+            <img height="20px" src="/assets/icons/edit.png" alt="">
+          </button>
+          <button class="delete">
+            <img height="20px" src="/assets/icons/delete.png" alt="">
+          </button>
+        </div>
       </div>
-
+    </div>
+    <div class="div2">
+      <div class="descriptionTitle">
+        Description
+      </div>
+      <div class="descriptionText">
+        <p>{{ product.description }}</p>
+      </div>
+    </div>
+    <div class="div3">
+      <div class="remaning">
+        Remaining Products ({{ product.remainingProducts }})
+      </div>
+      <div class="remainingProgressBar">
+        <div class="progress-container">
+          <div class="progress-bar" [style.width.%]="(product.remainingProducts / product.totalProducts) * 100"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
