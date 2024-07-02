@@ -19,6 +19,7 @@ model User {
   Review      Review[]
   Order       Order[]
   Favorites   Favorites[]
+  Cart        Cart[]
 }
 
 model Product {
@@ -37,6 +38,7 @@ model Product {
   Order       Order[]
   Review      Review[]
   Favorites   Favorites[]
+  Cart        Cart[]
 }
 
 model Review {
@@ -65,6 +67,17 @@ model Order {
   Review           Review[]
   product          Product  @relation(fields: [productId], references: [id])
   user             User     @relation(fields: [userId], references: [id])
+}
+
+model Cart {
+  id            String   @id @unique
+  productId     String
+  userId        String
+  productNumber Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now()) @updatedAt
+  product       Product  @relation(fields: [productId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model Favorites {

@@ -2,29 +2,38 @@ import { PrismaClient } from "@prisma/client";
 import { OrderServices } from "../interfaces/order_service";
 import { Order } from "../interfaces/order";
 import { Res } from "../interfaces/res";
-import { Product } from "../interfaces/product";
+import { v4 } from "uuid";
 
 export class OrderService implements OrderServices {
   constructor(private prisma: PrismaClient = new PrismaClient()) {}
 
-  async createOrder(order: Order): Promise<Res<null>> {
+  async createOrder(userId: string): Promise<Res<null>> {
     try {
-      const product: Product | null = await this.prisma.product.findUnique({
+      const cart: Order[] = await this.prisma.cart.findMany({
         where: {
-          id: order.productId,
-          isDeleted: false,
+          userId: userId,
         },
       });
-      if (!product) {
+      if (cart.length === 0) {
         return {
           success: false,
-          message: "Product does not exist",
+          message: "Cart is empty",
           data: null,
         };
       }
-      await this.prisma.order.create({
-        data: order,
+      cart.forEach((item) => {
+        item.id = v4();
       });
+      await this.prisma.$transaction([
+        this.prisma.order.createMany({
+          data: cart,
+        }),
+        this.prisma.cart.deleteMany({
+          where: {
+            userId: userId,
+          },
+        }),
+      ]);
       return {
         success: true,
         message: "Order successfully created",

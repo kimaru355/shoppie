@@ -38,12 +38,24 @@ const verifyToken_1 = require("./middlewares/verifyToken");
 const users_router_1 = __importDefault(require("./routers/users.router"));
 const verifyAdmin_1 = require("./middlewares/verifyAdmin");
 const user_router_1 = __importDefault(require("./routers/user.router"));
+const cart_router_1 = __importDefault(require("./routers/cart.router"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-app.use((0, cors_1.default)({
-    origin: "http://localhost:4200",
+const allowedOrigins = ["http://localhost:4200", "http://localhost:61410"];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
-}));
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use((0, express_1.json)());
 app.use((error, req, res, next) => {
     if (error) {
@@ -57,6 +69,7 @@ app.use((error, req, res, next) => {
 });
 app.use("/auth", auth_router_1.default);
 app.use("/orders", verifyToken_1.verifyToken, order_router_1.default);
+app.use("/cart", verifyToken_1.verifyToken, cart_router_1.default);
 app.use("/reviews", verifyToken_1.verifyToken, review_router_1.default);
 app.use("/products", product_router_1.default);
 app.use("/favorites", verifyToken_1.verifyToken, favorite_router_1.default);

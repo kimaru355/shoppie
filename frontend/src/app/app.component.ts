@@ -15,7 +15,7 @@ import { HistoryComponent } from './components/history/history.component';
   standalone: true,
   imports: [RouterOutlet, LandingComponent, NavbarComponent, ShopComponent, LoginComponent, SignupComponent, ProductComponent, CartComponent, HistoryComponent, FavouritesComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'shoppie';

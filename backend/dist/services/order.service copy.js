@@ -11,39 +11,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const client_1 = require("@prisma/client");
-const uuid_1 = require("uuid");
 class OrderService {
     constructor(prisma = new client_1.PrismaClient()) {
         this.prisma = prisma;
     }
-    createOrder(userId) {
+    createOrder(order) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const cart = yield this.prisma.cart.findMany({
+                const product = yield this.prisma.product.findUnique({
                     where: {
-                        userId: userId,
+                        id: order.productId,
+                        isDeleted: false,
                     },
                 });
-                if (cart.length === 0) {
+                if (!product) {
                     return {
                         success: false,
-                        message: "Cart is empty",
+                        message: "Product does not exist",
                         data: null,
                     };
                 }
-                cart.forEach((item) => {
-                    item.id = (0, uuid_1.v4)();
+                yield this.prisma.order.create({
+                    data: order,
                 });
-                yield this.prisma.$transaction([
-                    this.prisma.order.createMany({
-                        data: cart,
-                    }),
-                    this.prisma.cart.deleteMany({
-                        where: {
-                            userId: userId,
-                        },
-                    }),
-                ]);
                 return {
                     success: true,
                     message: "Order successfully created",
