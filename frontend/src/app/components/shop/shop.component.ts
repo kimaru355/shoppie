@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
@@ -27,7 +28,7 @@ export class ShopComponent {
     this.updateProgressWidth();
   }
   private updateProgressWidth(): void {
-    let totalRange = 10000; 
+    let totalRange = 10000;
     let selectedRange = this.maxPrice - this.minPrice;
     let progressPercentage = (selectedRange / totalRange) * 100;
     this.progressWidth = `${progressPercentage}%`;

@@ -1,10 +1,14 @@
 <head>
+
   <head>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   </head>
 </head>
+
 <body>
-  <div class="form-container">
+  <app-navbar></app-navbar>
+  <div class="login">
+    <div class="form-container">
       <h2 style="text-align: start; font-weight: 500;">EXISTING MEMBER</h2>
       <p style="text-align: start; margin-bottom: 30px;">Welcome Back!</p>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -27,12 +31,11 @@
 
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
       </form>
-      <a href="#">Don't have an account? Register Now</a>
+      <a>Don't have an account? Register Now</a>
+    </div>
+    <P style="color :white; position: absolute; margin-right: -1250px; margin-bottom: -300px; ">FOR Men By Men</P>
+    <video autoplay muted loop id="backgroundVideo">
+      <source src="/assets/mp4/mensuits.mp4" type="video/mp4">
+    </video>
   </div>
-  <P style="color :white; position: absolute; margin-right: -1250px; margin-bottom: -300px; ">FOR Men By Men</P>
-  <video autoplay muted loop id="backgroundVideo">
-    <source src="/assets/mp4/mensuits.mp4" type="video/mp4">
-  </video>
 </body>
-
-
