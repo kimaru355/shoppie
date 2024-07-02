@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.client-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.delivered {
+  color: #4BF0FB;
+  font-weight: bold;
+}
+
+.pending {
+  color: #F62B50;
+  font-weight: bold;
+}
