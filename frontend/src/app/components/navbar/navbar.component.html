@@ -13,8 +13,9 @@
     <a routerLink="/favourites">Wishlist</a>
     <a routerLink="/cart" class="cartNav">
       <div class="navCart">
+        <p [style]="bg_color">{{cartQuantity}}</p>
+        <img style="height: 30px;" src="/assets/icons/cartcart.png" alt="">
       </div>
-      <img style="height: 30px;" src="/assets/icons/cartcart.png" alt="">
     </a>
     <div class="user-dropdown">
       <img style="height: 30px;" src="/assets/icons/user.png" alt="User">
