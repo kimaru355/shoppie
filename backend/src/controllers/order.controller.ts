@@ -41,6 +41,7 @@ export const createOrder = async (
       userDetailsResponse.data.name.split(" ")[0],
       cartResponse.data
     );
+    return res.status(201).json(response);
   } else if (response.message !== "An error occurred") {
     return res.status(200).json(response);
   }
