@@ -11,6 +11,8 @@ import UsersRouter from "./routers/users.router";
 import { verifyAdmin } from "./middlewares/verifyAdmin";
 import UserRouter from "./routers/user.router";
 import CartRouter from "./routers/cart.router";
+import { sendWelcomeEmail } from "./background-services/mailer";
+import AnalyticRouter from "./routers/analytic.router";
 
 dotenv.config();
 const app = express();
@@ -44,11 +46,12 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 app.use("/auth", AuthRouter);
 app.use("/orders", verifyToken, OrderRouter);
 app.use("/cart", verifyToken, CartRouter);
-app.use("/reviews", verifyToken, ReviewRouter);
+app.use("/reviews", ReviewRouter);
 app.use("/products", ProductRouter);
 app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);
 app.use("/user", verifyToken, UserRouter);
+app.use("analytics", verifyToken, verifyAdmin, AnalyticRouter);
 
 const port = 3000;
 
