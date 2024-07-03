@@ -9,6 +9,7 @@ import {
   UserRegister,
 } from "../interfaces/auth";
 import { getIdFromToken } from "../helpers/get_id_from_token";
+import { sendWelcomeEmail } from "../background-services/mailer";
 
 export const register = async (
   req: Request,
@@ -35,6 +36,7 @@ export const register = async (
     user_register
   );
   if (response.success) {
+    sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
     return res.status(201).json(response);
   } else if (response.message === "An error occurred") {
     return res.status(200).json(response);
