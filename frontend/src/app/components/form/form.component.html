@@ -1,38 +1,38 @@
 <div class="form-holder">
   <div class="form-and-image">
     <div class="form">
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" #form="ngForm">
         <div class="description">
           <label for="product-name">Product Name</label>
-          <input type="text" id="product-name" [(ngModel)]="name" name="name" placeholder="product name ...">
+          <input type="text" id="product-name" [(ngModel)]="name" name="name" placeholder="product name ..." required>
         </div>
 
         <div class="description">
           <label for="description">Description</label>
-          <textarea id="description" [(ngModel)]="description" name="description" placeholder="provide description"></textarea>
+          <textarea id="description" [(ngModel)]="description" name="description" placeholder="provide description" required></textarea>
         </div>
 
         <div class="description">
-          <label for="category">Category</label>,
-          <input type="text" id="category" [(ngModel)]="category" name="category" placeholder="category ...">
+          <label for="category">Category</label>
+          <input type="text" id="category" [(ngModel)]="category" name="category" placeholder="category ..." required>
         </div>
 
         <div class="description">
           <label for="quantity">Stock Quantity</label>
-          <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" placeholder="0">
+          <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" placeholder="0" required>
           <label for="maxStock">Stock Limit</label>
-          <input type="number" id="maxStock" [(ngModel)]="stockLimit" name="stockLimit" placeholder="stockLimit">
+          <input type="number" id="maxStock" [(ngModel)]="stockLimit" name="stockLimit" placeholder="stockLimit" required>
         </div>
 
         <div class="price-and-size">
           <div class="price-holder">
             <label for="price">Regular Price</label>
-            <input class="small" type="number" id="price" [(ngModel)]="price" name="price" placeholder="Ksh: 0">
+            <input class="small" type="number" id="price" [(ngModel)]="price" name="price" placeholder="Ksh: 0" required>
           </div>
 
           <div>
             <label for="size">Size</label>
-            <input class="small" type="text" id="size" [(ngModel)]="size" name="size" placeholder="Large">
+            <input class="small" type="text" id="size" [(ngModel)]="size" name="size" placeholder="Large" required>
           </div>
         </div>
       </form>
@@ -43,31 +43,33 @@
           <img [src]="product.images[0]" [alt]="product.name" style="height: 80px;">
         </ng-container>
         <ng-template #noImageAvailable>
-          <img src="/assets/imgs/suitsuit.jpg" alt="Alternative Image">
+          <img src="/assets/imgs/no-image-available.jpg" alt="No Image Available">
         </ng-template>
       </div>
       <div class="gallery">
         <h3>Product Gallery</h3>
-        <div class="image-placeholder">
-          <img src="/assets/icons/7585628.png" alt="">
-          <p>Drop your image here, or browse jpeg, png are allowed.</p>
+        <div class="image-placeholder" appDropzone (filesSelected)="onSelect($event)">
+          <img src="/assets/icons/upload-icon.png" alt="Upload Icon">
+          <p>Drop your images here, or click to browse. JPEG, PNG are allowed.</p>
+        </div>
+        <div class="uploaded-images">
+          <div *ngFor="let file of files; let i = index" class="uploaded-image">
+            <img [src]="file | fileToUmageUrl" [alt]="'Uploaded Image ' + i">
+            <button (click)="onRemove(file)">Remove</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="buttons">
-    <button class="create" type="submit" form="form" (click) = "onSubmit()" *ngIf="formMode === 'create'">CREATE</button>
-    <button class="update" type="submit" form="form" *ngIf="formMode === 'update'">UPDATE</button>
-    <button class="delete" *ngIf="formMode === 'update'">SOFT DELETE</button>
-    <button class="cancel" (click)="onCancel()">CANCEL</button>
-  </div>
-</div>
+    <div class="buttons">
+      <button class="create" type="button" (click)="onSubmit()" *ngIf="formMode === 'create'">CREATE</button>
+      <button class="update" type="button" (click)="onSubmit()" *ngIf="formMode === 'update'">UPDATE</button>
+      <!-- <button class="delete" type="button" *ngIf="formMode === 'update'" (click)="onDelete()">SOFT DELETE</button> -->
+      <button class="cancel" type="button" (click)="onCancel()">CANCEL</button>
+    </div>
 
-<!-- my-component.component.html -->
-<div class="dropzone" id="my-awesome-dropzone">  
-  <div class="fallback">
-    <input name="file" type="file" multiple />
-  </div>
-</div>
-
-
+    <!-- Dropzone Configuration -->
+    <div class="dropzone" id="my-awesome-dropzone">
+      <div class="fallback">
+        <input name="file" type="file" multiple />
+      </div>
+    </div>

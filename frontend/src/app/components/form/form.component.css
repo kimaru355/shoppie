@@ -1,9 +1,9 @@
-.form-holder { 
+.form-holder {
   width: 100%;
   padding: 2%;
   display: grid;
   row-gap: 2%;
-  grid-template-rows: 80% 20%;
+  grid-template-rows: auto auto;
   min-height: 100vh;
 }
 
@@ -12,144 +12,84 @@
   height: 100%;
   display: grid;
   column-gap: 2%;
-  grid-template-columns: 62% 35%;
+  grid-template-columns: 60% 38%; /* Adjusted for consistency */
 }
 
-.form {
+.form, form {
   width: 100%;
-  height: 100%;
-}
-
-form {
-  width: 100%;
-  height: 100%;
+  height: auto; /* Changed to auto for flexibility */
   display: grid;
-  grid-template-rows: 16% 30% 16% 16% 16%;
-  gap: 1%;
+  grid-template-rows: repeat(5, auto); /* Changed for dynamic sizing */
+  gap: 20px; /* More consistent spacing */
 }
 
 label {
-  font-weight: 550;
+  font-weight: 500; /* Slightly less bold for a cleaner look */
+  margin-bottom: 5px; /* Space between label and input */
 }
 
 input, textarea {
-  width: 98%;
-  border: 1px solid rgba(0, 0, 0, 0.774);
+  width: 100%; /* Full width without subtracting for padding */
+  border: 1px solid #ccc; /* Lighter border for a cleaner look */
   border-radius: 5px;
   padding: 10px;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 textarea {
-  height: 75%;
+  height: auto; /* Adjust height based on content */
+  min-height: 75px; /* Minimum height */
 }
 
-input {
-  /* height: 55%; */
-}
-
-.description {
+.description, .price-and-size div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .price-and-size {
-  width: 98%;
-  height: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 2%;
-}
-
-.price-and-size div {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.price-and-size div > input {
-  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* Consistent spacing */
 }
 
 .buttons {
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  column-gap: 1%;
-  padding: 0px 2%;
+  gap: 10px; /* Consistent spacing */
+  padding: 0 2%;
 }
 
 .buttons button {
-  padding: 1.5% 3%;
+  padding: 10px 15px; /* Consistent padding */
   font-weight: 600;
+  border-radius: 5px; /* Rounded corners for a modern look */
+  border: none; /* Remove border */
+  cursor: pointer; /* Pointer cursor on hover */
 }
 
 .create, .cancel {
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.774);
+  background-color: #f0f0f0; /* Light background for neutral buttons */
 }
 
 .update {
-  background-color: #39c6c6;
+  background-color: #4CAF50; /* Green for update */
+  color: white; /* White text for readability */
 }
 
 .delete {
-  border-radius: 10px;
-  background-color: #de4545;
+  background-color: #f44336; /* Red for delete */
+  color: white; /* White text for readability */
 }
 
-.image-holder {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-rows: 60% 38%;
-  row-gap: 2%;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
-
-.image img {
-  height: 100%;
-  width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.gallery {
-  width: 100%;
-  height: 100%;
+.image-holder, .gallery, .image-placeholder {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.image-placeholder {
-  width: 100%;
-  height: 80%;
+.image img, .image-placeholder img {
   border-radius: 10px;
-  border: 2px dotted rgb(158, 157, 157);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  text-align: center;
-}
-
-.image-placeholder img {
-  width: 16%;
-}
-
-.image-placeholder p {
-  color: rgb(158, 157, 157);
-  font-size: 12px;
-  width: 60%;
-  line-height: 25px;
+  object-fit: cover;
 }
