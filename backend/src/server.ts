@@ -51,7 +51,7 @@ app.use("/products", ProductRouter);
 app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);
 app.use("/user", verifyToken, UserRouter);
-app.use("analytics", verifyToken, verifyAdmin, AnalyticRouter);
+app.use("/analytics", AnalyticRouter);
 
 const port = 3000;
 
