@@ -1,7 +1,10 @@
-import { Component, Input,Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, OnDestroy, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../interfaces/product';
+import { ProductService } from '../../services/product.service';
+import Dropzone from 'dropzone';
+
 
 @Component({
   selector: 'app-form',
@@ -10,7 +13,9 @@ import { Product } from '../../interfaces/product';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
+  dropzone: Dropzone = {} as Dropzone;
+
   @Input() product: Product | null = null;
   @Output() cancelEdit = new EventEmitter<void>();
 
@@ -23,8 +28,15 @@ export class FormComponent implements OnInit {
   price: number = 0;
   size: string = '';
   images: string[] = [];
+stockLimit: any;
+
+  constructor(private elementRef: ElementRef, private productService: ProductService) {}
 
   ngOnInit() {
+    this.dropzone = new Dropzone(this.elementRef.nativeElement, {
+      url: '/your-upload-endpoint',
+      autoProcessQueue: false,
+    });
     if (this.product) {
       this.formMode = 'update';
       this.name = this.product.name;
@@ -37,19 +49,55 @@ export class FormComponent implements OnInit {
     }
   }
 
+
+  files: File[] = [];
+
+  onSelect(event: any): void {
+    this.files.push(...event.addedFiles);
+  }
+
+  onRemove(event: File) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
   onSubmit() {
-    // Implement your logic to update or create the product data here
-    console.log('Form submitted with data:', {
+    const productData: Product = {
+      id: '',
+      stockLimit: 0,
       name: this.name,
       description: this.description,
-      category: this.category,
+      type: this.category,
       quantity: this.quantity,
       price: this.price,
       size: this.size,
-      images: this.images
-    });
+      images: this.images,
+    };
+
+    if (!productData.id) {
+      this.productService.createProduct(productData).subscribe({
+        next: (response) => console.log('Product created', response),
+        error: (error) => console.error('Error creating product', error),
+      });
+    } else {
+      this.productService.updateProduct(productData).subscribe({
+        next: (response) => console.log('Product updated', response),
+        error: (error) => console.error('Error updating product', error),
+      });
+    }
+
+    console.log('Form submitted with data:', productData);
   }
+
   onCancel() {
     this.cancelEdit.emit();
   }
+
+  ngOnDestroy(): void {
+    if (this.dropzone) {
+      this.dropzone.destroy();
+    }
+  }
 }
+
+

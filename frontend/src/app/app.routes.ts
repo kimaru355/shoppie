@@ -8,6 +8,7 @@ import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { HistoryComponent } from './components/history/history.component';
 import { AdminframeComponent } from './components/adminframe/adminframe.component';
+import { ReviewFormComponent } from './components/review/review.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -20,4 +21,6 @@ export const routes: Routes = [
   { path: 'favourites', component: FavouritesComponent },
   {path: 'admin', component: AdminframeComponent},
   { path: 'product/:id', component: ProductComponent },
+  {path: 'review', component: ReviewFormComponent},
+
 ];

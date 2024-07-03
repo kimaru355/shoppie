@@ -13,13 +13,15 @@
         </div>
 
         <div class="description">
-          <label for="category">Category</label>
+          <label for="category">Category</label>,
           <input type="text" id="category" [(ngModel)]="category" name="category" placeholder="category ...">
         </div>
 
         <div class="description">
           <label for="quantity">Stock Quantity</label>
           <input type="number" id="quantity" [(ngModel)]="quantity" name="quantity" placeholder="0">
+          <label for="maxStock">Stock Limit</label>
+          <input type="number" id="maxStock" [(ngModel)]="stockLimit" name="stockLimit" placeholder="stockLimit">
         </div>
 
         <div class="price-and-size">
@@ -54,9 +56,18 @@
     </div>
   </div>
   <div class="buttons">
-    <button class="create" type="submit" form="form" *ngIf="formMode === 'create'">CREATE</button>
+    <button class="create" type="submit" form="form" (click) = "onSubmit()" *ngIf="formMode === 'create'">CREATE</button>
     <button class="update" type="submit" form="form" *ngIf="formMode === 'update'">UPDATE</button>
     <button class="delete" *ngIf="formMode === 'update'">SOFT DELETE</button>
     <button class="cancel" (click)="onCancel()">CANCEL</button>
   </div>
 </div>
+
+<!-- my-component.component.html -->
+<div class="dropzone" id="my-awesome-dropzone">  
+  <div class="fallback">
+    <input name="file" type="file" multiple />
+  </div>
+</div>
+
+
