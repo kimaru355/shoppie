@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../services/users.service';
-
-interface Client {
-  profileUrl: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
-  numberOfOrders: number;
-  registrationDate: string;
-}
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-clients',
@@ -19,27 +11,28 @@ interface Client {
   styleUrl: './clients.component.css'
 })
 export class ClientsComponent implements OnInit {
-  selectedClient: Client | null = null;
-  clients: Client[] = [];
+  // selectedClient: User | null = null;
+  // clients: User[] = [];
 
-  constructor(private userService : UsersService) {}
+  // constructor(private userService : UsersService) {}
 
   ngOnInit() {
-    this.loadClients();
+    // this.loadClients();
   }
 
-  loadClients() {
-    this.userService.getUsers().subscribe({
-      next: (clients) => {
-        this.clients = clients;
-      },
-      error: (error) => {
-        console.error('Error fetching clients:', error);
-      }
-    });
-  }
+  // loadClients() {
+    // this.userService.getUsers().subscribe({
+  //     next: (response) => {
+  //       // Assuming response.data contains the User[] array
+  //       this.clients = response.data || []; // Fallback to an empty array if null
+  //     },
+  //     error: (error) => {
+  //       console.error('Error fetching clients:', error);
+  //     }
+  //   });
+  // }
 
-  showPopup(client: Client) {
-    this.selectedClient = client;
-  }
+  // showPopup(client: User) {
+  //   this.selectedClient = client;
+  // }
 }

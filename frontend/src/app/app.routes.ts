@@ -9,6 +9,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { HistoryComponent } from './components/history/history.component';
 import { AdminframeComponent } from './components/adminframe/adminframe.component';
 import { ReviewFormComponent } from './components/review/review.component';
+import { AdminVisualsComponent } from './components/admin-visuals/admin-visuals.component';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -22,5 +23,6 @@ export const routes: Routes = [
   {path: 'admin', component: AdminframeComponent},
   { path: 'product/:id', component: ProductComponent },
   {path: 'review', component: ReviewFormComponent},
+  { path: "visuals", component: AdminVisualsComponent},
 
 ];
