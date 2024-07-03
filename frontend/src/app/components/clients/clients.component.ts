@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UsersService } from '../../services/users.service';
 
 interface Client {
   profileUrl: string;
@@ -17,32 +18,28 @@ interface Client {
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
-export class ClientsComponent {
+export class ClientsComponent implements OnInit {
   selectedClient: Client | null = null;
-  clients: Client[] = [
-    {
-      profileUrl: 'https://example.com/client1.jpg',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phoneNumber: '123-456-7890',
-      numberOfOrders: 5,
-      registrationDate: '2022-01-01'
-    },
-    {
-      profileUrl: 'https://example.com/client2.jpg',
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      phoneNumber: '098-765-4321',
-      numberOfOrders: 3,
-      registrationDate: '2022-05-15'
-    },
-  ];
+  clients: Client[] = [];
+
+  constructor(private userService : UsersService) {}
+
+  ngOnInit() {
+    this.loadClients();
+  }
+
+  loadClients() {
+    this.userService.getUsers().subscribe({
+      next: (clients) => {
+        this.clients = clients;
+      },
+      error: (error) => {
+        console.error('Error fetching clients:', error);
+      }
+    });
+  }
 
   showPopup(client: Client) {
     this.selectedClient = client;
-  }
-
-  closePopup() {
-    this.selectedClient = null;
   }
 }
