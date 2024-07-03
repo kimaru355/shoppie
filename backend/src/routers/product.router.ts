@@ -6,6 +6,7 @@ import {
   getAllProducts,
   getProduct,
   getProductsByName,
+  getProductsByType,
   updateProduct,
 } from "../controllers/product.controller";
 import { verifyAdmin } from "../middlewares/verifyAdmin";
@@ -18,7 +19,7 @@ ProductRouter.put("/update", verifyAdmin, updateProduct);
 ProductRouter.delete("/delete/:id", verifyAdmin, deleteProduct);
 ProductRouter.get("/all", getAllProducts);
 ProductRouter.get("/name/:productName", getProductsByName);
-ProductRouter.get("/type/:productType", getProductsByName);
+ProductRouter.get("/type/:productType", getProductsByType);
 ProductRouter.get("/:id", getProduct);
 
 export default ProductRouter;

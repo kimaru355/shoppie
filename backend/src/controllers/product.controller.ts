@@ -163,7 +163,7 @@ export const getAllProducts = async (
   return res.status(200).json(response);
 };
 
-export const getProductsByTourType = async (
+export const getProductsByType = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
