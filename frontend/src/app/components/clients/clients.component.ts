@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
-import { UsersService } from './../../services/users.service';// Adjust the import path as necessary
+import { UsersService } from './../../services/users.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -26,7 +26,6 @@ export class ClientsComponent implements OnInit {
   loadClients() {
     this.usersService.getUsers().subscribe({
       next: (response) => {
-        // Assuming 'response' is of type Res<User[] | null>
         if (response && response.data) {
           this.clients = response.data;
           console.log('Clients:', this.clients);
@@ -45,7 +44,6 @@ export class ClientsComponent implements OnInit {
       next: (response) => {
         if (response && response.data) {
           this.selectedUser = response.data;
-          // Assuming you have a method to show details (e.g., open a modal)
           this.showUserDetailsModal();
         } else {
           console.log('No user data received');
@@ -54,17 +52,13 @@ export class ClientsComponent implements OnInit {
       error: (error) => console.error('Error fetching user details:', error)
     });
   }
+  closeUserDetailsModal() {
+    this.selectedUser = null;
+  }
 
   showUserDetailsModal() {
-    // Implement the logic to display the modal here
-    // This could involve setting a boolean flag to show a modal in the template
-    // Or if using a library, calling a method to open the modal
     console.log('Showing user details modal for:', this.selectedUser);
   }
-  closeUserDetailsModal() {
-    this.selectedUser = null; // This will hide the modal by making the *ngIf condition false
-  }
-
   showPopup(client: User) {
     this.selectedClient = client;
   }
