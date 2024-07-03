@@ -6,9 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FileToUmageUrlPipe implements PipeTransform {
 
-
-  transform(value: File): string {
-    return value ? URL.createObjectURL(value) : '';
+  transform(value: unknown, ...args: unknown[]): unknown {
+    return null;
   }
 
 }

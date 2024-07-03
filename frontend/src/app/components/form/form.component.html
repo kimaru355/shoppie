@@ -43,13 +43,13 @@
           <img [src]="product.images[0]" [alt]="product.name" style="height: 80px;">
         </ng-container>
         <ng-template #noImageAvailable>
-          <img src="/assets/imgs/no-image-available.jpg" alt="No Image Available">
+          <img style="height: 400px; margin-left: 20px;" src="/assets/imgs/suitsuit.jpg" alt="No Image Available">
         </ng-template>
       </div>
       <div class="gallery">
         <h3>Product Gallery</h3>
         <div class="image-placeholder" appDropzone (filesSelected)="onSelect($event)">
-          <img src="/assets/icons/upload-icon.png" alt="Upload Icon">
+          <img style="height: 50px; width: 50px;" src="/assets/icons/dropzone.gif" alt="Upload Icon">
           <p>Drop your images here, or click to browse. JPEG, PNG are allowed.</p>
         </div>
         <div class="uploaded-images">

@@ -23,13 +23,16 @@ export class FormComponent implements OnInit, OnDestroy {
   description: string = '';
   category: string = '';
   quantity: number = 0;
-  stockLimit: number = 0;
   price: number = 0;
   size: string = '';
   images: string[] = [];
   files: File[] = [];
+  stockLimit: number = 0;
 
   constructor(private elementRef: ElementRef, private productService: ProductService) {}
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.initializeDropzone();
@@ -53,7 +56,7 @@ export class FormComponent implements OnInit, OnDestroy {
       this.price = this.product.price;
       this.size = this.product.size;
       this.images = this.product.images;
-      this.stockLimit = this.product.stockLimit;
+      // Removed stockLimit from here as it's not part of the form fields
     }
   }
 
@@ -66,38 +69,41 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    const productData: Product = {
-      id: this.product ? this.product.id : '', // Use existing ID if in update mode
-      name: this.name,
-      description: this.description,
-      type: this.category,
-      quantity: this.quantity,
-      price: this.price,
-      size: this.size,
-      images: this.images,
-      stockLimit: 0, // Assuming stockLimit is a required field, default to 0 or another logic as needed
-    };
+    // Assuming uploadFiles is an async function that uploads files and returns their URLs
+    this.uploadFiles(this.files).then((uploadedFileUrls) => {
+      const productData: Product = {
+        id: this.product ? this.product.id : '',
+        name: this.name,
+        description: this.description,
+        type: this.category,
+        quantity: this.quantity,
+        price: this.price,
+        size: this.size,
+        images: [...this.images, ...uploadedFileUrls], // Combine existing images with uploaded file URLs
+        stockLimit: this.stockLimit
+      };
 
-    if (this.formMode === 'create') {
-      this.productService.createProduct(productData).subscribe({
-        next: (response) => console.log('Product created', response),
-        error: (error) => console.error('Error creating product', error),
-      });
-    } else {
-      this.productService.updateProduct(productData).subscribe({
-        next: (response) => console.log('Product updated', response),
-        error: (error) => console.error('Error updating product', error),
-      });
-    }
-
-    console.log('Form submitted with data:', productData);
+      // Now productData includes URLs of newly uploaded images along with existing data
+      if (this.formMode === 'create') {
+        this.productService.createProduct(productData).subscribe({
+          next: (response) => console.log('Product created', response),
+          error: (error) => console.error('Error creating product', error),
+        });
+      } else {
+        this.productService.updateProduct(productData).subscribe({
+          next: (response) => console.log('Product updated', response),
+          error: (error) => console.error('Error updating product', error),
+        });
+      }
+    }).catch((error) => {
+      console.error('Error uploading files', error);
+    });
   }
 
-  onCancel(): void {
-    this.cancelEdit.emit();
-  }
-
-  ngOnDestroy(): void {
-    this.dropzone.destroy();
+  // Example uploadFiles function (you need to implement this based on your backend)
+  async uploadFiles(files: File[]): Promise<string[]> {
+    const urls: string[] | PromiseLike<string[]> = []; // Placeholder for URLs after uploading files
+    // Logic to upload files and fill `urls` with their access URLs
+    return urls;
   }
 }
