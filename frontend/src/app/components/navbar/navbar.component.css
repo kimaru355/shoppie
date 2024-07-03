@@ -57,6 +57,28 @@ nav {
   gap: 5px;
 }
 
+.navCart {
+  position: relative;
+}
+
+.navCart p {
+  /* background-color: rgba(192, 7, 7, 0.877); */
+  color: white;
+  font-weight: 600;
+  font-size: small;
+  text-align: center;
+  border-radius: 50%;
+  width: 70%;
+  height: 60%;
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 
 .user-dropdown {

@@ -53,7 +53,7 @@
           <button class="increment" (click)="changeQuantity(1)">+</button>
         </div>
         <div class="cartButton">
-          <button class="addCart">
+          <button (click)="addToCart(cartItem)" class="addCart">
             <img style="height: 30px;" src="/assets/icons/cartAdd.gif" alt="">
             <div class="ttxt">Add to cart</div>
           </button>
