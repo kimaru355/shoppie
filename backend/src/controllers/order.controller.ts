@@ -6,6 +6,8 @@ import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 import { Cart, CartItem } from "../interfaces/cart";
 import { CartService } from "../services/cart.service";
+import { UsersService } from "../services/users.service";
+import { sendOrderPlacedEmail } from "../background-services/mailer";
 
 export const createOrder = async (
   req: Request,
@@ -20,9 +22,25 @@ export const createOrder = async (
       data: null,
     });
   }
+  const cartService = new CartService();
+  const cartResponse = await cartService.getCart(userId);
   const response: Res<null> = await orderService.createOrder(userId);
   if (response.success) {
-    return res.status(201).json(response);
+    const usersService = new UsersService();
+    const userDetailsResponse = await usersService.getUser(userId);
+    if (
+      !cartResponse.success ||
+      !cartResponse.data ||
+      !userDetailsResponse.success ||
+      !userDetailsResponse.data
+    ) {
+      return res.status(201).json(response);
+    }
+    sendOrderPlacedEmail(
+      userDetailsResponse.data.email,
+      userDetailsResponse.data.name.split(" ")[0],
+      cartResponse.data
+    );
   } else if (response.message !== "An error occurred") {
     return res.status(200).json(response);
   }
