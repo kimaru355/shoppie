@@ -23,6 +23,6 @@ export const routes: Routes = [
   {path: 'admin', component: AdminframeComponent},
   { path: 'product/:id', component: ProductComponent },
   {path: 'review', component: ReviewFormComponent},
-  { path: "visuals", component: AdminVisualsComponent},
+  // { path: "visuals", component: AdminVisualsComponent},
 
 ];

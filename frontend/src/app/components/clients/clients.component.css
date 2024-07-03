@@ -6,29 +6,24 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-
 th, td {
   padding: 8px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
-
 th {
   background-color: #000000;
   color: white;
 }
-
 .client-profile {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-
 .delivered {
   color: #4BF0FB;
   font-weight: bold;
 }
-
 .pending {
   color: #F62B50;
   font-weight: bold;
@@ -36,7 +31,6 @@ th {
 .action-buttons {
   position: relative;
 }
-
 .icon-btn {
   background-color: transparent;
   border: none;
@@ -47,22 +41,18 @@ th {
   align-items: center;
   font-family: 'Abel', sans-serif;
 }
-
 .icon-btn img {
   height: 20px;
   width: 20px;
   margin-right: 8px;
 }
-
 .more-actions {
   display: block;
 }
-
 .more-actions img {
   height: 30px;
   width: 30px;
 }
-
 .dropdown-actions {
   display: none;
   position: absolute;
@@ -73,28 +63,22 @@ th {
   border-radius: 4px;
   z-index: 10;
 }
-
 .action-buttons:hover .dropdown-actions {
   display: flex;
   flex-direction: column;
 }
-
 .view-details, .set-delivered {
   width: 100%;
   text-align: left;
   padding: 10px;
   white-space: nowrap;
 }
-
 .view-details:hover, .set-delivered:hover {
   background-color: #f0f0f0;
 }
-
 .icon-btn span {
   font-size: 14px;
 }
-
-
 .overlay {
   position: fixed;
   top: 0;
@@ -107,7 +91,6 @@ th {
   align-items: center;
   z-index: 1000;
 }
-
 .popup {
   background-color: white;
   padding: 20px;
@@ -117,7 +100,6 @@ th {
   position: relative;
   font-family: 'Abel', sans-serif;
 }
-
 .close-btn {
   position: absolute;
   top: 10px;
@@ -127,35 +109,129 @@ th {
   border: none;
   cursor: pointer;
 }
-
 .popup-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
 .profile-section, .product-section {
   display: flex;
   align-items: center;
   gap: 15px;
 }
-
 .popup-profile-img, .popup-product-img {
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 50%;
 }
-
 .details-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-
 .details-section p {
   margin: 0;
 }
+.user-details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+}
+.user-details-modal h2 {
+  margin-top: 0;
+  color: #333;
+}
+.user-details-modal p {
+  color: #666;
+  line-height: 1.6;
+}
+.user-details-modal button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.user-details-modal button:hover {
+  background-color: #0056b3;
+}
+.user-details-modal {
+  position: relative;
+}
+.user-details-modal button {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background-color: rgba(254, 254, 254, 0.886);
+  color: rgb(255, 0, 0);
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 30px;
+  text-align: center;
+  font-size: 20px;
+}
+.user-details-modal button:hover {
+  background-color: rgb(213, 168, 168);
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
+.user-details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  z-index: 1000;
+}
 
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent */
+  z-index: 10;
+}
 
+.user-details-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent */
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 20; /* Higher than backdrop */
+}

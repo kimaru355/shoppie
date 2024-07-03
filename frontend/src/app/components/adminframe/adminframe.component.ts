@@ -7,11 +7,12 @@ import { OrdersComponent } from '../orders/orders.component';
 import { ProductsAdminComponent } from '../products-admin/products-admin.component';
 import { FormComponent } from '../form/form.component'
 import { Product } from '../../interfaces/product';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-adminframe',
   standalone: true,
-  imports: [RouterLink, CommonModule, AdminVisualsComponent, ProductsAdminComponent, ClientsComponent, OrdersComponent, FormComponent],
+  imports: [RouterLink, CommonModule, AdminVisualsComponent, ProductsAdminComponent, OrdersComponent, FormComponent, ClientsComponent],
   templateUrl: './adminframe.component.html',
   styleUrl: './adminframe.component.css'
 })
@@ -37,5 +38,24 @@ export class AdminframeComponent {
   }
   handleCancelEdit() {
     this.selectOption('products');
+  }
+
+  constructor(private analyticService: AnalyticsService) {
+    this.getAnalytics();
+  }
+
+  getAnalytics() {
+    console.log('Getting analytics');
+
+    this.analyticService.getAnalytics().subscribe(response => {
+      console.log(response);
+      // Assuming the response structure is as described, extract totalOrders from the data object
+      if (response.success && response.data) {
+        this.totalOrders = response.data.totalOrders;
+        this.pendingOrders = response.data.totalIncompleteOrders;
+        this.completedOrders = response.data.totalCompleteOrders;
+        this.totalEarnings = response.data.totalRevenue;
+      }
+    });
   }
 }
