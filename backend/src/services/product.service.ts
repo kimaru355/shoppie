@@ -68,14 +68,25 @@ export class ProductService implements ProductServices {
 
   async deleteProduct(id: string): Promise<Res<null>> {
     try {
-      await this.prisma.product.update({
+      const product = await this.prisma.product.findUnique({
         where: {
           id: id,
-          isDeleted: false,
         },
-        data: {
-          isDeleted: true,
+      });
+      if (!product) {
+        return {
+          success: false,
+          message: "product does not exist",
+          data: null,
+        };
+      }
+      await this.prisma.product.delete({
+        where: {
+          id: id,
         },
+      });
+      await this.prisma.deletedProduct.create({
+        data: product,
       });
       return {
         success: true,
@@ -106,7 +117,6 @@ export class ProductService implements ProductServices {
       const product: Product | null = await this.prisma.product.findUnique({
         where: {
           id: productId,
-          isDeleted: false,
         },
       });
       if (!product) {
@@ -116,7 +126,6 @@ export class ProductService implements ProductServices {
           data: null,
         };
       }
-      delete product.isDeleted;
       return {
         success: true,
         message: "Product found",
@@ -133,14 +142,7 @@ export class ProductService implements ProductServices {
 
   async getAllProducts(): Promise<Res<Product[] | null>> {
     try {
-      const products: Product[] = await this.prisma.product.findMany({
-        where: {
-          isDeleted: false,
-        },
-      });
-      products.forEach((product) => {
-        delete product.isDeleted;
-      });
+      const products: Product[] = await this.prisma.product.findMany();
       return {
         success: true,
         message: "Products found",
@@ -160,7 +162,6 @@ export class ProductService implements ProductServices {
       const products = await this.prisma.product.findMany({
         where: {
           type: type,
-          isDeleted: false,
         },
       });
       return {
@@ -181,7 +182,6 @@ export class ProductService implements ProductServices {
     try {
       const products = await this.prisma.product.findMany({
         where: {
-          isDeleted: false,
           name: {
             contains: productName,
           },

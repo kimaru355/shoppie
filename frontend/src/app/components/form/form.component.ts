@@ -1,4 +1,12 @@
-import { Component, Input, Output, OnInit, EventEmitter, OnDestroy, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Product } from '../../interfaces/product';
@@ -11,7 +19,7 @@ import { FileToUmageUrlPipe } from '../../pipes/file-to-umage-url.pipe';
   standalone: true,
   imports: [CommonModule, FormsModule, FileToUmageUrlPipe],
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit, OnDestroy {
   @Input() product: Product | null = null;
@@ -26,13 +34,16 @@ export class FormComponent implements OnInit, OnDestroy {
   price: number = 0;
   size: string = '';
   images: string[] = [
-    "https://i.ibb.co/kQNZHsQ/3d-color-sweatshirt-for-men-lestyleparfait-kenya-sweatshirt-1.webp"
+    'https://i.ibb.co/kQNZHsQ/3d-color-sweatshirt-for-men-lestyleparfait-kenya-sweatshirt-1.webp',
   ];
   files: File[] = [];
   stockLimit: number = 0;
   selectedFiles: File[] = [];
 
-  constructor(private elementRef: ElementRef, private productService: ProductService) {}
+  constructor(
+    private elementRef: ElementRef,
+    private productService: ProductService
+  ) {}
 
   ngOnDestroy(): void {
     // Clean up
@@ -44,11 +55,14 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   private initializeDropzone(): void {
-    this.dropzone = new Dropzone(this.elementRef.nativeElement.querySelector('.dropzone'), {
-      url: '/your-upload-endpoint',
-      autoProcessQueue: false,
-      addRemoveLinks: true
-    });
+    this.dropzone = new Dropzone(
+      this.elementRef.nativeElement.querySelector('.dropzone'),
+      {
+        url: '/your-upload-endpoint',
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+      }
+    );
 
     this.dropzone.on('addedfile', (file: File) => {
       this.files.push(file);
@@ -104,41 +118,67 @@ export class FormComponent implements OnInit, OnDestroy {
       this.selectedFiles = Array.from(files);
     }
   }
+  getImagesUrl(event: any) {
+    const files = event.target.files;
+
+    if (files) {
+      const formData = new FormData();
+
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'shoppie');
+      formData.append('cloud_name', 'dr0qq0taf');
+
+      fetch('https://api.cloudinary.com/v1_1/dr0qq0taf/image/upload', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          this.images.push(res.url);
+        });
+    }
+  }
 
   onSubmit(): void {
-    this.uploadFiles(this.files).then((uploadedFileUrls) => {
-      const productData: Product = {
-        id: this.product ? this.product.id : '',
-        name: this.name,
-        description: this.description,
-        type: this.category,
-        quantity: this.quantity,
-        price: this.price,
-        size: this.size,
-        images: [...this.images, ...uploadedFileUrls],
-        stockLimit: this.stockLimit
-      };
-      const formData = new FormData();
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        formData.append('images', this.selectedFiles[i], this.selectedFiles[i].name);
-      }
+    this.uploadFiles(this.files)
+      .then((uploadedFileUrls) => {
+        const productData: Product = {
+          id: this.product ? this.product.id : '',
+          name: this.name,
+          description: this.description,
+          type: this.category,
+          quantity: this.quantity,
+          price: this.price,
+          size: this.size,
+          images: [...this.images, ...uploadedFileUrls],
+          stockLimit: this.stockLimit,
+        };
+        const formData = new FormData();
+        for (let i = 0; i < this.selectedFiles.length; i++) {
+          formData.append(
+            'images',
+            this.selectedFiles[i],
+            this.selectedFiles[i].name
+          );
+        }
 
-      if (this.formMode === 'create') {
-        this.productService.createProduct(productData).subscribe({
-          next: (response) => console.log('Product created', response),
-          error: (error) => console.error('Error creating product', error),
-        });
-      } else {
-        this.productService.updateProduct(productData).subscribe({
-          next: (response) => console.log('Product updated', response),
-          error: (error) => console.error('Error updating product', error),
-        });
-      }
+        if (this.formMode === 'create') {
+          this.productService.createProduct(productData).subscribe({
+            next: (response) => console.log('Product created', response),
+            error: (error) => console.error('Error creating product', error),
+          });
+        } else {
+          this.productService.updateProduct(productData).subscribe({
+            next: (response) => console.log('Product updated', response),
+            error: (error) => console.error('Error updating product', error),
+          });
+        }
 
-      console.log('Form submitted with data:', productData);
-    }).catch((error) => {
-      console.error('Error uploading files', error);
-    });
+        console.log('Form submitted with data:', productData);
+      })
+      .catch((error) => {
+        console.error('Error uploading files', error);
+      });
   }
 
   async uploadFiles(files: File[]): Promise<string[]> {
