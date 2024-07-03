@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Client Profile</th>
+
       <th>Name</th>
       <th>Product</th>
       <th>Date</th>
@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let order of orders">
-      <td><img [src]="order.clientProfile" alt="Client Profile" class="client-profile"></td>
+    
       <td>{{ order.name }}</td>
       <td>{{ order.product }}</td>
       <td>{{ order.date }}</td>

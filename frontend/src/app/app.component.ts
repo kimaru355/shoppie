@@ -12,6 +12,7 @@ import { HistoryComponent } from './components/history/history.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import {CloudinaryModule} from '@cloudinary/ng';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,7 +26,7 @@ export class AppComponent {
 
 
 
-  
+
 
   files: File[] = [];
 

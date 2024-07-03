@@ -16,6 +16,7 @@ export class ProductService implements ProductServices {
       'Authorization': localStorage.getItem('authToken') || ""
   });
   constructor(private http: HttpClient) {}
+
   createProduct(product: NewProduct): Observable<Res<null>> {
 
     return this.http.post<Res<null>>(`${this.api}/create`, product, { headers: this.headers });
@@ -30,7 +31,10 @@ export class ProductService implements ProductServices {
 }
 
   deleteProduct(id: string): Observable<Res<null>> {
-    return this.http.delete<Res<null>>(`${this.api}/delete/${id}`);
+    return this.http.delete<Res<null>>(`${this.api}/delete/${id}`,{
+        headers: this.headers
+      }
+    );
   }
 
   getProduct(productId: string): Observable<Res<Product | null>> {

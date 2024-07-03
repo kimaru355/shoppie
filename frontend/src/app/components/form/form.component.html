@@ -14,8 +14,17 @@
 
         <div class="description">
           <label for="category">Category</label>
-          <input type="text" id="category" [(ngModel)]="category" name="category" placeholder="category ..." required>
+          <select id="category" [(ngModel)]="category" name="category" required>
+            <option value="" disabled selected>Select category...</option>
+            <option value="T-shirt">T-shirt</option>
+            <option value="Suit">Suit</option>
+            <option value="Jeans">Jeans</option>
+            <option value="Shoes">Shoes</option>
+            <option value="Hoodie">Hoodie</option>
+            <option value="Shirt">Shirt</option>
+          </select>
         </div>
+
 
         <div class="description">
           <label for="quantity">Stock Quantity</label>
@@ -34,6 +43,11 @@
             <label for="size">Size</label>
             <input class="small" type="text" id="size" [(ngModel)]="size" name="size" placeholder="Large" required>
           </div>
+          <div class="form-group">
+            <label for="imageUpload">Product Images</label>
+            <input type="file" class="form-control-file" id="imageUpload" name="imageUpload" (change)="onFileSelected($event)" multiple>
+          </div>
+
         </div>
       </form>
     </div>
@@ -73,3 +87,5 @@
         <input name="file" type="file" multiple />
       </div>
     </div>
+  </div>
+</div>

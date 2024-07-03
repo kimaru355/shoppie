@@ -25,13 +25,17 @@ export class FormComponent implements OnInit, OnDestroy {
   quantity: number = 0;
   price: number = 0;
   size: string = '';
-  images: string[] = [];
+  images: string[] = [
+    "https://i.ibb.co/kQNZHsQ/3d-color-sweatshirt-for-men-lestyleparfait-kenya-sweatshirt-1.webp"
+  ];
   files: File[] = [];
   stockLimit: number = 0;
+  selectedFiles: File[] = [];
 
   constructor(private elementRef: ElementRef, private productService: ProductService) {}
+
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    // Clean up
   }
 
   ngOnInit(): void {
@@ -40,10 +44,32 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   private initializeDropzone(): void {
-    this.dropzone = new Dropzone(this.elementRef.nativeElement, {
+    this.dropzone = new Dropzone(this.elementRef.nativeElement.querySelector('.dropzone'), {
       url: '/your-upload-endpoint',
       autoProcessQueue: false,
+      addRemoveLinks: true
     });
+
+    this.dropzone.on('addedfile', (file: File) => {
+      this.files.push(file);
+      this.readFile(file);
+    });
+
+    this.dropzone.on('removedfile', (file: File) => {
+      this.files.splice(this.files.indexOf(file), 1);
+      const index = this.images.indexOf(file.name);
+      if (index !== -1) {
+        this.images.splice(index, 1);
+      }
+    });
+  }
+
+  private readFile(file: File): void {
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.images.push(e.target.result);
+    };
+    reader.readAsDataURL(file);
   }
 
   private loadProductData(): void {
@@ -56,7 +82,6 @@ export class FormComponent implements OnInit, OnDestroy {
       this.price = this.product.price;
       this.size = this.product.size;
       this.images = this.product.images;
-      // Removed stockLimit from here as it's not part of the form fields
     }
   }
 
@@ -68,8 +93,19 @@ export class FormComponent implements OnInit, OnDestroy {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
+  onFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    if (target && target.files) {
+      const files = target.files;
+      for (let i = 0; i < files.length; i++) {
+        this.files.push(files[i]);
+        this.readFile(files[i]);
+      }
+      this.selectedFiles = Array.from(files);
+    }
+  }
+
   onSubmit(): void {
-    // Assuming uploadFiles is an async function that uploads files and returns their URLs
     this.uploadFiles(this.files).then((uploadedFileUrls) => {
       const productData: Product = {
         id: this.product ? this.product.id : '',
@@ -79,11 +115,14 @@ export class FormComponent implements OnInit, OnDestroy {
         quantity: this.quantity,
         price: this.price,
         size: this.size,
-        images: [...this.images, ...uploadedFileUrls], // Combine existing images with uploaded file URLs
+        images: [...this.images, ...uploadedFileUrls],
         stockLimit: this.stockLimit
       };
+      const formData = new FormData();
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        formData.append('images', this.selectedFiles[i], this.selectedFiles[i].name);
+      }
 
-      // Now productData includes URLs of newly uploaded images along with existing data
       if (this.formMode === 'create') {
         this.productService.createProduct(productData).subscribe({
           next: (response) => console.log('Product created', response),
@@ -96,18 +135,18 @@ export class FormComponent implements OnInit, OnDestroy {
         });
       }
 
-    console.log('Form submitted with data:', productData);
+      console.log('Form submitted with data:', productData);
     }).catch((error) => {
       console.error('Error uploading files', error);
     });
   }
 
-  // Example uploadFiles function (you need to implement this based on your backend)
   async uploadFiles(files: File[]): Promise<string[]> {
-    const urls: string[] | PromiseLike<string[]> = []; // Placeholder for URLs after uploading files
+    const urls: string[] = [];
     // Logic to upload files and fill `urls` with their access URLs
     return urls;
   }
+
   onCancel(): void {
     this.cancelEdit.emit();
   }
