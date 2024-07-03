@@ -95,6 +95,8 @@ export class FormComponent implements OnInit, OnDestroy {
           error: (error) => console.error('Error updating product', error),
         });
       }
+
+    console.log('Form submitted with data:', productData);
     }).catch((error) => {
       console.error('Error uploading files', error);
     });
@@ -105,5 +107,8 @@ export class FormComponent implements OnInit, OnDestroy {
     const urls: string[] | PromiseLike<string[]> = []; // Placeholder for URLs after uploading files
     // Logic to upload files and fill `urls` with their access URLs
     return urls;
+  }
+  onCancel(): void {
+    this.cancelEdit.emit();
   }
 }
