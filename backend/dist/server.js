@@ -70,7 +70,7 @@ app.use((error, req, res, next) => {
 app.use("/auth", auth_router_1.default);
 app.use("/orders", verifyToken_1.verifyToken, order_router_1.default);
 app.use("/cart", verifyToken_1.verifyToken, cart_router_1.default);
-app.use("/reviews", verifyToken_1.verifyToken, review_router_1.default);
+app.use("/reviews", review_router_1.default);
 app.use("/products", product_router_1.default);
 app.use("/favorites", verifyToken_1.verifyToken, favorite_router_1.default);
 app.use("/users", verifyToken_1.verifyToken, verifyAdmin_1.verifyAdmin, users_router_1.default);

@@ -18,7 +18,7 @@ ProductRouter.put("/update", verifyAdmin, updateProduct);
 ProductRouter.delete("/delete/:id", verifyAdmin, deleteProduct);
 ProductRouter.get("/all", getAllProducts);
 ProductRouter.get("/name/:productName", getProductsByName);
-ProductRouter.get("/tour_type/:tourType", getProductsByName);
+ProductRouter.get("/type/:productType", getProductsByName);
 ProductRouter.get("/:id", getProduct);
 
 export default ProductRouter;

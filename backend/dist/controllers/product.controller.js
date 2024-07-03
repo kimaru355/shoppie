@@ -138,8 +138,8 @@ const getAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getAllProducts = getAllProducts;
 const getProductsByTourType = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const productService = new product_service_1.ProductService();
-    const tourType = req.params.tourType;
-    const response = yield productService.getProductsByType(tourType);
+    const productType = req.params.productType;
+    const response = yield productService.getProductsByType(productType);
     if (response.success && response.data) {
         const updatedResponse = {
             success: response.success,

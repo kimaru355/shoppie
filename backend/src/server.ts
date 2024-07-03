@@ -44,7 +44,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 app.use("/auth", AuthRouter);
 app.use("/orders", verifyToken, OrderRouter);
 app.use("/cart", verifyToken, CartRouter);
-app.use("/reviews", verifyToken, ReviewRouter);
+app.use("/reviews", ReviewRouter);
 app.use("/products", ProductRouter);
 app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);

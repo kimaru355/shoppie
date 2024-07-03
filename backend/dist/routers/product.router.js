@@ -10,6 +10,6 @@ ProductRouter.put("/update", verifyAdmin_1.verifyAdmin, product_controller_1.upd
 ProductRouter.delete("/delete/:id", verifyAdmin_1.verifyAdmin, product_controller_1.deleteProduct);
 ProductRouter.get("/all", product_controller_1.getAllProducts);
 ProductRouter.get("/name/:productName", product_controller_1.getProductsByName);
-ProductRouter.get("/tour_type/:tourType", product_controller_1.getProductsByName);
+ProductRouter.get("/type/:productType", product_controller_1.getProductsByName);
 ProductRouter.get("/:id", product_controller_1.getProduct);
 exports.default = ProductRouter;
