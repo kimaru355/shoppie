@@ -54,10 +54,10 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeDropzone();
     this.loadProductData();
+
     setTimeout(() => {
       this.loading = false;
     }, 1500);
-
   }
 
   private initializeDropzone(): void {
@@ -102,6 +102,7 @@ export class FormComponent implements OnInit, OnDestroy {
       this.price = this.product.price;
       this.size = this.product.size;
       this.images = this.product.images;
+      this.stockLimit = this.product.stockLimit;
     }
   }
 

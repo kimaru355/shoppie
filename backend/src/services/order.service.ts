@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { OrderServices } from "../interfaces/order_service";
-import { Order } from "../interfaces/order";
+import { Order, Orders } from "../interfaces/order";
 import { Res } from "../interfaces/res";
 import { v4 } from "uuid";
 
@@ -93,9 +93,58 @@ export class OrderService implements OrderServices {
     }
   }
 
-  async getAllOrders(): Promise<Res<Order[] | null>> {
+  async updateOrder(userId: string, id: string): Promise<Res<null>> {
     try {
-      const orders = await this.prisma.order.findMany();
+      const order = await this.prisma.order.findUnique({
+        where: {
+          id: id,
+        },
+      });
+      if (!order) {
+        return {
+          success: false,
+          message: "Order not found",
+          data: null,
+        };
+      }
+      await this.prisma.order.update({
+        where: {
+          id: id,
+        },
+        data: {
+          isOrderCompleted: true,
+        },
+      });
+      return {
+        success: true,
+        message: "Order successfully updated",
+        data: null,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getAllOrders(): Promise<Res<Orders[] | null>> {
+    try {
+      const orders: Orders[] = (await this.prisma.order.findMany({
+        include: {
+          product: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+        },
+      })) as unknown as Orders[];
       return {
         success: true,
         message: "Orders successfully retrieved",
@@ -110,13 +159,25 @@ export class OrderService implements OrderServices {
     }
   }
 
-  async getCompletedOrders(): Promise<Res<Order[] | null>> {
+  async getCompletedOrders(): Promise<Res<Orders[] | null>> {
     try {
-      const orders = await this.prisma.order.findMany({
+      const orders: Orders[] = (await this.prisma.order.findMany({
         where: {
           isOrderCompleted: true,
         },
-      });
+        include: {
+          product: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+        },
+      })) as unknown as Orders[];
       return {
         success: true,
         message: "Completed orders successfully retrieved",
@@ -131,13 +192,25 @@ export class OrderService implements OrderServices {
     }
   }
 
-  async getIncompleteOrders(): Promise<Res<Order[] | null>> {
+  async getIncompleteOrders(): Promise<Res<Orders[] | null>> {
     try {
-      const orders = await this.prisma.order.findMany({
+      const orders: Orders[] = (await this.prisma.order.findMany({
         where: {
           isOrderCompleted: false,
         },
-      });
+        include: {
+          product: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+        },
+      })) as unknown as Orders[];
       return {
         success: true,
         message: "Incomplete orders successfully retrieved",
@@ -152,13 +225,25 @@ export class OrderService implements OrderServices {
     }
   }
 
-  async getOrdersByProductId(productId: string): Promise<Res<Order[] | null>> {
+  async getOrdersByProductId(productId: string): Promise<Res<Orders[] | null>> {
     try {
-      const orders = await this.prisma.order.findMany({
+      const orders: Orders[] = (await this.prisma.order.findMany({
         where: {
           productId: productId,
         },
-      });
+        include: {
+          product: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+        },
+      })) as unknown as Orders[];
       return {
         success: true,
         message: "Orders successfully retrieved",
@@ -173,13 +258,25 @@ export class OrderService implements OrderServices {
     }
   }
 
-  async getOrdersByUserId(userId: string): Promise<Res<Order[] | null>> {
+  async getOrdersByUserId(userId: string): Promise<Res<Orders[] | null>> {
     try {
-      const orders = await this.prisma.order.findMany({
+      const orders: Orders[] = (await this.prisma.order.findMany({
         where: {
           userId: userId,
         },
-      });
+        include: {
+          product: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              phoneNumber: true,
+              country: true,
+            },
+          },
+        },
+      })) as unknown as Orders[];
       return {
         success: true,
         message: "Orders successfully retrieved",

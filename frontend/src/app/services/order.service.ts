@@ -28,7 +28,7 @@ export class OrderService implements OrderServices {
   }
 
   getCompletedOrders(): Observable<Res<Order[] | null>> {
-    return this.http.get<Res<Order[] | null>>(`${this.api}/completed`, {
+    return this.http.get<Res<Order[] | null>>(`${this.api}/complete`, {
       headers: this.headers,
     });
   }

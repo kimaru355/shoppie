@@ -8,6 +8,13 @@ export class ProductService implements ProductServices {
 
   async createProduct(product: Product): Promise<Res<null>> {
     try {
+      if (product.quantity > product.stockLimit) {
+        return {
+          success: false,
+          message: "Quantity cannot be greater than stock limit",
+          data: null,
+        };
+      }
       await this.prisma.product.create({
         data: product,
       });
@@ -46,6 +53,13 @@ export class ProductService implements ProductServices {
 
   async updateProduct(product: Product): Promise<Res<null>> {
     try {
+      if (product.quantity > product.stockLimit) {
+        return {
+          success: false,
+          message: "Quantity cannot be greater than stock limit",
+          data: null,
+        };
+      }
       await this.prisma.product.update({
         where: {
           id: product.id,

@@ -1,17 +1,17 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { UsersService } from './../../services/users.service';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../loading/loading.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
   imports: [CommonModule, LoadingComponent],
   templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.css']
+  styleUrls: ['./clients.component.css'],
 })
 export class ClientsComponent implements OnInit {
   selectedClient: User | null = null;
@@ -19,7 +19,18 @@ export class ClientsComponent implements OnInit {
   selectedUser: User | null = null;
   loading: boolean = true;
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private userService: UserService
+  ) {
+    this.userService.getUserDetails().subscribe((res) => {
+      if (res.data) {
+        console.log('User details:', res.data);
+      } else {
+        console.log('No user details received');
+      }
+    });
+  }
 
   ngOnInit() {
     this.loadClients();
@@ -41,7 +52,7 @@ export class ClientsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching clients:', error);
-      }
+      },
     });
   }
 
@@ -55,7 +66,7 @@ export class ClientsComponent implements OnInit {
           console.log('No user data received');
         }
       },
-      error: (error) => console.error('Error fetching user details:', error)
+      error: (error) => console.error('Error fetching user details:', error),
     });
   }
   closeUserDetailsModal() {
