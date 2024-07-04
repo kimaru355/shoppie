@@ -1,7 +1,9 @@
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
 </head>
-,
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 
 <body>
   <app-navbar></app-navbar>
@@ -19,7 +21,7 @@
         <img style="height: 100px;"
         src={{this.product?.images}} alt="">
       </div>
-      <img   src={{this.product?.images}} alt="">
+      <img style="height: 250px;"   src={{this.product?.images}} alt="">
     </div>
 
     <div class="details">

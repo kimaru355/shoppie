@@ -1,3 +1,7 @@
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
+
 <div class="main">
   <table>
     <thead>
@@ -5,7 +9,8 @@
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
-        <th>Country</th> 
+        <th>Country</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>

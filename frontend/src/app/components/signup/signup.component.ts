@@ -5,15 +5,17 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AuthService } from '../../services/auth.service';
 import { UserRegister } from '../../interfaces/auth';
+import { LoadingComponent } from '../loading/loading.component';
 
   @Component({
     selector: 'app-signup',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NavbarComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NavbarComponent, LoadingComponent],
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.css'
   })
   export class SignupComponent implements OnInit {
+    loading: boolean = true;
     signupForm: FormGroup;
 
     constructor(private fb: FormBuilder, private authService: AuthService) {
@@ -30,6 +32,10 @@ import { UserRegister } from '../../interfaces/auth';
       }, {
         validator: this.mustMatch('password', 'confirmPassword')
       });
+      setTimeout(() => {
+        this.loading = false;
+      }, 1500);
+
     }
 
     mustMatch(controlName: string, matchingControlName: string) {

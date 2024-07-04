@@ -3,16 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../loading/loading.component';
 
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [NavbarComponent],
+  imports: [NavbarComponent, CommonModule, LoadingComponent],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })
 export class ProductComponent implements OnInit {
+  loading: boolean = true;
   product: Product | null = null;
   quantity = 1;
 
@@ -30,6 +33,9 @@ export class ProductComponent implements OnInit {
         }
       });
     }
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
   }
 
   changeQuantity(change: number): void {

@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { UsersService } from './../../services/users.service';
 import { CommonModule } from '@angular/common';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css']
 })
@@ -16,16 +17,21 @@ export class ClientsComponent implements OnInit {
   selectedClient: User | null = null;
   clients: User[] = [];
   selectedUser: User | null = null;
+  loading: boolean = true;
 
   constructor(private usersService: UsersService) {}
 
   ngOnInit() {
     this.loadClients();
+    setTimeout(() => {
+      this.loading = false; // Hide the overlay after 1.5 seconds
+    }, 1500);
   }
 
   loadClients() {
     this.usersService.getUsers().subscribe({
       next: (response) => {
+        console.log('Full response:', response); // Log the entire response
         if (response && response.data) {
           this.clients = response.data;
           console.log('Clients:', this.clients);

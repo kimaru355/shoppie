@@ -7,16 +7,18 @@ import { Product } from '../../interfaces/product';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { CartItem } from '../../interfaces/cart';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, LoadingComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
 
 export class ShopComponent {
+  loading: boolean = true;
   minPrice: number = 500;
   maxPrice: number = 100000;
   progressWidth: string = '0%';
@@ -30,6 +32,12 @@ export class ShopComponent {
         this.products = response.data;
       }
     });
+  }
+  ngOnInit() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+
   }
   updatePriceRange(): void {
     if (this.minPrice > this.maxPrice) {

@@ -1,3 +1,7 @@
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
+
 <div class="products">
   <div class="product" *ngFor="let product of products">
     <div class="div1">
