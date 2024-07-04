@@ -1,5 +1,8 @@
 <!-- In review-form.component.html -->
 <app-navbar></app-navbar>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 <div class="formContainer">
   <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
     <div class="form-group">

@@ -13,17 +13,19 @@ import { Product } from '../../interfaces/product';
 import { ProductService } from '../../services/product.service';
 import Dropzone from 'dropzone';
 import { FileToUmageUrlPipe } from '../../pipes/file-to-umage-url.pipe';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, FileToUmageUrlPipe],
+  imports: [CommonModule, FormsModule, FileToUmageUrlPipe, LoadingComponent],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit, OnDestroy {
   @Input() product: Product | null = null;
   @Output() cancelEdit = new EventEmitter<void>();
+  loading: boolean = true;
 
   dropzone!: Dropzone;
   formMode: 'create' | 'update' = 'create';
@@ -52,6 +54,10 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initializeDropzone();
     this.loadProductData();
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+
   }
 
   private initializeDropzone(): void {
@@ -183,7 +189,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   async uploadFiles(files: File[]): Promise<string[]> {
     const urls: string[] = [];
-    // Logic to upload files and fill `urls` with their access URLs
     return urls;
   }
 

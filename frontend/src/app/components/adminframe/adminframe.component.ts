@@ -49,7 +49,7 @@ export class AdminframeComponent {
 
     this.analyticService.getAnalytics().subscribe(response => {
       console.log(response);
-      // Assuming the response structure is as described, extract totalOrders from the data object
+
       if (response.success && response.data) {
         this.totalOrders = response.data.totalOrders;
         this.pendingOrders = response.data.totalIncompleteOrders;
