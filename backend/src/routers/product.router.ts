@@ -6,6 +6,8 @@ import {
   getAllProducts,
   getProduct,
   getProductsByName,
+  getProductsByPrice,
+  getProductsBySize,
   getProductsByType,
   updateProduct,
 } from "../controllers/product.controller";
@@ -21,6 +23,8 @@ ProductRouter.delete("/delete/:id", verifyToken, verifyAdmin, deleteProduct);
 ProductRouter.get("/all", getAllProducts);
 ProductRouter.get("/name/:productName", getProductsByName);
 ProductRouter.get("/type/:productType", getProductsByType);
+ProductRouter.get("/size/:productSize", getProductsBySize);
+ProductRouter.post("/price", getProductsByPrice);
 ProductRouter.get("/:id", getProduct);
 
 export default ProductRouter;
