@@ -1,0 +1,11 @@
+<!-- Success Message -->
+<div *ngIf="messageType === 'success'" class="message success">
+  <img src="/assets/icons/success.gif" alt="Success">
+  <p>{{ message }}</p>
+</div>
+
+<!-- Error Message -->
+<div *ngIf="messageType === 'error'" class="message error">
+  <img src="/assets/icons/error.gif" alt="Error">
+  <p>{{ message }}</p>
+</div>
