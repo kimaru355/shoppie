@@ -80,6 +80,19 @@ export class ProductService implements ProductServices {
           data: null,
         };
       }
+      const orders = await this.prisma.order.findMany({
+        where: {
+          productId: id,
+          isOrderCompleted: false,
+        },
+      });
+      if (orders.length > 0) {
+        return {
+          success: false,
+          message: "There are orders for this product that are not completed",
+          data: null,
+        };
+      }
       await this.prisma.product.delete({
         where: {
           id: id,

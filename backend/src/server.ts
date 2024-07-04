@@ -12,8 +12,6 @@ import { verifyAdmin } from "./middlewares/verifyAdmin";
 import UserRouter from "./routers/user.router";
 import CartRouter from "./routers/cart.router";
 import AnalyticRouter from "./routers/analytic.router";
-import { Cart } from "./interfaces/cart";
-import { sendOrderPlacedEmail } from "./background-services/mailer";
 
 dotenv.config();
 const app = express();

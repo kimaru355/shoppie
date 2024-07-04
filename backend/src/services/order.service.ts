@@ -24,16 +24,53 @@ export class OrderService implements OrderServices {
       cart.forEach((item) => {
         item.id = v4();
       });
-      await this.prisma.$transaction([
-        this.prisma.order.createMany({
-          data: cart,
-        }),
-        this.prisma.cart.deleteMany({
-          where: {
-            userId: userId,
+      const products = await this.prisma.product.findMany({
+        where: {
+          id: {
+            in: cart.map((item) => item.productId),
           },
-        }),
-      ]);
+        },
+      });
+      let isQuantityExceeded: boolean = false;
+      for (let i = 0; i < cart.length; i++) {
+        const product = products.find(
+          (product) => product.id === cart[i].productId
+        );
+        if (product && product.quantity < cart[i].productNumber) {
+          isQuantityExceeded = true;
+        }
+      }
+      if (isQuantityExceeded) {
+        return {
+          success: false,
+          message: "Quantity exceeds available stock",
+          data: null,
+        };
+      }
+      products.map((product) => {
+        cart.map(async (item) => {
+          if (product.id === item.productId) {
+            await this.prisma.product.update({
+              where: {
+                id: product.id,
+              },
+              data: {
+                quantity: product.quantity - item.productNumber,
+              },
+            });
+          }
+        });
+      }),
+        await this.prisma.$transaction([
+          this.prisma.order.createMany({
+            data: cart,
+          }),
+          this.prisma.cart.deleteMany({
+            where: {
+              userId: userId,
+            },
+          }),
+        ]);
       return {
         success: true,
         message: "Order successfully created",
