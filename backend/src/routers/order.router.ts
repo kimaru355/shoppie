@@ -14,7 +14,7 @@ import { verifyAdmin } from "../middlewares/verifyAdmin";
 const OrderRouter = Router();
 
 OrderRouter.post("/create", createOrder);
-OrderRouter.post("/update", verifyAdmin, updateOrder);
+OrderRouter.put("/update/:id", verifyAdmin, updateOrder);
 OrderRouter.get("/complete", verifyAdmin, getCompletedOrders);
 OrderRouter.get("/incomplete", verifyAdmin, getIncompleteOrders);
 OrderRouter.get("/all", verifyAdmin, getAllOrders);
