@@ -1,3 +1,7 @@
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
+
 <div class="main">
   <table>
     <thead>
@@ -5,7 +9,8 @@
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
-        <th>Country</th> <!-- Added Country Column -->
+        <th>Country</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -22,7 +27,7 @@
   </table>
 </div>
 
-<!-- Backdrop for darkish tint effect -->
+
 <div *ngIf="selectedUser" class="backdrop" (click)="closeUserDetailsModal()"></div>
 
 <div *ngIf="selectedUser" class="user-details-modal">
@@ -31,6 +36,6 @@
   <p>Email: {{ selectedUser.email }}</p>
   <p>Phone Number: {{ selectedUser.phoneNumber }}</p>
   <p>Country: {{ selectedUser.country }}</p>
-  <!-- Updated Close button to be an X at the top right -->
+>
   <button (click)="closeUserDetailsModal()" class="close-modal-btn">X</button>
 </div>

@@ -5,11 +5,12 @@ import { ProductService } from '../../services/product.service';
 import { Subscription } from 'rxjs';
 import { Product } from '../../interfaces/product';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-products-admin',
   standalone: true,
-  imports: [CommonModule, FormComponent],
+  imports: [CommonModule, FormComponent, LoadingComponent],
   templateUrl: './products-admin.component.html',
   styleUrls: ['./products-admin.component.css'],
   animations: [
@@ -23,6 +24,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ]
 })
 export class ProductsAdminComponent implements OnInit, OnDestroy {
+  loading: boolean = true;
   progressPercentage: number = 20;
   products: Product[] = [];
   productsSubscription: Subscription | undefined;
@@ -33,7 +35,11 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadProducts();
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
   }
+
 
   ngOnDestroy() {
     if (this.productsSubscription) {
@@ -65,7 +71,7 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
         if (res.success) {
           this.products = this.products.filter(product => product.id !== productId);
           console.log('Product deleted successfully');
-          
+
         } else {
           console.error('Failed to delete product:', res.message);
         }

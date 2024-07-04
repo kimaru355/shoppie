@@ -1,3 +1,6 @@
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
 
 <table>
@@ -15,7 +18,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let order of orders">
-    
+
       <td>{{ order.name }}</td>
       <td>{{ order.product }}</td>
       <td>{{ order.date }}</td>

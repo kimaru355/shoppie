@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { LoadingComponent } from '../loading/loading.component';
 
 interface Order {
   clientProfile: string;
@@ -14,11 +15,12 @@ interface Order {
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LoadingComponent],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent {
+  loading: boolean = true;
   selectedOrder: Order | null = null;
   orders: Order[] = [
     {
@@ -41,6 +43,12 @@ export class OrdersComponent {
     },
 
   ];
+  ngOnInit() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+
+  }
 
   showPopup(order: Order) {
     this.selectedOrder = order;

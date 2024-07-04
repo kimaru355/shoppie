@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AuthService } from '../../services/auth.service';
+import { LoadingComponent } from '../loading/loading.component';
+import { Router, RouterLink } from '@angular/router'; // Import Router
 
 interface LoginResponse {
   success: boolean;
@@ -22,23 +24,27 @@ interface Res<T> {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent, LoadingComponent, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
+  loading: boolean = true;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {} // Inject Router
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required])
     });
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
   }
 
   get email() {
@@ -63,7 +69,7 @@ export class LoginComponent implements OnInit {
       if (response.success && response.data?.token) {
         console.log(response);
         localStorage.setItem('authToken', response.data.token);
-        // Redirect or perform additional actions after successful login
+        this.router.navigate(['/signup']); // Redirect to /signup
       } else {
         console.error('Login failed or token missing:', response.message);
       }

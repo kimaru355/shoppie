@@ -1,4 +1,7 @@
 <app-navbar></app-navbar>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 
 <div class="dir">
 <span>  <span class="dirs" routerLink="/">Home</span> > <span class="dirs">Shop</span></span>
