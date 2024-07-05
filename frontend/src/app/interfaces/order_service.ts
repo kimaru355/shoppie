@@ -3,7 +3,8 @@ import { Order } from './order';
 import { Res } from './res';
 
 export interface OrderServices {
-  createOrder(userId: string): Observable<Res<null>>;
+  createOrder(): Observable<Res<null>>;
+  updateOrder(id: string): Observable<Res<null>>;
   getAllOrders(): Observable<Res<Order[] | null>>;
   getCompletedOrders(): Observable<Res<Order[] | null>>;
   getIncompleteOrders(): Observable<Res<Order[] | null>>;

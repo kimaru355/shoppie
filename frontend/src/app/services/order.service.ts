@@ -14,7 +14,7 @@ export class OrderService implements OrderServices {
   headers = new HttpHeaders({
     Authorization: localStorage.getItem('authToken') || '',
   });
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   createOrder(): Observable<Res<null>> {
     return this.http.post<Res<null>>(`${this.api}/create`, {
@@ -22,8 +22,8 @@ export class OrderService implements OrderServices {
     });
   }
 
-  updateOrder(order: Order): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/update/${order.id}`, order, {
+  updateOrder(id: string): Observable<Res<null>> {
+    return this.http.put<Res<null>>(`${this.api}/update/${id}`, {
       headers: this.headers,
     });
   }
