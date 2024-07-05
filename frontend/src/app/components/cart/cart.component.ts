@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Cart, CartItem } from '../../interfaces/cart';
 import { CartService } from '../../services/cart.service';
-import { CommonModule } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
@@ -12,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [NavbarComponent, LoadingComponent, CommonModule, CommonModule],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styleUrl: './cart.component.css',
 })
 export class CartComponent {
   quantity = 1;
@@ -23,13 +22,10 @@ export class CartComponent {
   total: number = 0;
   loading: boolean = true;
 
-
   ngOnInit() {
-
     setTimeout(() => {
       this.loading = false; // Hide the overlay after 1.5 seconds
     }, 1500);
-
   }
 
   changeQuantity(change: number): void {
@@ -37,7 +33,10 @@ export class CartComponent {
     this.quantity = Math.max(1, this.quantity);
   }
 
-  constructor(private cartService: CartService, private orderService: OrderService) {
+  constructor(
+    private cartService: CartService,
+    private orderService: OrderService
+  ) {
     this.getCartItems();
   }
 
@@ -48,34 +47,36 @@ export class CartComponent {
   }
 
   getCartItems() {
-    this.cartService.getCart().subscribe(res => {
+    this.cartService.getCart().subscribe((res) => {
       console.log(res.data);
-      console.log("Log length: ");
+      console.log('Log length: ');
 
-      this.cartItems = (res.data) as Cart[];
+      this.cartItems = res.data as Cart[];
       localStorage.setItem('cart_count', `${this.cartItems.length}`);
 
       for (let item of this.cartItems) {
-        console.log(`here iam: ${typeof (item.product.price * item.productNumber)}`);
+        console.log(
+          `here iam: ${typeof (item.product.price * item.productNumber)}`
+        );
 
-        this.subtotal += (item.product.price * item.productNumber);
+        this.subtotal += item.product.price * item.productNumber;
       }
       this.getDiscountAndDeliveryFee();
-    })
+    });
   }
 
   deleteCartItem(id: string) {
-    this.cartService.deleteFromCart(id).subscribe(res => {
+    this.cartService.deleteFromCart(id).subscribe((res) => {
       console.log(res);
       this.cartItems = [];
       this.getCartItems();
-    })
+    });
   }
 
   setOrder() {
-    console.log("checkout works");
-    this.orderService.createOrder().subscribe(res => {
+    console.log('checkout works');
+    this.orderService.createOrder().subscribe((res) => {
       console.log(res.message);
-    })
+    });
   }
 }
