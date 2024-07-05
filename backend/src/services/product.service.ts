@@ -227,4 +227,52 @@ export class ProductService implements ProductServices {
       };
     }
   }
+
+  async getProductsBySize(size: string): Promise<Res<Product[] | null>> {
+    try {
+      const products = await this.prisma.product.findMany({
+        where: {
+          size: size,
+        },
+      });
+      return {
+        success: true,
+        message: "Products found",
+        data: products,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getProductsByPrice(
+    min: number,
+    max: number
+  ): Promise<Res<Product[] | null>> {
+    try {
+      const products = await this.prisma.product.findMany({
+        where: {
+          price: {
+            gte: min,
+            lte: max,
+          },
+        },
+      });
+      return {
+        success: true,
+        message: "Products found",
+        data: products,
+      };
+    } catch {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
 }

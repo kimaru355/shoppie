@@ -214,3 +214,69 @@ export const getProductsByName = async (
   }
   return res.status(200).json(response);
 };
+
+export const getProductsBySize = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const productService = new ProductService();
+  const productSize: string = req.params.productSize;
+  if (!productSize) {
+    return res.status(200).json({
+      success: false,
+      message: "Please provide a productSize",
+      data: null,
+    });
+  }
+  const response: Res<Product[] | null> =
+    await productService.getProductsBySize(productSize);
+  if (response.success && response.data) {
+    const updatedResponse: Res<ProductImagesArray[]> = {
+      success: response.success,
+      message: response.message,
+      data: response.data.map((product) => {
+        return {
+          ...product,
+          images: product.images.split(":::::"),
+        };
+      }),
+    };
+    return res.status(200).json(updatedResponse);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const getProductsByPrice = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const productService = new ProductService();
+  const { min, max } = req.body as { min: number; max: number };
+  if (!min || !max) {
+    return res.status(200).json({
+      success: false,
+      message: "Please provide a price range",
+      data: null,
+    });
+  }
+  const response: Res<Product[] | null> =
+    await productService.getProductsByPrice(min, max);
+  if (response.success && response.data) {
+    const updatedResponse: Res<ProductImagesArray[]> = {
+      success: response.success,
+      message: response.message,
+      data: response.data.map((product) => {
+        return {
+          ...product,
+          images: product.images.split(":::::"),
+        };
+      }),
+    };
+    return res.status(200).json(updatedResponse);
+  } else if (response.message !== "An Error Occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
