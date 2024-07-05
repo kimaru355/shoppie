@@ -3,6 +3,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { Cart, CartItem } from '../../interfaces/cart';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-cart',
@@ -24,7 +25,7 @@ export class CartComponent {
     this.quantity = Math.max(1, this.quantity);
   }
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private orderService: OrderService) {
     this.getCartItems();
   }
 
@@ -40,7 +41,7 @@ export class CartComponent {
       console.log("Log length: ");
       
       this.cartItems = (res.data) as Cart[];
-      localStorage.setItem('cart_tally', `${this.cartItems.length}`);
+      localStorage.setItem('cart_count', `${this.cartItems.length}`);
 
       for (let item of this.cartItems) {
         console.log(`here iam: ${typeof (item.product.price * item.productNumber)}`);
@@ -56,6 +57,13 @@ export class CartComponent {
       console.log(res);
       this.cartItems = [];
       this.getCartItems();
+    })
+  }
+
+  setOrder() {
+    console.log("checkout works");
+    this.orderService.createOrder().subscribe(res => {
+      console.log(res.message);
     })
   }
 }

@@ -48,7 +48,7 @@
               <div class="toCart">
                 <div class="amount">
                   <p style="font-weight: 600;">item(s)</p>
-                  <span style="font-weight: 800;" id="quantity">{{quantity}}</span>
+                  <span style="font-weight: 800;" id="quantity">{{cart_item.productNumber}}</span>
                 </div>
               </div>
             </div>
@@ -83,9 +83,9 @@
           <div class="amntT">{{total | currency:"Ksh. "}}</div>
         </div>
 
-        <div class="buttonContainer">
+        <div (click)="setOrder()" class="buttonContainer">
           <button class="checkout">
-            <div class="textb">Go to Checkout</div>
+            <div class="textb" >Go to Checkout</div>
             <img src="/assets/icons/checkout.png" alt="">
           </button>
         </div>

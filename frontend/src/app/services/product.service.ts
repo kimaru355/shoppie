@@ -49,7 +49,9 @@ export class ProductService implements ProductServices {
 
   getProductsByName(productName: string): Observable<Res<Product[] | null>> {
     return this.http.get<Res<Product[] | null>>(
-      `${this.api}/name/${productName}`
+      `${this.api}/name/${productName}`, {
+        headers: this.headers
+      }
     );
   }
 

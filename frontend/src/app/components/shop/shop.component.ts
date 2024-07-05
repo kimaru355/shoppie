@@ -48,4 +48,12 @@ export class ShopComponent {
     this.router.navigate(['/product', id]);
     localStorage.setItem('productId', id);
   }
+
+  getProductByType(productName: string) {
+    this.productService.getProductsByName(productName).subscribe(res => {
+      console.log(res);
+      this.products = [];
+      this.products = res.data as Product[];
+    })
+  }
 }
