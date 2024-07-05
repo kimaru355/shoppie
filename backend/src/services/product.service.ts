@@ -8,6 +8,13 @@ export class ProductService implements ProductServices {
 
   async createProduct(product: Product): Promise<Res<null>> {
     try {
+      if (product.quantity > product.stockLimit) {
+        return {
+          success: false,
+          message: "Quantity cannot be greater than stock limit",
+          data: null,
+        };
+      }
       await this.prisma.product.create({
         data: product,
       });
@@ -46,6 +53,13 @@ export class ProductService implements ProductServices {
 
   async updateProduct(product: Product): Promise<Res<null>> {
     try {
+      if (product.quantity > product.stockLimit) {
+        return {
+          success: false,
+          message: "Quantity cannot be greater than stock limit",
+          data: null,
+        };
+      }
       await this.prisma.product.update({
         where: {
           id: product.id,
@@ -68,14 +82,38 @@ export class ProductService implements ProductServices {
 
   async deleteProduct(id: string): Promise<Res<null>> {
     try {
-      await this.prisma.product.update({
+      const product = await this.prisma.product.findUnique({
         where: {
           id: id,
-          isDeleted: false,
         },
-        data: {
-          isDeleted: true,
+      });
+      if (!product) {
+        return {
+          success: false,
+          message: "product does not exist",
+          data: null,
+        };
+      }
+      const orders = await this.prisma.order.findMany({
+        where: {
+          productId: id,
+          isOrderCompleted: false,
         },
+      });
+      if (orders.length > 0) {
+        return {
+          success: false,
+          message: "There are orders for this product that are not completed",
+          data: null,
+        };
+      }
+      await this.prisma.product.delete({
+        where: {
+          id: id,
+        },
+      });
+      await this.prisma.deletedProduct.create({
+        data: product,
       });
       return {
         success: true,
@@ -106,7 +144,6 @@ export class ProductService implements ProductServices {
       const product: Product | null = await this.prisma.product.findUnique({
         where: {
           id: productId,
-          isDeleted: false,
         },
       });
       if (!product) {
@@ -116,7 +153,6 @@ export class ProductService implements ProductServices {
           data: null,
         };
       }
-      delete product.isDeleted;
       return {
         success: true,
         message: "Product found",
@@ -133,14 +169,7 @@ export class ProductService implements ProductServices {
 
   async getAllProducts(): Promise<Res<Product[] | null>> {
     try {
-      const products: Product[] = await this.prisma.product.findMany({
-        where: {
-          isDeleted: false,
-        },
-      });
-      products.forEach((product) => {
-        delete product.isDeleted;
-      });
+      const products: Product[] = await this.prisma.product.findMany();
       return {
         success: true,
         message: "Products found",
@@ -160,7 +189,6 @@ export class ProductService implements ProductServices {
       const products = await this.prisma.product.findMany({
         where: {
           type: type,
-          isDeleted: false,
         },
       });
       return {
@@ -181,7 +209,6 @@ export class ProductService implements ProductServices {
     try {
       const products = await this.prisma.product.findMany({
         where: {
-          isDeleted: false,
           name: {
             contains: productName,
           },
@@ -193,6 +220,54 @@ export class ProductService implements ProductServices {
         data: products,
       };
     } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getProductsBySize(size: string): Promise<Res<Product[] | null>> {
+    try {
+      const products = await this.prisma.product.findMany({
+        where: {
+          size: size,
+        },
+      });
+      return {
+        success: true,
+        message: "Products found",
+        data: products,
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        message: "An Error Occurred",
+        data: null,
+      };
+    }
+  }
+
+  async getProductsByPrice(
+    min: number,
+    max: number
+  ): Promise<Res<Product[] | null>> {
+    try {
+      const products = await this.prisma.product.findMany({
+        where: {
+          price: {
+            gte: min,
+            lte: max,
+          },
+        },
+      });
+      return {
+        success: true,
+        message: "Products found",
+        data: products,
+      };
+    } catch {
       return {
         success: false,
         message: "An Error Occurred",

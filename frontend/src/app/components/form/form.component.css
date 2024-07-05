@@ -93,3 +93,55 @@ textarea {
   border-radius: 10px;
   object-fit: cover;
 }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .form-and-image {
+    grid-template-columns: 1fr; /* Stack columns on top of each other */
+    row-gap: 20px; /* Add gap between rows */
+  }
+}
+
+@media (max-width: 768px) {
+  .form-and-image {
+    grid-template-columns: 1fr; /* Stack columns on top of each other */
+    row-gap: 20px; /* Add gap between rows */
+  }
+
+  .price-and-size {
+    grid-template-columns: 1fr; /* Stack columns on top of each other */
+  }
+
+  .buttons {
+    justify-content: center; /* Center buttons on smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .form-and-image {
+    grid-template-columns: 1fr; /* Stack columns on top of each other */
+    row-gap: 20px; /* Add gap between rows */
+  }
+
+  .price-and-size {
+    grid-template-columns: 1fr; /* Stack columns on top of each other */
+  }
+
+  .buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 10px; /* Add gap between buttons */
+    padding: 0; /* Remove padding */
+  }
+
+  .buttons button {
+    width: 100%; /* Full width buttons */
+  }
+
+  label {
+    font-size: 14px; /* Smaller font size for labels */
+  }
+
+  input, textarea {
+    font-size: 14px; /* Smaller font size for inputs and textarea */
+  }
+}

@@ -11,6 +11,7 @@ import UsersRouter from "./routers/users.router";
 import { verifyAdmin } from "./middlewares/verifyAdmin";
 import UserRouter from "./routers/user.router";
 import CartRouter from "./routers/cart.router";
+import AnalyticRouter from "./routers/analytic.router";
 
 dotenv.config();
 const app = express();
@@ -49,7 +50,15 @@ app.use("/products", ProductRouter);
 app.use("/favorites", verifyToken, FavoriteRouter);
 app.use("/users", verifyToken, verifyAdmin, UsersRouter);
 app.use("/user", verifyToken, UserRouter);
-app.use("/analytics", AnalyticRouter);
+app.use("/analytics", verifyToken, verifyAdmin, AnalyticRouter);
+
+app.use("**", (req: Request, res: Response) => {
+  return res.status(404).json({
+    success: false,
+    message: "Route not found",
+    data: null,
+  });
+});
 
 const port = 3000;
 

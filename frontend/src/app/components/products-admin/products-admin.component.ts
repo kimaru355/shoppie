@@ -5,17 +5,19 @@ import { ProductService } from '../../services/product.service';
 import { Subscription } from 'rxjs';
 import { Product } from '../../interfaces/product';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { LoadingComponent } from '../loading/loading.component';
+import { MessageComponent } from '../message/message.component';
 
 @Component({
   selector: 'app-products-admin',
   standalone: true,
-  imports: [CommonModule, FormComponent],
+  imports: [CommonModule, FormComponent, LoadingComponent, MessageComponent],
   templateUrl: './products-admin.component.html',
   styleUrls: ['./products-admin.component.css'],
   animations: [
     trigger('slideOutDelete', [
       transition(':leave', [
-        style({ backgroundColor: 'lightcoral' }), // Initial background color
+        style({ backgroundColor: 'lightcoral' }), 
         animate('0.5s ease-out',
           style({ transform: 'translateX(-100%)', opacity: 0 }))
       ])
@@ -23,6 +25,9 @@ import { animate, style, transition, trigger } from '@angular/animations';
   ]
 })
 export class ProductsAdminComponent implements OnInit, OnDestroy {
+  message: string | null = null;
+  messageType: 'success' | 'error' | undefined;
+  loading: boolean = true;
   progressPercentage: number = 20;
   products: Product[] = [];
   productsSubscription: Subscription | undefined;
@@ -33,7 +38,11 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loadProducts();
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
   }
+
 
   ngOnDestroy() {
     if (this.productsSubscription) {
@@ -64,15 +73,27 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.success) {
           this.products = this.products.filter(product => product.id !== productId);
-          console.log('Product deleted successfully');
-          
+          this.showMessage('Product deleted successfully', 'success');
         } else {
-          console.error('Failed to delete product:', res.message);
+          this.showMessage(`Failed to delete product: ${res.message}`, 'error');
         }
       },
       error: (error) => {
         console.error('Error deleting product:', error);
+        this.showMessage('Error deleting product', 'error');
       }
     });
+  }
+  showMessage(message: string, type: 'success' | 'error'): void {
+    this.message = message;
+    this.messageType = type;
+    setTimeout(() => {
+      this.clearMessage();
+    }, 2000);
+  }
+
+  clearMessage(): void {
+    this.message = null;
+    this.messageType = undefined;
   }
 }

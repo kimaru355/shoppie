@@ -1,4 +1,7 @@
 <app-navbar></app-navbar>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 
 <div class="dir">
 <span>  <span class="dirs" routerLink="/">Home</span> > <span class="dirs">Shop</span></span>
@@ -17,33 +20,33 @@
 
       <!-- Filtering by cloth type -->
       <div class="types">
-        <div class="type">
-          <div class="tshirt">Tshirt</div>
+        <div class="type" (click)="getProductByType('Tshirt')">
+          <div  class="tshirt">Tshirt</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 
-        <div class="type">
-          <div class="short">Suit</div>
+        <div class="type" (click)="getProductByType('Suit')">
+          <div  class="short">Suit</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 
-        <div class="type">
-          <div class="jeans">Jeans</div>
+        <div class="type" (click)="getProductByType('Jeans')">
+          <div  class="jeans">Jeans</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 
-        <div class="type">
-          <div class="shoes">Shoes</div>
+        <div class="type" (click)="getProductByType('Hoodie')">
+          <div  class="shoes">Shoes</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 
-        <div class="type">
-          <div class="hoodie">Hoodie</div>
+        <div class="type" (click)="getProductByType('Hoodie')">
+          <div  class="hoodie">Hoodie</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 
-        <div class="type">
-          <div class="shirts">Shirts</div>
+        <div class="type" (click)="getProductByType('Shirts')">
+          <div  class="shirts">Shirts</div>
           <div class="clothTypes"><img style="height: 22px;" src="/assets/icons/rightCicon.png" alt=""></div>
         </div>
 

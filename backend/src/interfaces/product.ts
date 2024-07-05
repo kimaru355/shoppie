@@ -10,7 +10,6 @@ export interface Product {
   images: string;
   createdAt?: Date;
   updatedAt?: Date;
-  isDeleted?: boolean;
 }
 export interface ProductImagesArray {
   id: string;
@@ -24,5 +23,4 @@ export interface ProductImagesArray {
   images: string[];
   createdAt?: Date;
   updatedAt?: Date;
-  isDeleted?: boolean;
 }

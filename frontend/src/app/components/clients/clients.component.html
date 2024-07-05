@@ -1,4 +1,6 @@
-<p>clients works!</p>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
 
 <div class="main">
   <table>
@@ -7,18 +9,33 @@
         <th>Name</th>
         <th>Email</th>
         <th>Phone Number</th>
-        <th>Number of Orders</th>
-        <th>Registration Date</th>
+        <th>Country</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <!-- <tr *ngFor="let client of clients">
+      <tr *ngFor="let client of clients">
         <td>{{ client.name }}</td>
         <td>{{ client.email }}</td>
         <td>{{ client.phoneNumber }}</td>
-        <td>{{ client.numberOfOrders }}</td>
-        <td>{{ client.registrationDate }}</td>
-      </tr> -->
+        <td>{{ client.country }}</td>
+        <td>
+          <button (click)="viewUserDetails(client.id)">View Details</button>
+        </td>
+      </tr>
     </tbody>
   </table>
+</div>
+
+
+<div *ngIf="selectedUser" class="backdrop" (click)="closeUserDetailsModal()"></div>
+
+<div *ngIf="selectedUser" class="user-details-modal">
+  <h2>User Details</h2>
+  <p>Name: {{ selectedUser.name }}</p>
+  <p>Email: {{ selectedUser.email }}</p>
+  <p>Phone Number: {{ selectedUser.phoneNumber }}</p>
+  <p>Country: {{ selectedUser.country }}</p>
+>
+  <button (click)="closeUserDetailsModal()" class="close-modal-btn">X</button>
 </div>

@@ -8,33 +8,35 @@ import { Res } from '../interfaces/res';
 @Injectable({
   providedIn: 'root',
 })
-
-
 export class ProductService implements ProductServices {
   api: string = 'http://localhost:3000/products';
   headers = new HttpHeaders({
-      'Authorization': localStorage.getItem('authToken') || ""
+    Authorization: localStorage.getItem('authToken') || '',
   });
   constructor(private http: HttpClient) {}
 
   createProduct(product: NewProduct): Observable<Res<null>> {
-
-    return this.http.post<Res<null>>(`${this.api}/create`, product, { headers: this.headers });
-}
+    return this.http.post<Res<null>>(`${this.api}/create`, product, {
+      headers: this.headers,
+    });
+  }
 
   createProducts(products: NewProduct[]): Observable<Res<null>> {
-    return this.http.post<Res<null>>(`${this.api}/create-many`, products);
+    return this.http.post<Res<null>>(`${this.api}/create-many`, products, {
+      headers: this.headers,
+    });
   }
 
   updateProduct(product: Product): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/update`, product, { headers: this.headers });
-}
+    return this.http.put<Res<null>>(`${this.api}/update`, product, {
+      headers: this.headers,
+    });
+  }
 
   deleteProduct(id: string): Observable<Res<null>> {
-    return this.http.delete<Res<null>>(`${this.api}/delete/${id}`,{
-        headers: this.headers
-      }
-    );
+    return this.http.delete<Res<null>>(`${this.api}/delete/${id}`, {
+      headers: this.headers,
+    });
   }
 
   getProduct(productId: string): Observable<Res<Product | null>> {
@@ -47,7 +49,9 @@ export class ProductService implements ProductServices {
 
   getProductsByName(productName: string): Observable<Res<Product[] | null>> {
     return this.http.get<Res<Product[] | null>>(
-      `${this.api}/name/${productName}`
+      `${this.api}/name/${productName}`, {
+        headers: this.headers
+      }
     );
   }
 
