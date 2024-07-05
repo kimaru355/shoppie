@@ -170,8 +170,8 @@ export class FormComponent implements OnInit, OnDestroy {
     for (const file of files) {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('upload_preset', 'shoppie');
-      formData.append('cloud_name', 'dr0qq0taf');
+      formData.append('upload_preset', 'shoppie'); // Your Cloudinary preset
+      formData.append('cloud_name', 'dr0qq0taf'); // Your Cloudinary cloud name
 
       const response = await fetch(
         'https://api.cloudinary.com/v1_1/dr0qq0taf/image/upload',
@@ -182,10 +182,10 @@ export class FormComponent implements OnInit, OnDestroy {
       );
 
       const data = await response.json();
-      urls.push(data.url);
+      urls.push(data.url); // Collect the URL of the uploaded image
     }
 
-    return urls;
+    return urls; // Return the array of URLs
   }
 
   onCancel(): void {

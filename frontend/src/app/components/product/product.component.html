@@ -21,11 +21,11 @@
   <div class="productView">
     <div class="image">
       <div class="subImages">
-        <img style="height: 100px" src="{{ this.product?.images }}" alt="" />
-        <img style="height: 100px" src="{{ this.product?.images }}" alt="" />
-        <img style="height: 100px" src="{{ this.product?.images }}" alt="" />
+        <img style="height: 100px" src="{{ this.product?.images?.[0] }}" alt="" />
+        <img style="height: 100px" src="{{ this.product?.images?.[0] }}"alt="" />
+        <img style="height: 100px" src="{{ this.product?.images?.[0] }}"alt="" />
       </div>
-      <img style="height: 250px" src="{{ this.product?.images }}" alt="" />
+      <img style="height: 250px" src="{{ this.product?.images?.[0] }}"alt="" />
     </div>
 
     <div class="details">
