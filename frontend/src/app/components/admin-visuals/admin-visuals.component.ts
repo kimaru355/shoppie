@@ -18,6 +18,7 @@ export class AdminVisualsComponent implements OnInit {
   tenLeastStockProducts: any[] = [];
   topTenSellingProducts: any[] = [];
   loading: boolean = true;
+
   constructor(private analyticService: AnalyticsService) {}
 
   ngOnInit() {
@@ -25,7 +26,6 @@ export class AdminVisualsComponent implements OnInit {
     setTimeout(() => {
       this.loading = false;
     }, 1500);
-
   }
 
   getAnalytics() {

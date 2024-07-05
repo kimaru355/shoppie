@@ -3,63 +3,85 @@
 </div>
 
 <div class="stats">
-  <div class="card" style="background-color: #f7e7d0;">
+  <div class="card" style="background-color: #ffffff;">
     <div>
       <div class="card-header">
         <p style="font-size: 18px;">Total Users</p>
       </div>
       <div class="card-body">
-        <p style="color: #ec981b; font-size: 25px;">{{ totalUsers }}</p>
+        <p style="color: #000000; font-size: 25px;">{{ totalUsers }}</p>
       </div>
     </div>
     <div class="icon">
-      <img src="/assets/icons/sales.png" alt="">
+      <img src="/assets/icons/users.png" alt="">
     </div>
   </div>
 
-  <div style="background-color: #FCCFD7;" class="card">
+  <div style="background-color: #ffffff;" class="card">
     <div>
       <div class="card-header">
         <p>Total Products</p>
       </div>
       <div class="card-body">
-        <p style="color: #f62b50; font-size: 25px;">{{ totalProducts }}</p>
+        <p style="color: #000000; font-size: 25px;">{{ totalProducts }}</p>
       </div>
     </div>
     <div class="icon">
-      <img src="/assets/icons/pendingDelivery.png" alt="">
+      <img src="/assets/icons/suit.png" alt="">
     </div>
   </div>
 
-  <div style="background-color: #CFF9FC;" class="card">
+  <div style="background-color: #ffffff;" class="card">
     <div>
       <div class="card-header">
         <p>Categories</p>
       </div>
       <div class="card-body">
-        <p style="color: #15deec; font-size: 25px;">{{ totalCategories }}</p>
+        <p style="color: #000000; font-size: 25px;">{{ totalCategories }}</p>
       </div>
     </div>
     <div class="icon">
-      <img src="/assets/icons/delivery.png" alt="">
+      <img src="/assets/icons/categories.png" alt="">
     </div>
   </div>
 
-  <div style="background-color: #DCEFCC;" class="card">
+  <div style="background-color: #ffffff;" class="card">
     <div>
       <div class="card-header">
         <p>Total Products Sold</p>
       </div>
       <div class="card-body">
-        <p style="color: #59be0c; font-size: 25px;">{{ totalProductsSold }}</p>
+        <p style="color: hsl(0, 0%, 0%); font-size: 25px;">{{ totalProductsSold }}</p>
       </div>
     </div>
     <div class="icon">
-      <img src="/assets/icons/icons8-money-80.png" alt="">
+      <img src="/assets/icons/sold.png" alt="">
     </div>
   </div>
 </div>
 
-<!-- Include StockChartComponent if needed, outside of the loading overlay -->
-<!-- <app-stock-chart [chartData]="tenLeastStockProducts" chartLabel="Least Stock Products"></app-stock-chart> -->
-<!-- <app-stock-chart [chartData]="topTenSellingProducts" chartLabel="Top Selling Products"></app-stock-chart> -->
+<div class="products-lists">
+  <div class="least-stock-products">
+    <h3>Ten Least Stock Products</h3>
+    <ul>
+      <li *ngFor="let product of tenLeastStockProducts" class="card">
+        <img [src]="product.images[0]" alt="{{ product.name }}" />
+        <div>
+          <p>{{ product.name }} - {{ product.quantity }} in stock</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="top-selling-products">
+    <h3>Top Ten Selling Products</h3>
+    <ul>
+      <li *ngFor="let product of topTenSellingProducts" class="card">
+        <img [src]="product.images[0]" alt="{{ product.name }}" />
+        <div>
+          <p>{{ product.name }} - Sold {{ product.quantity }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

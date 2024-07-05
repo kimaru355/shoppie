@@ -1,3 +1,4 @@
+// Remove the import statement for OrderService
 import { Injectable } from '@angular/core';
 import { OrderServices } from '../interfaces/order_service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -13,10 +14,16 @@ export class OrderService implements OrderServices {
   headers = new HttpHeaders({
     Authorization: localStorage.getItem('authToken') || '',
   });
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   createOrder(userId: string): Observable<Res<null>> {
     return this.http.post<Res<null>>(`${this.api}/create`, userId, {
+      headers: this.headers,
+    });
+  }
+
+  updateOrder(order: Order): Observable<Res<null>> {
+    return this.http.put<Res<null>>(`${this.api}/update/${order.id}`, order, {
       headers: this.headers,
     });
   }

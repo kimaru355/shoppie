@@ -14,15 +14,19 @@ import { ProductService } from '../../services/product.service';
 import Dropzone from 'dropzone';
 import { FileToUmageUrlPipe } from '../../pipes/file-to-umage-url.pipe';
 import { LoadingComponent } from '../loading/loading.component';
+import { MessageComponent } from '../message/message.component';
 
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, FileToUmageUrlPipe, LoadingComponent],
+  imports: [CommonModule, FormsModule, FileToUmageUrlPipe, LoadingComponent, MessageComponent],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
 export class FormComponent implements OnInit, OnDestroy {
+  message: string | null = null;
+  messageType: 'success' | 'error' | undefined;
+
   @Input() product: Product | null = null;
   @Output() cancelEdit = new EventEmitter<void>();
   loading: boolean = true;
@@ -35,12 +39,9 @@ export class FormComponent implements OnInit, OnDestroy {
   quantity: number = 0;
   price: number = 0;
   size: string = '';
-  images: string[] = [
-    'https://i.ibb.co/kQNZHsQ/3d-color-sweatshirt-for-men-lestyleparfait-kenya-sweatshirt-1.webp',
-  ];
+  images: string[] = [];
   files: File[] = [];
   stockLimit: number = 0;
-  selectedFiles: File[] = [];
 
   constructor(
     private elementRef: ElementRef,
@@ -48,7 +49,7 @@ export class FormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    // Clean up
+    
   }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.dropzone = new Dropzone(
       this.elementRef.nativeElement.querySelector('.dropzone'),
       {
-        url: '/your-upload-endpoint',
+        url: '/your-upload-endpoint', // This won't be used
         autoProcessQueue: false,
         addRemoveLinks: true,
       }
@@ -106,46 +107,6 @@ export class FormComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelect(event: any): void {
-    this.files.push(...event.addedFiles);
-  }
-
-  onRemove(event: File): void {
-    this.files.splice(this.files.indexOf(event), 1);
-  }
-
-  onFileSelected(event: Event): void {
-    const target = event.target as HTMLInputElement;
-    if (target && target.files) {
-      const files = target.files;
-      for (let i = 0; i < files.length; i++) {
-        this.files.push(files[i]);
-        this.readFile(files[i]);
-      }
-      this.selectedFiles = Array.from(files);
-    }
-  }
-  getImagesUrl(event: any) {
-    const files = event.target.files;
-
-    if (files) {
-      const formData = new FormData();
-
-      formData.append('file', files[0]);
-      formData.append('upload_preset', 'shoppie');
-      formData.append('cloud_name', 'dr0qq0taf');
-
-      fetch('https://api.cloudinary.com/v1_1/dr0qq0taf/image/upload', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          this.images.push(res.url);
-        });
-    }
-  }
-
   onSubmit(): void {
     this.uploadFiles(this.files)
       .then((uploadedFileUrls) => {
@@ -160,40 +121,87 @@ export class FormComponent implements OnInit, OnDestroy {
           images: [...this.images, ...uploadedFileUrls],
           stockLimit: this.stockLimit,
         };
-        const formData = new FormData();
-        for (let i = 0; i < this.selectedFiles.length; i++) {
-          formData.append(
-            'images',
-            this.selectedFiles[i],
-            this.selectedFiles[i].name
-          );
-        }
 
         if (this.formMode === 'create') {
           this.productService.createProduct(productData).subscribe({
-            next: (response) => console.log('Product created', response),
-            error: (error) => console.error('Error creating product', error),
+            next: (response) => {
+              if (response.success) {
+                this.showMessage('Product created successfully', 'success');
+                console.log('Product created', response);
+              } else {
+                this.showMessage(response.message || 'Unknown error', 'error');
+                console.error('Error creating product', response);
+              }
+            },
+            error: (error) => {
+              this.showMessage('Error creating product', 'error');
+              console.error('Error creating product', error);
+            },
           });
         } else {
           this.productService.updateProduct(productData).subscribe({
-            next: (response) => console.log('Product updated', response),
-            error: (error) => console.error('Error updating product', error),
+            next: (response) => {
+              if (response.success) {
+                this.showMessage('Product updated successfully', 'success');
+                console.log('Product updated', response);
+              } else {
+                this.showMessage(response.message || 'Unknown error', 'error');
+                console.error('Error updating product', response);
+              }
+            },
+            error: (error) => {
+              this.showMessage('Error updating product', 'error');
+              console.error('Error updating product', error);
+            },
           });
         }
 
         console.log('Form submitted with data:', productData);
       })
       .catch((error) => {
+        this.showMessage('Error uploading files', 'error');
         console.error('Error uploading files', error);
       });
   }
 
   async uploadFiles(files: File[]): Promise<string[]> {
     const urls: string[] = [];
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'shoppie');
+      formData.append('cloud_name', 'dr0qq0taf');
+
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/dr0qq0taf/image/upload',
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      urls.push(data.url);
+    }
+
     return urls;
   }
 
   onCancel(): void {
     this.cancelEdit.emit();
+  }
+
+  showMessage(message: string, type: 'success' | 'error'): void {
+    this.message = message;
+    this.messageType = type;
+    setTimeout(() => {
+      this.clearMessage();
+    }, 2000);
+  }
+
+  clearMessage(): void {
+    this.message = null;
+    this.messageType = undefined;
   }
 }
