@@ -1,0 +1,7 @@
+/* stock-chart.component.css */
+.chart-container {
+  position: relative;
+  margin: auto;
+  height: 60vh;
+  width: 80vw;
+}

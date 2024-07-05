@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^18.0.0",
+    "@angular/animations": "^18.0.5",
     "@angular/common": "^18.0.0",
     "@angular/compiler": "^18.0.0",
     "@angular/core": "^18.0.0",
@@ -18,10 +18,17 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
+    "@cloudinary/ng": "^2.0.2",
+    "@cloudinary/url-gen": "^1.19.0",
+    "@types/dropzone": "^5.7.8",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.3",
+    "dropzone": "^6.0.0-beta.2",
+    "ng2-charts": "^6.0.1",
+    "ngx-dropzone": "^3.1.0",
     "nouislider": "^15.8.1",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
+    "tslib": "^2.6.3",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

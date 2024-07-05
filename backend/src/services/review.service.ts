@@ -14,7 +14,6 @@ export class ReviewService implements ReviewServices {
       const product: Product | null = await this.prisma.product.findUnique({
         where: {
           id: review.productId,
-          isDeleted: false,
         },
       });
       if (!product) {

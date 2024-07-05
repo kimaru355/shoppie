@@ -3,18 +3,22 @@
   import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../../services/auth.service';
+import { UserRegister } from '../../interfaces/auth';
+import { LoadingComponent } from '../loading/loading.component';
 
   @Component({
     selector: 'app-signup',
     standalone: true,
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NavbarComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, NavbarComponent, LoadingComponent],
     templateUrl: './signup.component.html',
     styleUrl: './signup.component.css'
   })
   export class SignupComponent implements OnInit {
+    loading: boolean = true;
     signupForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private authService: AuthService) {
       this.signupForm = this.fb.group({});
     }
 
@@ -28,6 +32,10 @@ import { NavbarComponent } from '../navbar/navbar.component';
       }, {
         validator: this.mustMatch('password', 'confirmPassword')
       });
+      setTimeout(() => {
+        this.loading = false;
+      }, 1500);
+
     }
 
     mustMatch(controlName: string, matchingControlName: string) {
@@ -48,10 +56,26 @@ import { NavbarComponent } from '../navbar/navbar.component';
     }
 
     onSubmit() {
-      if (this.signupForm.valid) {
-        // Handle form submission
-        console.log(this.signupForm.value);
-        this.signupForm.reset();
+      if (this.signupForm.invalid) {
+        return;
       }
+      if (!this.signupForm.value.name ||!this.signupForm.value.email ||!this.signupForm.value.phoneNumber ||!this.signupForm.value.password ||!this.signupForm.value.confirmPassword) {
+        return;
+      }
+      if (this.signupForm.value.password!== this.signupForm.value.confirmPassword) {
+        return;
+      }
+
+      const user_register: UserRegister = {
+        name: this.signupForm.value.name,
+        email: this.signupForm.value.email,
+        phoneNumber: this.signupForm.value.phoneNumber,
+        country: "Kenya",
+        password: this.signupForm.value.password
+      }
+
+      this.authService.register(user_register).subscribe(response => {
+        console.log(response);
+      });
     }
   }

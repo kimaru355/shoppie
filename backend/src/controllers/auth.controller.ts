@@ -9,6 +9,7 @@ import {
   UserRegister,
 } from "../interfaces/auth";
 import { getIdFromToken } from "../helpers/get_id_from_token";
+import { sendWelcomeEmail } from "../background-services/mailer";
 
 export const register = async (
   req: Request,
@@ -23,7 +24,8 @@ export const register = async (
     !user_register.password ||
     !user_register.name ||
     !user_register.phoneNumber ||
-    !user_register.country
+    !user_register.country ||
+    Object.keys(user_register).length !== 6
   ) {
     return res.status(200).json({
       success: false,
@@ -35,6 +37,7 @@ export const register = async (
     user_register
   );
   if (response.success) {
+    sendWelcomeEmail(user_register.email, user_register.name.split(" ")[0]);
     return res.status(201).json(response);
   } else if (response.message === "An error occurred") {
     return res.status(200).json(response);
@@ -79,6 +82,19 @@ export const updateDetails = async (
     });
   }
   const user_details: UserDetails = req.body;
+  if (
+    !user_details.email ||
+    !user_details.name ||
+    !user_details.phoneNumber ||
+    !user_details.country ||
+    Object.keys(user_details).length !== 4
+  ) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
   user_details.id = id;
 
   const response: Res<null> = await auth.updateDetails(user_details);

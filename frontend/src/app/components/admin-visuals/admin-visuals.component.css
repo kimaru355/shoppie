@@ -1,0 +1,156 @@
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 20px;
+  gap: 20px;
+}
+
+.card {
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 30%;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  justify-content: flex-start;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-body p {
+  margin: 10px 0 0 0;
+}
+
+.icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.card:nth-child(1),
+.card:nth-child(2),
+.card:nth-child(3),
+.card:nth-child(4) {
+  background-color: #ffffff;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.products-lists {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.least-stock-products,
+.top-selling-products {
+  width: 48%;
+}
+
+.least-stock-products ul,
+.top-selling-products ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.least-stock-products li,
+.top-selling-products li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  gap: 10px;
+  transition: transform 0.3s;
+}
+
+.least-stock-products li:hover,
+.top-selling-products li:hover {
+  transform: translateY(-5px);
+}
+
+.least-stock-products img,
+.top-selling-products img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .card {
+    width: 48%;
+  }
+
+  .least-stock-products,
+  .top-selling-products {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+
+  .products-lists {
+    flex-direction: column;
+  }
+
+  .least-stock-products,
+  .top-selling-products {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    width: 100%;
+  }
+
+  .products-lists {
+    flex-direction: column;
+  }
+
+  .least-stock-products,
+  .top-selling-products {
+    width: 100%;
+  }
+
+  .icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .card-header p {
+    font-size: 16px;
+  }
+
+  .card-body p {
+    font-size: 20px;
+  }
+}

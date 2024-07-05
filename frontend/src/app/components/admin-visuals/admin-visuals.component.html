@@ -1,1 +1,87 @@
-<p>admin-visuals works!</p>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
+
+<div class="stats">
+  <div class="card" style="background-color: #ffffff;">
+    <div>
+      <div class="card-header">
+        <p style="font-size: 18px;">Total Users</p>
+      </div>
+      <div class="card-body">
+        <p style="color: #000000; font-size: 25px;">{{ totalUsers }}</p>
+      </div>
+    </div>
+    <div class="icon">
+      <img src="/assets/icons/users.png" alt="">
+    </div>
+  </div>
+
+  <div style="background-color: #ffffff;" class="card">
+    <div>
+      <div class="card-header">
+        <p>Total Products</p>
+      </div>
+      <div class="card-body">
+        <p style="color: #000000; font-size: 25px;">{{ totalProducts }}</p>
+      </div>
+    </div>
+    <div class="icon">
+      <img src="/assets/icons/suit.png" alt="">
+    </div>
+  </div>
+
+  <div style="background-color: #ffffff;" class="card">
+    <div>
+      <div class="card-header">
+        <p>Categories</p>
+      </div>
+      <div class="card-body">
+        <p style="color: #000000; font-size: 25px;">{{ totalCategories }}</p>
+      </div>
+    </div>
+    <div class="icon">
+      <img src="/assets/icons/categories.png" alt="">
+    </div>
+  </div>
+
+  <div style="background-color: #ffffff;" class="card">
+    <div>
+      <div class="card-header">
+        <p>Total Products Sold</p>
+      </div>
+      <div class="card-body">
+        <p style="color: hsl(0, 0%, 0%); font-size: 25px;">{{ totalProductsSold }}</p>
+      </div>
+    </div>
+    <div class="icon">
+      <img src="/assets/icons/sold.png" alt="">
+    </div>
+  </div>
+</div>
+
+<div class="products-lists">
+  <div class="least-stock-products">
+    <h3>Ten Least Stock Products</h3>
+    <ul>
+      <li *ngFor="let product of tenLeastStockProducts" class="card">
+        <img [src]="product.images[0]" alt="{{ product.name }}" />
+        <div>
+          <p>{{ product.name }} - {{ product.quantity }} in stock</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="top-selling-products">
+    <h3>Top Ten Selling Products</h3>
+    <ul>
+      <li *ngFor="let product of topTenSellingProducts" class="card">
+        <img [src]="product.images[0]" alt="{{ product.name }}" />
+        <div>
+          <p>{{ product.name }} - Sold {{ product.quantity }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

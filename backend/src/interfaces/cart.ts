@@ -1,4 +1,4 @@
-import { Product } from "./product";
+import { Product, ProductImagesArray } from "./product";
 
 export interface CartItem {
   id: string;
@@ -11,6 +11,6 @@ export interface CartItem {
 
 export interface Cart {
   id: string;
-  product: Product;
+  product: ProductImagesArray | Product;
   productNumber: number;
 }

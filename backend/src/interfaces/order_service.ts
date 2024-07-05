@@ -1,11 +1,12 @@
-import { Order } from "./order";
+import { Order, Orders } from "./order";
 import { Res } from "./res";
 
 export interface OrderServices {
   createOrder(userId: string): Promise<Res<null>>;
-  getAllOrders(): Promise<Res<Order[] | null>>;
-  getCompletedOrders(): Promise<Res<Order[] | null>>;
-  getIncompleteOrders(): Promise<Res<Order[] | null>>;
-  getOrdersByProductId(productId: string): Promise<Res<Order[] | null>>;
-  getOrdersByUserId(userId: string): Promise<Res<Order[] | null>>;
+  updateOrder(userId: string, id: string): Promise<Res<null>>;
+  getAllOrders(): Promise<Res<Orders[] | null>>;
+  getCompletedOrders(): Promise<Res<Orders[] | null>>;
+  getIncompleteOrders(): Promise<Res<Orders[] | null>>;
+  getOrdersByProductId(productId: string): Promise<Res<Orders[] | null>>;
+  getOrdersByUserId(userId: string): Promise<Res<Orders[] | null>>;
 }

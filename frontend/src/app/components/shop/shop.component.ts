@@ -2,22 +2,42 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../interfaces/product';
+import { Router, RouterLink } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { CartItem } from '../../interfaces/cart';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, LoadingComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.css'
 })
 
 export class ShopComponent {
+  loading: boolean = true;
   minPrice: number = 500;
   maxPrice: number = 100000;
   progressWidth: string = '0%';
+  products: Product[] = [];
 
-  constructor() {
+  constructor(private productService: ProductService, private router: Router) {
     this.updateProgressWidth();
+    this.productService.getAllProducts().subscribe(response => {
+      console.log(response);
+      if (response.success && response.data) {
+        this.products = response.data;
+      }
+    });
+  }
+  ngOnInit() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+
   }
   updatePriceRange(): void {
     if (this.minPrice > this.maxPrice) {
@@ -34,4 +54,8 @@ export class ShopComponent {
     this.progressWidth = `${progressPercentage}%`;
   }
 
+  viewProduct(id: string): void {
+    this.router.navigate(['/product', id]);
+    console.log("Product Id:" + id);
+  }
 }

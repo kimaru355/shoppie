@@ -1,9 +1,12 @@
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
+</div>
+
 <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
 
 <table>
   <thead>
     <tr>
-      <th>Client Profile</th>
       <th>Name</th>
       <th>Product</th>
       <th>Date</th>
@@ -15,33 +18,57 @@
   </thead>
   <tbody>
     <tr *ngFor="let order of orders">
-      <td><img [src]="order.clientProfile" alt="Client Profile" class="client-profile"></td>
-      <td>{{ order.name }}</td>
-      <td>{{ order.product }}</td>
-      <td>{{ order.date }}</td>
+      <td>{{ order.user.name }}</td>
+      <td>{{ order.product.name }}</td>
+      <td>{{ order.createdAt }}</td>
       <td>
-        <span [ngClass]="{'delivered': order.status === 'delivered', 'pending': order.status === 'pending'}">
-          {{ order.status }}
+        <span [ngClass]="{'delivered': order?.isOrderCompleted, 'pending': !order?.isOrderCompleted}">
+          {{ order?.isOrderCompleted ? 'Delivered' : 'Pending' }}
         </span>
       </td>
-      <td>{{ order.quantity }}</td>
-      <td>{{ order.amountPaid }}</td>
+      <td>{{ order.productNumber }}</td>
+      <td>{{ order.product.price * order.productNumber }}</td>
       <td class="action-buttons">
         <button class="icon-btn more-actions">
           <img src="/assets/icons/actions.png" alt="More actions">
         </button>
         <div class="dropdown-actions">
-          <button class="icon-btn view-details">
+          <button class="icon-btn view-details" (click)="showPopup(order)">
             <img src="/assets/icons/search.gif" alt="View details">
             <span>View Details</span>
           </button>
+
           <button class="icon-btn set-delivered">
             <img src="/assets/icons/delivery.png" alt="Set to delivered">
-            <span>Set to Delivered</span>
+            <span>Complete Delivery</span>
           </button>
         </div>
       </td>
-
     </tr>
   </tbody>
 </table>
+
+<!-- Popup element to view order details -->
+<div class="overlay" *ngIf="selectedOrder" (click)="closePopup()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closePopup()">×</button>
+    <div class="popup-content">
+      <div class="profile-section">
+        <h2>{{ selectedOrder.user.name }}</h2>
+      </div>
+      <div class="product-section">
+        <h3>{{ selectedOrder.product.name }}</h3>
+      </div>
+      <div class="details-section">
+        <p><strong>Quantity:</strong> {{ selectedOrder.productNumber }}</p>
+        <p><strong>Status:</strong>
+          <span [ngClass]="{'delivered': selectedOrder.isOrderCompleted, 'pending': !selectedOrder.isOrderCompleted}">
+            {{ selectedOrder.isOrderCompleted ? 'Delivered' : 'Pending' }}
+          </span>
+        </p>
+        <p><strong>Amount Paid:</strong> {{ selectedOrder.product.price * selectedOrder.productNumber }}</p>
+        <p><strong>Date of Purchase:</strong> {{ selectedOrder.createdAt }}</p>
+      </div>
+    </div>
+  </div>
+</div>

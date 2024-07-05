@@ -12,7 +12,6 @@ export class CartService implements CartServices {
       const product: Product | null = await this.prisma.product.findUnique({
         where: {
           id: cartItem.productId,
-          isDeleted: false,
         },
       });
       if (!product) {

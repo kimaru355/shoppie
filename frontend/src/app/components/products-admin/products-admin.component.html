@@ -1,19 +1,12 @@
-<div class="addproducts">
-  <button class="buttonAdd">
-    <div class="icon">
-      <img height="22px" src="/assets/icons/add.png" alt="">
-    </div>
-    <div class="addtxt">
-      <p>ADD NEW PRODUCT</p>
-    </div>
-  </button>
+<div *ngIf="loading" class="overlay">
+  <app-loading></app-loading>
 </div>
-
+<app-message *ngIf="message" [message]="message" [messageType]="messageType"></app-message>
 <div class="products">
   <div class="product" *ngFor="let product of products">
     <div class="div1">
       <div class="img">
-        <img [src]="product.image" [alt]="product.name" style="height: 80px;">
+        <img [src]="product.images[0]" [alt]="product.name" style="height: 80px;">
       </div>
       <div class="details">
         <p style="font-size: 16px; font-weight: 300;" class="productName">{{ product.name }}</p>
@@ -25,10 +18,10 @@
           <img height="20px" src="/assets/icons/more.png" alt="">
         </button>
         <div class="dropdown">
-          <button class="edit">
+          <button class="edit" (click)="handleEditClick(product)">
             <img height="20px" src="/assets/icons/edit.png" alt="">
           </button>
-          <button class="delete">
+          <button class="delete" (click)="handleDeleteClick(product.id)">
             <img height="20px" src="/assets/icons/delete.png" alt="">
           </button>
         </div>
@@ -44,11 +37,11 @@
     </div>
     <div class="div3">
       <div class="remaning">
-        Remaining Products ({{ product.remainingProducts }})
+        Remaining Products ({{ product.quantity }})
       </div>
       <div class="remainingProgressBar">
         <div class="progress-container">
-          <div class="progress-bar" [style.width.%]="(product.remainingProducts / product.totalProducts) * 100"></div>
+          <div class="progress-bar" [style.width.%]="(product.quantity / product.stockLimit) * 100"></div>
         </div>
       </div>
     </div>

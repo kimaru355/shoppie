@@ -1,11 +1,13 @@
 import { v4 } from "uuid";
 import { OrderService } from "../services/order.service";
 import { Request, Response } from "express";
-import { Order } from "../interfaces/order";
+import { Order, Orders } from "../interfaces/order";
 import { Res } from "../interfaces/res";
 import { getIdFromToken } from "../helpers/get_id_from_token";
 import { Cart, CartItem } from "../interfaces/cart";
 import { CartService } from "../services/cart.service";
+import { UsersService } from "../services/users.service";
+import { sendOrderPlacedEmail } from "../background-services/mailer";
 
 export const createOrder = async (
   req: Request,
@@ -20,9 +22,56 @@ export const createOrder = async (
       data: null,
     });
   }
+  const cartService = new CartService();
+  const cartResponse = await cartService.getCart(userId);
   const response: Res<null> = await orderService.createOrder(userId);
   if (response.success) {
+    const usersService = new UsersService();
+    const userDetailsResponse = await usersService.getUser(userId);
+    if (
+      !cartResponse.success ||
+      !cartResponse.data ||
+      !userDetailsResponse.success ||
+      !userDetailsResponse.data
+    ) {
+      return res.status(201).json(response);
+    }
+    sendOrderPlacedEmail(
+      userDetailsResponse.data.email,
+      userDetailsResponse.data.name.split(" ")[0],
+      cartResponse.data
+    );
     return res.status(201).json(response);
+  } else if (response.message !== "An error occurred") {
+    return res.status(200).json(response);
+  }
+  return res.status(200).json(response);
+};
+
+export const updateOrder = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  const orderService = new OrderService();
+  const userId = getIdFromToken(req);
+  if (!userId) {
+    return res.status(200).json({
+      success: false,
+      message: "Unauthorized",
+      data: null,
+    });
+  }
+  const id = req.params.id;
+  if (!id) {
+    return res.status(200).json({
+      success: false,
+      message: "Invalid data",
+      data: null,
+    });
+  }
+  const response: Res<null> = await orderService.updateOrder(userId, id);
+  if (response.success) {
+    return res.status(200).json(response);
   } else if (response.message !== "An error occurred") {
     return res.status(200).json(response);
   }
@@ -34,8 +83,13 @@ export const getAllOrders = async (
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
-  const response: Res<Order[] | null> = await orderService.getAllOrders();
-  if (response.success) {
+  const response: Res<Orders[] | null> = await orderService.getAllOrders();
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images = order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
@@ -48,8 +102,14 @@ export const getCompletedOrders = async (
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
-  const response: Res<Order[] | null> = await orderService.getCompletedOrders();
-  if (response.success) {
+  const response: Res<Orders[] | null> =
+    await orderService.getCompletedOrders();
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
@@ -62,9 +122,14 @@ export const getIncompleteOrders = async (
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
-  const response: Res<Order[] | null> =
+  const response: Res<Orders[] | null> =
     await orderService.getIncompleteOrders();
-  if (response.success) {
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
@@ -78,10 +143,14 @@ export const getOrdersByProductId = async (
 ): Promise<Response> => {
   const orderService = new OrderService();
   const productId = req.params.productId;
-  const response: Res<Order[] | null> = await orderService.getOrdersByProductId(
-    productId
-  );
-  if (response.success) {
+  const response: Res<Orders[] | null> =
+    await orderService.getOrdersByProductId(productId);
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
@@ -102,10 +171,15 @@ export const getOrdersByUserId = async (
       data: null,
     });
   }
-  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
+  const response: Res<Orders[] | null> = await orderService.getOrdersByUserId(
     userId
   );
-  if (response.success) {
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
@@ -126,10 +200,15 @@ export const getUserOrders = async (
       data: null,
     });
   }
-  const response: Res<Order[] | null> = await orderService.getOrdersByUserId(
+  const response: Res<Orders[] | null> = await orderService.getOrdersByUserId(
     userId
   );
-  if (response.success) {
+  if (response.success && response.data) {
+    response.data.forEach((order) => {
+      if (typeof order.product.images === "string") {
+        order.product.images.split(":::::");
+      }
+    });
     return res.status(200).json(response);
   } else if (response.message !== "An Error Occurred") {
     return res.status(200).json(response);
