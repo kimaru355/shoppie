@@ -69,6 +69,11 @@ export class CartComponent {
 
   deleteCartItem(id: string) {
     this.cartService.deleteFromCart(id).subscribe((res) => {
+      if (!res.success) {
+        this.showMessage(res.message, 'error');
+        return;
+      }
+      this.showMessage(res.message, 'success');
       this.cartItems = [];
       this.getCartItems();
     });
@@ -81,6 +86,7 @@ export class CartComponent {
         return;
       }
       this.showMessage(res.message, 'success');
+      this.getCartItems();
     });
   }
   showMessage(message: string, type: 'success' | 'error'): void {
