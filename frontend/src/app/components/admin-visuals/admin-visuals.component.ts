@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [LoadingComponent, CommonModule],
   templateUrl: './admin-visuals.component.html',
-  styleUrls: ['./admin-visuals.component.css']
+  styleUrls: ['./admin-visuals.component.css'],
 })
 export class AdminVisualsComponent implements OnInit {
   totalUsers: number = 0;
@@ -29,11 +29,7 @@ export class AdminVisualsComponent implements OnInit {
   }
 
   getAnalytics() {
-    console.log('Getting analytics');
-
-    this.analyticService.getAnalytics().subscribe(response => {
-      console.log(response);
-
+    this.analyticService.getAnalytics().subscribe((response) => {
       if (response.success && response.data) {
         this.totalUsers = response.data.totalUsers;
         this.totalProducts = response.data.totalProducts;

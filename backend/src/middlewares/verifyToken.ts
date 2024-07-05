@@ -7,9 +7,10 @@ export const verifyToken = (
   next: NextFunction
 ) => {
   const token = req.headers["authorization"];
+
   if (!token) {
     return res
-      .status(401)
+      .status(200)
       .json({ success: false, message: "Access denied", data: null });
   }
   try {

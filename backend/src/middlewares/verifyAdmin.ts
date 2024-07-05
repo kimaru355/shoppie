@@ -22,7 +22,7 @@ export const verifyAdmin = async (
     return res.status(200).json(response);
   }
   if (!response.data) {
-    return res.status(403).json({
+    return res.status(200).json({
       success: false,
       message: "Forbidden",
       data: null,

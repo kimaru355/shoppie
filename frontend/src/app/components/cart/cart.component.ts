@@ -5,11 +5,18 @@ import { CartService } from '../../services/cart.service';
 import { OrderService } from '../../services/order.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { CommonModule } from '@angular/common';
+import { MessageComponent } from '../message/message.component';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [NavbarComponent, LoadingComponent, CommonModule, CommonModule],
+  imports: [
+    NavbarComponent,
+    LoadingComponent,
+    CommonModule,
+    CommonModule,
+    MessageComponent,
+  ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -21,6 +28,8 @@ export class CartComponent {
   deliveryFee: number = 0;
   total: number = 0;
   loading: boolean = true;
+  message: string | null = null;
+  messageType: 'success' | 'error' | undefined;
 
   ngOnInit() {
     setTimeout(() => {
@@ -48,17 +57,10 @@ export class CartComponent {
 
   getCartItems() {
     this.cartService.getCart().subscribe((res) => {
-      console.log(res.data);
-      console.log('Log length: ');
-
       this.cartItems = res.data as Cart[];
       localStorage.setItem('cart_count', `${this.cartItems.length}`);
 
       for (let item of this.cartItems) {
-        console.log(
-          `here iam: ${typeof (item.product.price * item.productNumber)}`
-        );
-
         this.subtotal += item.product.price * item.productNumber;
       }
       this.getDiscountAndDeliveryFee();
@@ -67,16 +69,29 @@ export class CartComponent {
 
   deleteCartItem(id: string) {
     this.cartService.deleteFromCart(id).subscribe((res) => {
-      console.log(res);
       this.cartItems = [];
       this.getCartItems();
     });
   }
 
   setOrder() {
-    console.log('checkout works');
     this.orderService.createOrder().subscribe((res) => {
-      console.log(res.message);
+      if (!res.success) {
+        this.showMessage(res.message, 'error');
+        return;
+      }
+      this.showMessage(res.message, 'success');
     });
+  }
+  showMessage(message: string, type: 'success' | 'error'): void {
+    this.message = message;
+    this.messageType = type;
+    setTimeout(() => {
+      this.clearMessage();
+    }, 2000);
+  }
+  clearMessage(): void {
+    this.message = null;
+    this.messageType = undefined;
   }
 }

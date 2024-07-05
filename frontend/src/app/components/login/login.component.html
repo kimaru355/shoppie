@@ -1,11 +1,17 @@
 <div *ngIf="loading" class="overlay">
   <app-loading></app-loading>
 </div>
-<app-message *ngIf="message" [message]="message" [messageType]="messageType"></app-message>
+<app-message
+  *ngIf="message"
+  [message]="message"
+  [messageType]="messageType"
+></app-message>
 <head>
-
   <head>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
 </head>
 
@@ -13,12 +19,20 @@
   <app-navbar></app-navbar>
   <div class="login">
     <div class="form-container">
-      <h2 style="text-align: start; font-weight: 500;">EXISTING MEMBER</h2>
-      <p style="text-align: start; margin-bottom: 30px;">Welcome Back!</p>
+      <h2 style="text-align: start; font-weight: 500">EXISTING MEMBER</h2>
+      <p style="text-align: start; margin-bottom: 30px">Welcome Back!</p>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <input type="email" formControlName="email" placeholder="Enter your email" required>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          required
+        />
         <div *ngIf="email && email.invalid && (email.dirty || email.touched)">
-          <div style="font-size: small; color: rgb(255, 81, 81)" *ngIf="email.errors?.['required']">
+          <div
+            style="font-size: small; color: rgb(255, 81, 81)"
+            *ngIf="email.errors?.['required']"
+          >
             Email is required.
           </div>
           <div *ngIf="email.errors?.['email']">
@@ -26,20 +40,43 @@
           </div>
         </div>
 
-        <input type="password" formControlName="password" placeholder="Enter your password" required>
-        <div *ngIf="password && password.invalid && (password.dirty || password.touched)">
-          <div style="font-size: small; color: rgb(255, 81, 81)" *ngIf="password.errors?.['required']">
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          required
+        />
+        <div
+          *ngIf="
+            password && password.invalid && (password.dirty || password.touched)
+          "
+        >
+          <div
+            style="font-size: small; color: rgb(255, 81, 81)"
+            *ngIf="password.errors?.['required']"
+          >
             Password is required.
           </div>
         </div>
 
         <button type="submit" [disabled]="loginForm.invalid">Login</button>
       </form>
-      <a>Don't have an account? Register Now</a>
+      <a
+        >Don't have an account?
+        <button routerLink="/signup">Register Now</button></a
+      >
     </div>
-    <P style="color :white; position: absolute; margin-right: -1250px; margin-bottom: -300px; ">FOR Men By Men</P>
+    <P
+      style="
+        color: white;
+        position: absolute;
+        margin-right: -1250px;
+        margin-bottom: -300px;
+      "
+      >FOR Men By Men</P
+    >
     <video autoplay muted loop id="backgroundVideo">
-      <source src="/assets/mp4/mensuits.mp4" type="video/mp4">
+      <source src="/assets/mp4/mensuits.mp4" type="video/mp4" />
     </video>
   </div>
 </body>

@@ -7,14 +7,14 @@ import { CartService } from '../../services/cart.service';
 import { Cart } from '../../interfaces/cart';
 import { CommonModule } from '@angular/common';
 import { LoadingComponent } from '../loading/loading.component';
-
+import { MessageComponent } from '../message/message.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [NavbarComponent, CommonModule, LoadingComponent],
+  imports: [NavbarComponent, CommonModule, LoadingComponent, MessageComponent],
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css'
+  styleUrl: './product.component.css',
 })
 export class ProductComponent implements OnInit {
   cartItems!: Cart[];
@@ -22,19 +22,21 @@ export class ProductComponent implements OnInit {
   product: Product | null = null;
   quantity = 1;
   cartItem: string = localStorage.getItem('productId') as string;
+  message: string | null = null;
+  messageType: 'success' | 'error' | undefined;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService, private cartService: CartService
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     const productId = this.route.snapshot.paramMap.get('id');
     if (productId) {
-      console.log("Product id:p",productId);
-      this.productService.getProduct(productId).subscribe(response => {
+      this.productService.getProduct(productId).subscribe((response) => {
         if (response.success && response.data) {
-          console.log("Product:p",response.data);
           this.product = response.data;
-          console.log("Product:",this.product);
         }
       });
     }
@@ -51,20 +53,31 @@ export class ProductComponent implements OnInit {
 
   addToCart(productId: string) {
     this.getCartItems();
-    console.log("This is the product id selected:" + productId);
-    this.cartService.addToCart({ productId: productId, productNumber: this.quantity }).subscribe(res => {
-      console.log(res);
-    });
+    this.cartService
+      .addToCart({ productId: productId, productNumber: this.quantity })
+      .subscribe((res) => {
+        if (!res.success) {
+          this.showMessage(res.message, 'error');
+          return;
+        }
+        this.showMessage(res.message, 'success');
+      });
   }
   getCartItems() {
-    this.cartService.getCart().subscribe(res => {
-      console.log(res.data);
-      console.log("Log length: ");
-
-      this.cartItems = (res.data) as Cart[];
+    this.cartService.getCart().subscribe((res) => {
+      this.cartItems = res.data as Cart[];
       localStorage.setItem('cart_tally', `${this.cartItems.length}`);
-
-
-    })
+    });
+  }
+  showMessage(message: string, type: 'success' | 'error'): void {
+    this.message = message;
+    this.messageType = type;
+    setTimeout(() => {
+      this.clearMessage();
+    }, 2000);
+  }
+  clearMessage(): void {
+    this.message = null;
+    this.messageType = undefined;
   }
 }

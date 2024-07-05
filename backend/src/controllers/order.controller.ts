@@ -14,6 +14,8 @@ export const createOrder = async (
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
+  const token = req.params.token;
+  req.headers.authorization = token;
   const userId = getIdFromToken(req);
   if (!userId) {
     return res.status(200).json({

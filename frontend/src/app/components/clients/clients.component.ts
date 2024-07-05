@@ -25,9 +25,7 @@ export class ClientsComponent implements OnInit {
   ) {
     this.userService.getUserDetails().subscribe((res) => {
       if (res.data) {
-        console.log('User details:', res.data);
       } else {
-        console.log('No user details received');
       }
     });
   }
@@ -42,17 +40,12 @@ export class ClientsComponent implements OnInit {
   loadClients() {
     this.usersService.getUsers().subscribe({
       next: (response) => {
-        console.log('Full response:', response); // Log the entire response
         if (response && response.data) {
           this.clients = response.data;
-          console.log('Clients:', this.clients);
         } else {
-          console.log('No data received');
         }
       },
-      error: (error) => {
-        console.error('Error fetching clients:', error);
-      },
+      error: (error) => {},
     });
   }
 
@@ -63,7 +56,6 @@ export class ClientsComponent implements OnInit {
           this.selectedUser = response.data;
           this.showUserDetailsModal();
         } else {
-          console.log('No user data received');
         }
       },
       error: (error) => console.error('Error fetching user details:', error),
@@ -73,9 +65,7 @@ export class ClientsComponent implements OnInit {
     this.selectedUser = null;
   }
 
-  showUserDetailsModal() {
-    console.log('Showing user details modal for:', this.selectedUser);
-  }
+  showUserDetailsModal() {}
   showPopup(client: User) {
     this.selectedClient = client;
   }

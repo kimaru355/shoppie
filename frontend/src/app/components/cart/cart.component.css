@@ -1,49 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
 body {
-  font-family: 'Abel', sans-serif;
+  font-family: "Abel", sans-serif;
   padding: 0;
   box-sizing: border-box;
 }
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Abel', sans-serif;
-
+  font-family: "Abel", sans-serif;
 }
 
-main{
-
+main {
   margin-left: 60px;
   /* background-color: aquamarine; */
 }
 
-.dir{
+.dir {
   margin: 20px 0;
 }
 
-.container{
+.container {
   display: flex;
   gap: 30px;
 }
 
-
-.cartTop{
+.cartTop {
   display: flex;
   align-items: center;
   margin: 20px;
   font-size: 25px;
 }
 
-.cartItems{
+.cartItems {
   padding: 20px;
   border: 1px solid #cdcdcd;
   width: 43vw;
   border-radius: 25px;
 }
 
-.productView{
+.productView {
   display: flex;
   padding: 20px;
   /* background-color: red; */
@@ -51,27 +48,24 @@ main{
   border-bottom: 1px solid #cdcdcd;
 }
 
-.details{
+.details {
   width: 100%;
 }
 
-
-
-
-.topDelete{
+.topDelete {
   display: flex;
   justify-content: space-between;
   transition: all 0.3s ease;
 }
-.delete img:hover{
+.delete img:hover {
   transform: scale(1.1);
   cursor: pointer;
   /* box-shadow: 0 0 30px rgba(126, 126, 126, 0.617); */
 }
-.size{
+.size {
   margin: 10px 0;
 }
-.price{
+.price {
   font-size: 20px;
   display: flex;
   justify-content: space-between;
@@ -84,26 +78,27 @@ main{
   font-size: 15px;
   padding: 5px;
   gap: 20px;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   border-radius: 50px;
-
 }
-.decrement, .increment {
+.decrement,
+.increment {
   padding: 6px 10px;
   font-size: 15px;
   border-radius: 100%;
   background-color: transparent;
 }
-.decrement:hover, .increment:hover{
+.decrement:hover,
+.increment:hover {
   background-color: rgb(255, 255, 255);
   box-shadow: 0 0 30px rgba(126, 126, 126, 0.617);
 }
 
-span{
+span {
   cursor: pointer;
 }
 
-.orderSummary{
+.orderSummary {
   width: 100%;
   padding: 20px;
   border: 1px solid #cdcdcd;
@@ -111,37 +106,39 @@ span{
   height: fit-content;
 }
 
-.txtSummary{
+.txtSummary {
   font-size: 20px;
   padding: 10px;
   border-bottom: 1px solid #cdcdcd;
   margin: 20px 10px;
 }
 
-.parent{
+.parent {
   display: flex;
   justify-content: space-between;
   margin: 10px;
-
 }
 
-.key{
+.key {
   font-size: 19px;
-
 }
-.discount{
+.discount {
   color: red;
 }
 
-.keyp, .amntT{
+.keyp,
+.amntT {
   font-size: 24px;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   justify-content: center;
 }
-.checkout{
+.buttonContainer:hover {
+  cursor: pointer;
+}
+.checkout {
   background-color: black;
   color: white;
   display: flex;
@@ -152,7 +149,7 @@ span{
   gap: 10px;
 }
 
-.checkout:hover{
+.checkout:hover {
   background-color: rgb(29, 29, 29);
   box-shadow: 0 0 30px rgba(126, 126, 126, 0.617);
 }
@@ -165,4 +162,3 @@ span{
   background-color: rgba(0, 0, 0, 0.5); /* Example background */
   z-index: 1000; /* Ensure it's above other content */
 }
-

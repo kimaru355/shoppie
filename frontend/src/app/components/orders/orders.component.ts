@@ -51,9 +51,7 @@ export class OrdersComponent implements OnInit {
   }
 
   updateOrder(order: Order) {
-    console.log('updateOrder');
     if (!order) {
-      console.log('No order selected');
       return;
     }
 
@@ -62,7 +60,6 @@ export class OrdersComponent implements OnInit {
         next: (response) => {
           if (response.success) {
             this.showMessage('Order updated successfully', 'success');
-            console.log('Order updated successfully:', response);
 
             this.getOrders();
           } else {

@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-  createOrder,
   getAllOrders,
   getOrdersByProductId,
   getOrdersByUserId,
@@ -13,7 +12,6 @@ import { verifyAdmin } from "../middlewares/verifyAdmin";
 
 const OrderRouter = Router();
 
-OrderRouter.post("/create", createOrder);
 OrderRouter.put("/update", verifyAdmin, updateOrder);
 OrderRouter.get("/complete", verifyAdmin, getCompletedOrders);
 OrderRouter.get("/incomplete", verifyAdmin, getIncompleteOrders);

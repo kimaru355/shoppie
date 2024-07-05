@@ -19,7 +19,13 @@ import { MessageComponent } from '../message/message.component';
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, FileToUmageUrlPipe, LoadingComponent, MessageComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FileToUmageUrlPipe,
+    LoadingComponent,
+    MessageComponent,
+  ],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'],
 })
@@ -48,9 +54,7 @@ export class FormComponent implements OnInit, OnDestroy {
     private productService: ProductService
   ) {}
 
-  ngOnDestroy(): void {
-    
-  }
+  ngOnDestroy(): void {}
 
   ngOnInit(): void {
     this.initializeDropzone();
@@ -127,7 +131,6 @@ export class FormComponent implements OnInit, OnDestroy {
             next: (response) => {
               if (response.success) {
                 this.showMessage('Product created successfully', 'success');
-                console.log('Product created', response);
               } else {
                 this.showMessage(response.message || 'Unknown error', 'error');
                 console.error('Error creating product', response);
@@ -143,7 +146,6 @@ export class FormComponent implements OnInit, OnDestroy {
             next: (response) => {
               if (response.success) {
                 this.showMessage('Product updated successfully', 'success');
-                console.log('Product updated', response);
               } else {
                 this.showMessage(response.message || 'Unknown error', 'error');
                 console.error('Error updating product', response);
@@ -155,8 +157,6 @@ export class FormComponent implements OnInit, OnDestroy {
             },
           });
         }
-
-        console.log('Form submitted with data:', productData);
       })
       .catch((error) => {
         this.showMessage('Error uploading files', 'error');

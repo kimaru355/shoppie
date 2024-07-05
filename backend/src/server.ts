@@ -12,6 +12,7 @@ import { verifyAdmin } from "./middlewares/verifyAdmin";
 import UserRouter from "./routers/user.router";
 import CartRouter from "./routers/cart.router";
 import AnalyticRouter from "./routers/analytic.router";
+import { createOrder } from "./controllers/order.controller";
 
 dotenv.config();
 const app = express();
@@ -43,7 +44,8 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use("/auth", AuthRouter);
-app.use("/orders", verifyToken, OrderRouter);
+app.post("/orders/create/:token", createOrder);
+app.use("/orders", verifyToken, verifyAdmin, OrderRouter);
 app.use("/cart", verifyToken, CartRouter);
 app.use("/reviews", ReviewRouter);
 app.use("/products", ProductRouter);

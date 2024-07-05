@@ -10,11 +10,16 @@ import { LoadingComponent } from '../loading/loading.component';
 @Component({
   selector: 'app-shop',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent, RouterLink, LoadingComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NavbarComponent,
+    RouterLink,
+    LoadingComponent,
+  ],
   templateUrl: './shop.component.html',
-  styleUrl: './shop.component.css'
+  styleUrl: './shop.component.css',
 })
-
 export class ShopComponent {
   loading: boolean = true;
   minPrice: number = 500;
@@ -24,8 +29,7 @@ export class ShopComponent {
 
   constructor(private productService: ProductService, private router: Router) {
     this.updateProgressWidth();
-    this.productService.getAllProducts().subscribe(response => {
-      console.log(response);
+    this.productService.getAllProducts().subscribe((response) => {
       if (response.success && response.data) {
         this.products = response.data;
       }
@@ -35,7 +39,6 @@ export class ShopComponent {
     setTimeout(() => {
       this.loading = false;
     }, 1500);
-
   }
   updatePriceRange(): void {
     if (this.minPrice > this.maxPrice) {
@@ -58,10 +61,9 @@ export class ShopComponent {
   }
 
   getProductByType(productName: string) {
-    this.productService.getProductsByName(productName).subscribe(res => {
-      console.log(res);
+    this.productService.getProductsByName(productName).subscribe((res) => {
       this.products = [];
       this.products = res.data as Product[];
-    })
+    });
   }
 }

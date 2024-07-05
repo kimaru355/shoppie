@@ -1,6 +1,13 @@
+<link
+  href="https://fonts.googleapis.com/css2?family=Abel&display=swap"
+  rel="stylesheet"
+/>
 
-  <link href="https://fonts.googleapis.com/css2?family=Abel&display=swap" rel="stylesheet">
-
+<app-message
+  *ngIf="message"
+  [message]="message"
+  [messageType]="messageType"
+></app-message>
 
 <body>
   <div *ngIf="loading" class="overlay">
@@ -11,90 +18,92 @@
     <div class="dir">
       <span>Home</span> > <span>Shop</span> > <span>Cart</span>
       <div class="cartTop">
-        <div class="ctxt">
-          Your Cart
-        </div>
+        <div class="ctxt">Your Cart</div>
         <div class="cartIcon">
-          <img style="height: 30px;" src="/assets/icons/cartcart.png" alt="">
+          <img style="height: 30px" src="/assets/icons/cartcart.png" alt="" />
         </div>
       </div>
       <div class="container">
-
-      <div class="cartItems">
-
-        <!-- One Product -->
-        <div class="productView" *ngFor="let cart_item of cartItems">
-          <div class="image">
-            <img style="height:120px;"
-              [src]="cart_item.product.images"
-              [alt]="cart_item.product.name">
-          </div>
-          <div class="details">
-            <div class="topDelete">
-              <div class="name">
-                {{cart_item.product.name}}
-              </div>
-              <div class="cartButton">
-                <button (click)="deleteCartItem(cart_item.id)" class="delete">
-                  <img style="height: 30px;" src="/assets/icons/delete.png" alt="">
-                </button>
-              </div>
+        <div class="cartItems">
+          <!-- One Product -->
+          <div class="productView" *ngFor="let cart_item of cartItems">
+            <div class="image">
+              <img
+                style="height: 120px"
+                [src]="cart_item.product.images"
+                [alt]="cart_item.product.name"
+              />
             </div>
-
-            <div class="size">
-              Size: {{cart_item.product.size}}
-            </div>
-            <div class="price">
-              <div class="ammount">
-                {{cart_item.product.price | currency:"Ksh. "}}
+            <div class="details">
+              <div class="topDelete">
+                <div class="name">
+                  {{ cart_item.product.name }}
+                </div>
+                <div class="cartButton">
+                  <button (click)="deleteCartItem(cart_item.id)" class="delete">
+                    <img
+                      style="height: 30px"
+                      src="/assets/icons/delete.png"
+                      alt=""
+                    />
+                  </button>
+                </div>
               </div>
-              <div class="toCart">
-                <div class="amount">
-                  <p style="font-weight: 600;">item(s)</p>
-                  <span style="font-weight: 800;" id="quantity">{{cart_item.productNumber}}</span>
+
+              <div class="size">Size: {{ cart_item.product.size }}</div>
+              <div class="price">
+                <div class="ammount">
+                  {{ cart_item.product.price | currency : "Ksh. " }}
+                </div>
+                <div class="toCart">
+                  <div class="amount">
+                    <p style="font-weight: 600">item(s)</p>
+                    <span style="font-weight: 800" id="quantity">{{
+                      cart_item.productNumber
+                    }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- ?End of inidividual cart item -->
         </div>
-<!-- ?End of inidividual cart item -->
+        <!-- End of cart items -->
+
+        <!-- Satrt of price calculations -->
+        <div class="orderSummary">
+          <div class="txtSummary">Order Summary</div>
+          <div class="parent">
+            <div class="key">Subtotal</div>
+            <div class="amnt">{{ subtotal | currency : "Ksh. " }}</div>
+          </div>
+
+          <div class="parent">
+            <div class="key">Discount</div>
+            <div class="discount">{{ discount | currency : "- " }}</div>
+          </div>
+
+          <div
+            class="parent"
+            style="border-bottom: 1px solid #cdcdcd; padding-bottom: 15px"
+          >
+            <div class="key">Delivery Fee</div>
+            <div class="amnt">{{ deliveryFee | currency : " " }}</div>
+          </div>
+
+          <div class="parent">
+            <div class="keyp">Total</div>
+            <div class="amntT">{{ total | currency : "Ksh. " }}</div>
+          </div>
+
+          <div (click)="setOrder()" class="buttonContainer">
+            <button class="checkout">
+              <div class="textb">Go to Checkout</div>
+              <img src="/assets/icons/checkout.png" alt="" />
+            </button>
+          </div>
+        </div>
       </div>
-      <!-- End of cart items -->
-
-
-      <!-- Satrt of price calculations -->
-       <div class="orderSummary">
-
-        <div class="txtSummary">Order Summary</div>
-        <div class="parent">
-          <div class="key">Subtotal</div>
-          <div class="amnt">{{subtotal | currency:"Ksh. "}}</div>
-        </div>
-
-        <div class="parent">
-          <div class="key">Discount</div>
-          <div class="discount" >{{discount | currency:"- "}}</div>
-        </div>
-
-        <div class="parent" style="border-bottom: 1px solid #cdcdcd; padding-bottom: 15px;">
-          <div class="key">Delivery Fee</div>
-          <div class="amnt">{{deliveryFee | currency:" "}}</div>
-        </div>
-
-        <div class="parent">
-          <div class="keyp">Total</div>
-          <div class="amntT">{{total | currency:"Ksh. "}}</div>
-        </div>
-
-        <div (click)="setOrder()" class="buttonContainer">
-          <button class="checkout">
-            <div class="textb" >Go to Checkout</div>
-            <img src="/assets/icons/checkout.png" alt="">
-          </button>
-        </div>
-       </div>
-      </div>
-
     </div>
   </main>
 </body>
