@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { OrderServices } from '../interfaces/order_service';
 import { Observable } from 'rxjs';
 import { Res } from '../interfaces/res';
-import { Order } from '../interfaces/order';
+import { Order, Orders } from '../interfaces/order';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -54,6 +54,12 @@ export class OrderService implements OrderServices {
         headers: this.headers,
       }
     );
+  }
+
+  getUserOrders(): Observable<Res<Orders[] | null>> {
+    return this.http.get<Res<Orders[] | null>>(`${this.api}/user`, {
+      headers: this.headers,
+    });
   }
 
   getOrdersByUserId(userId: string): Observable<Res<Order[] | null>> {

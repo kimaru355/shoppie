@@ -22,18 +22,15 @@ import { LoadingComponent } from '../loading/loading.component';
 })
 export class ShopComponent {
   loading: boolean = true;
-  minPrice: number = 500;
-  maxPrice: number = 100000;
+  minPrice: number = 0;
+  maxPrice: number = 0;
+  maximumPrice: number = 0;
   progressWidth: string = '0%';
   products: Product[] = [];
 
   constructor(private productService: ProductService, private router: Router) {
     this.updateProgressWidth();
-    this.productService.getAllProducts().subscribe((response) => {
-      if (response.success && response.data) {
-        this.products = response.data;
-      }
-    });
+    this.getAllProducts();
   }
   ngOnInit() {
     setTimeout(() => {
@@ -60,10 +57,53 @@ export class ShopComponent {
     localStorage.setItem('productId', id);
   }
 
+  getAllProducts() {
+    this.productService.getAllProducts().subscribe((response) => {
+      if (response.success && response.data) {
+        this.products = response.data;
+        this.setPriceRange();
+      }
+    });
+  }
+
   getProductByType(productName: string) {
     this.productService.getProductsByName(productName).subscribe((res) => {
-      this.products = [];
-      this.products = res.data as Product[];
+      if (res.success && res.data) {
+        this.products = [];
+        this.products = res.data as Product[];
+        this.setPriceRange();
+      }
     });
+  }
+
+  getProductBySize(productSize: string) {
+    this.productService.getProductsByName(productSize).subscribe((res) => {
+      if (res.success && res.data) {
+        this.products = [];
+        this.products = res.data as Product[];
+        this.setPriceRange();
+      }
+    });
+  }
+
+  getProductByPrice() {
+    this.productService
+      .getProductsByPrice(this.minPrice, this.maxPrice)
+      .subscribe((res) => {
+        if (res.success && res.data) {
+          this.products = [];
+          this.products = res.data as Product[];
+          this.setPriceRange();
+        }
+      });
+  }
+
+  setPriceRange() {
+    this.maximumPrice = Math.max(...this.products.map((p) => p.price));
+    this.maxPrice = this.maximumPrice;
+  }
+
+  resetFilter() {
+    this.getAllProducts();
   }
 }

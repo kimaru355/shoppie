@@ -28,7 +28,8 @@ export class ProductComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +44,6 @@ export class ProductComponent implements OnInit {
     setTimeout(() => {
       this.loading = false;
     }, 1500);
-    this.getCartItems();
   }
 
   changeQuantity(change: number): void {
@@ -52,7 +52,11 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(productId: string) {
-    this.getCartItems();
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.cartService
       .addToCart({ productId: productId, productNumber: this.quantity })
       .subscribe((res) => {
@@ -62,12 +66,6 @@ export class ProductComponent implements OnInit {
         }
         this.showMessage(res.message, 'success');
       });
-  }
-  getCartItems() {
-    this.cartService.getCart().subscribe((res) => {
-      this.cartItems = res.data as Cart[];
-      localStorage.setItem('cart_tally', `${this.cartItems.length}`);
-    });
   }
   showMessage(message: string, type: 'success' | 'error'): void {
     this.message = message;

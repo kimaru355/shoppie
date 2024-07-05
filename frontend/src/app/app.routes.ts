@@ -19,10 +19,9 @@ export const routes: Routes = [
   { path: 'product', component: ProductComponent },
   { path: 'cart', component: CartComponent },
   { path: 'history', component: HistoryComponent },
-  { path: 'favourites', component: FavouritesComponent },
-  {path: 'admin', component: AdminframeComponent},
+  { path: 'orders', component: FavouritesComponent },
+  { path: 'admin', component: AdminframeComponent },
   { path: 'product/:id', component: ProductComponent },
-  {path: 'review', component: ReviewFormComponent},
+  { path: 'review', component: ReviewFormComponent },
   // { path: "visuals", component: AdminVisualsComponent},
-
 ];

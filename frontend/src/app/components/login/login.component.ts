@@ -91,9 +91,9 @@ export class LoginComponent implements OnInit {
           const role = response.data.role;
           setTimeout(() => {
             if (role === 'user') {
-              this.router.navigate(['/shop']);
+              window.location.href = '/shop';
             } else if (role === 'admin') {
-              this.router.navigate(['/admin']);
+              window.location.href = '/admin';
             }
           }, 2100);
         } else {
