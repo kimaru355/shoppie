@@ -5,8 +5,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interfaces/product';
 import { Router, RouterLink } from '@angular/router';
-import { CartService } from '../../services/cart.service';
-import { CartItem } from '../../interfaces/cart';
 import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
@@ -56,6 +54,14 @@ export class ShopComponent {
 
   viewProduct(id: string): void {
     this.router.navigate(['/product', id]);
-    console.log("Product Id:" + id);
+    localStorage.setItem('productId', id);
+  }
+
+  getProductByType(productName: string) {
+    this.productService.getProductsByName(productName).subscribe(res => {
+      console.log(res);
+      this.products = [];
+      this.products = res.data as Product[];
+    })
   }
 }
