@@ -67,7 +67,7 @@ export class AuthService implements AuthServices {
       if (!user) {
         return {
           success: false,
-          message: "Invalid email or passsword",
+          message: "Invalid email or password",
           data: null,
         };
       }

@@ -163,14 +163,14 @@ export const getAllProducts = async (
   return res.status(200).json(response);
 };
 
-export const getProductsByTourType = async (
+export const getProductsByType = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
   const productService = new ProductService();
-  const tourType: string = req.params.tourType;
+  const productType: string = req.params.productType;
   const response: Res<Product[] | null> =
-    await productService.getProductsByType(tourType);
+    await productService.getProductsByType(productType);
   if (response.success && response.data) {
     const updatedResponse: Res<ProductImagesArray[]> = {
       success: response.success,
