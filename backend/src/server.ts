@@ -45,7 +45,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 
 app.use("/auth", AuthRouter);
 app.post("/orders/create/:token", createOrder);
-app.use("/orders", verifyToken, verifyAdmin, OrderRouter);
+app.use("/orders", verifyToken, OrderRouter);
 app.use("/cart", verifyToken, CartRouter);
 app.use("/reviews", ReviewRouter);
 app.use("/products", ProductRouter);

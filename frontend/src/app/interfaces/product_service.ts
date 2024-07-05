@@ -10,5 +10,10 @@ export interface ProductServices {
   getProduct(productId: string): Observable<Res<Product | null>>;
   getAllProducts(): Observable<Res<Product[] | null>>;
   getProductsByType(productType: string): Observable<Res<Product[] | null>>;
+  getProductsBySize(size: string): Observable<Res<Product[] | null>>;
+  getProductsByPrice(
+    min: number,
+    max: number
+  ): Observable<Res<Product[] | null>>;
   getProductsByName(productName: string): Observable<Res<Product[] | null>>;
 }

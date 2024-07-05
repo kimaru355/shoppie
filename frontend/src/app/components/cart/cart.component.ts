@@ -57,6 +57,10 @@ export class CartComponent {
 
   getCartItems() {
     this.cartService.getCart().subscribe((res) => {
+      if (!res.success) {
+        this.cartItems = [];
+        return;
+      }
       this.cartItems = res.data as Cart[];
       localStorage.setItem('cart_count', `${this.cartItems.length}`);
 

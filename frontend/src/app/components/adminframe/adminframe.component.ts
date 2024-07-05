@@ -1,7 +1,7 @@
 import { ClientsComponent } from './../clients/clients.component';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AdminVisualsComponent } from '../admin-visuals/admin-visuals.component';
 import { OrdersComponent } from '../orders/orders.component';
 import { ProductsAdminComponent } from '../products-admin/products-admin.component';
@@ -46,7 +46,7 @@ export class AdminframeComponent {
     this.selectOption('products');
   }
 
-  constructor(private analyticService: AnalyticsService) {
+  constructor(private analyticService: AnalyticsService, private router: Router) {
     this.getAnalytics();
   }
 
@@ -59,5 +59,13 @@ export class AdminframeComponent {
         this.totalEarnings = response.data.totalRevenue;
       }
     });
+  }
+
+  logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('cart_tally');
+    localStorage.removeItem('productId');
+    localStorage.removeItem('cart_count');
+    window.location.href = '/';
   }
 }

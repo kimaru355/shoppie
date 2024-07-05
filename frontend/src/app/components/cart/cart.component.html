@@ -26,7 +26,7 @@
       <div class="container">
         <div class="cartItems">
           <!-- One Product -->
-          <div *ngIf="cartItems.length === 0">
+          <div *ngIf="cartItems && cartItems.length === 0">
             <p>Cart is empty</p>
           </div>
           <div class="productView" *ngFor="let cart_item of cartItems">
@@ -35,6 +35,7 @@
                 style="height: 120px"
                 [src]="cart_item.product.images[0]"
                 [alt]="cart_item.product.name[0]"
+                
               />
             </div>
             <div class="details">

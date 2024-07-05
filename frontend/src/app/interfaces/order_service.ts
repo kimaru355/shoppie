@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Order } from './order';
+import { Order, Orders } from './order';
 import { Res } from './res';
 
 export interface OrderServices {
@@ -9,5 +9,6 @@ export interface OrderServices {
   getCompletedOrders(): Observable<Res<Order[] | null>>;
   getIncompleteOrders(): Observable<Res<Order[] | null>>;
   getOrdersByProductId(productId: string): Observable<Res<Order[] | null>>;
+  getUserOrders(): Observable<Res<Orders[] | null>>;
   getOrdersByUserId(userId: string): Observable<Res<Order[] | null>>;
 }

@@ -1,33 +1,31 @@
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+  @import url("https://fonts.googleapis.com/css2?family=Allerta+Stencil&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Abel&display=swap");
 </style>
 
 <div class="navbar">
   <div class="logo">
-    <p style="font-family: 'Allerta Stencil', sans-serif;">Men'SHOPIE</p>
+    <p style="font-family: 'Allerta Stencil', sans-serif">Men'SHOPIE</p>
   </div>
   <nav>
     <a routerLink="">Home</a>
     <a routerLink="/shop">Start Shopping</a>
-    <a routerLink="/favourites">Wishlist</a>
     <a routerLink="/cart" class="cartNav">
       <div class="navCart">
         <div class="cart-count" *ngIf="cartQuantity">
-          <p [style]="bg_color">{{cartQuantity}}</p>
+          <p [style]="bg_color">{{ cartQuantity }}</p>
         </div>
-        <img style="height: 30px;" src="/assets/icons/cartcart.png" alt="">
+        <img style="height: 30px" src="/assets/icons/cartcart.png" alt="" />
       </div>
     </a>
+    <a routerLink="/orders">Orders</a>
     <div class="user-dropdown">
-      <img style="height: 30px;" src="/assets/icons/user.png" alt="User">
+      <img style="height: 30px" src="/assets/icons/user.png" alt="User" />
       <div class="dropdown-content">
-        <a routerLink="/login">Login</a>
-        <a routerLink="/signup">Signup</a>
+        <a *ngIf="!isLoggedIn" routerLink="/login">Login</a>
+        <a *ngIf="!isLoggedIn" routerLink="/signup">Signup</a>
+        <a *ngIf="isLoggedIn" (click)="logout()">Logout</a>
       </div>
     </div>
-
   </nav>
 </div>
-
-

@@ -49,8 +49,9 @@ export class ProductService implements ProductServices {
 
   getProductsByName(productName: string): Observable<Res<Product[] | null>> {
     return this.http.get<Res<Product[] | null>>(
-      `${this.api}/name/${productName}`, {
-        headers: this.headers
+      `${this.api}/name/${productName}`,
+      {
+        headers: this.headers,
       }
     );
   }
@@ -59,5 +60,21 @@ export class ProductService implements ProductServices {
     return this.http.get<Res<Product[] | null>>(
       `${this.api}/type/${productType}`
     );
+  }
+
+  getProductsBySize(productSize: string): Observable<Res<Product[] | null>> {
+    return this.http.get<Res<Product[] | null>>(
+      `${this.api}/size/${productSize}`
+    );
+  }
+
+  getProductsByPrice(
+    min: number,
+    max: number
+  ): Observable<Res<Product[] | null>> {
+    return this.http.post<Res<Product[] | null>>(`${this.api}/price`, {
+      min,
+      max,
+    });
   }
 }
