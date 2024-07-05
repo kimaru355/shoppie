@@ -22,8 +22,8 @@ export class OrderService implements OrderServices {
     });
   }
 
-  updateOrder(id: string): Observable<Res<null>> {
-    return this.http.put<Res<null>>(`${this.api}/update/${id}`, {
+  updateOrder(order: Order): Observable<Res<null>> {
+    return this.http.put<Res<null>>(`${this.api}/update`, order, {
       headers: this.headers,
     });
   }

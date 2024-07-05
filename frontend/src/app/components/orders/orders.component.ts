@@ -50,22 +50,20 @@ export class OrdersComponent implements OnInit {
     this.selectedOrder = null;
   }
 
-  updateOrder() {
-    if (this.selectedOrder) {
-      const orderToUpdate: Order = {
-        id: this.selectedOrder.id,
-        productId: this.selectedOrder.productId,
-        userId: this.selectedOrder.userId,
-        productNumber: this.selectedOrder.productNumber,
-        isOrderCompleted: this.selectedOrder.isOrderCompleted,
-        createdAt: this.selectedOrder.createdAt,
-        updateAt: this.selectedOrder.updateAt,
-      };
+  updateOrder(order: Order) {
+    console.log('updateOrder');
+    if (!order) {
+      console.log('No order selected');
+      return;
+    }
 
-      this.orderService.updateOrder(orderToUpdate.id).subscribe({
+    if (order) {
+      this.orderService.updateOrder(order).subscribe({
         next: (response) => {
           if (response.success) {
             this.showMessage('Order updated successfully', 'success');
+            console.log('Order updated successfully:', response);
+
             this.getOrders();
           } else {
             this.showMessage(response.message || 'Unknown error', 'error');

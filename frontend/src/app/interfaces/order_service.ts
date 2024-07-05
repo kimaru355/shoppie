@@ -4,7 +4,7 @@ import { Res } from './res';
 
 export interface OrderServices {
   createOrder(): Observable<Res<null>>;
-  updateOrder(id: string): Observable<Res<null>>;
+  updateOrder(order: Order): Observable<Res<null>>;
   getAllOrders(): Observable<Res<Order[] | null>>;
   getCompletedOrders(): Observable<Res<Order[] | null>>;
   getIncompleteOrders(): Observable<Res<Order[] | null>>;

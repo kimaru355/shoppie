@@ -53,23 +53,18 @@ export const updateOrder = async (
   res: Response
 ): Promise<Response> => {
   const orderService = new OrderService();
-  const userId = getIdFromToken(req);
-  if (!userId) {
-    return res.status(200).json({
-      success: false,
-      message: "Unauthorized",
-      data: null,
-    });
-  }
-  const id = req.params.id;
-  if (!id) {
+  const order: Order = req.body;
+  if (!order.userId || !order.id) {
     return res.status(200).json({
       success: false,
       message: "Invalid data",
       data: null,
     });
   }
-  const response: Res<null> = await orderService.updateOrder(userId, id);
+  const response: Res<null> = await orderService.updateOrder(
+    order.userId,
+    order.id
+  );
   if (response.success) {
     return res.status(200).json(response);
   } else if (response.message !== "An error occurred") {
