@@ -62,7 +62,7 @@ export class OrdersComponent implements OnInit {
         updateAt: this.selectedOrder.updateAt,
       };
 
-      this.orderService.updateOrder(orderToUpdate).subscribe({
+      this.orderService.updateOrder(orderToUpdate.id).subscribe({
         next: (response) => {
           if (response.success) {
             this.showMessage('Order updated successfully', 'success');
