@@ -16,8 +16,8 @@ export class OrderService implements OrderServices {
   });
   constructor(private http: HttpClient) { }
 
-  createOrder(userId: string): Observable<Res<null>> {
-    return this.http.post<Res<null>>(`${this.api}/create`, userId, {
+  createOrder(): Observable<Res<null>> {
+    return this.http.post<Res<null>>(`${this.api}/create`, {
       headers: this.headers,
     });
   }
