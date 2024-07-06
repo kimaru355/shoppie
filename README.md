@@ -69,22 +69,23 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 ## Authors
 
-<div style="display: flex; justify-content: space-evenly;">
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="https://github.com/Marshal-Emanuel.png?size=128" alt="Emanuel Marshal" style="border-radius: 50%; height: 128px; width: 128px;">
-    <a href="https://github.com/Marshal-Emanuel" style="font-size: 24px; font-weight: bold;">Emanuel Marshal</a>
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <div style="text-align: center; margin: 10px;">
+    <img src="https://github.com/Marshal-Emanuel.png?size=100" alt="Emanuel Marshal" style="border-radius: 50%; height: 100px; width: 100px;">
+    <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Marshal-Emanuel" style="color: black; text-decoration: none;">Emanuel Marshal</a></div>
   </div>
 
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="https://github.com/kimaru355.png?size=128" alt="Kimaru Emanuel" style="border-radius: 50%; height: 128px; width: 128px;">
-    <a href="https://github.com/kimaru355" style="font-size: 24px; font-weight: bold;">Kimaru Emanuel</a>
+  <div style="text-align: center; margin: 10px;">
+    <img src="https://github.com/kimaru355.png?size=100" alt="Kimaru Emanuel" style="border-radius: 50%; height: 100px; width: 100px;">
+    <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/kimaru355" style="color: black; text-decoration: none;">Kimaru Emanuel</a></div>
   </div>
 
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="https://github.com/Xhechar.png?size=128" alt="Felix Okoth" style="border-radius: 50%; height: 128px; width: 128px;">
-    <a href="https://github.com/Xhechar" style="font-size: 24px; font-weight: bold;">Felix Okoth</a>
+  <div style="text-align: center; margin: 10px;">
+    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 50%; height: 100px; width: 100px;">
+    <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Xhechar" style="color: black; text-decoration: none;">Felix Okoth</a></div>
   </div>
 </div>
+
 
 ## Support
 
