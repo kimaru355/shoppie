@@ -74,11 +74,13 @@ Use the Angular frontend application to browse products, add them to your cart, 
     <img src="https://github.com/Marshal-Emanuel.png?size=100" alt="Emanuel Marshal" style="border-radius: 50%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Marshal-Emanuel" style="color: black; text-decoration: none;">Emanuel Marshal</a></div>
   </div>
+  <br>
 
   <div style="text-align: center; margin: 10px;">
     <img src="https://github.com/kimaru355.png?size=100" alt="Kimaru Emanuel" style="border-radius: 50%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/kimaru355" style="color: black; text-decoration: none;">Kimaru Emanuel</a></div>
   </div>
+  <br>
 
   <div style="text-align: center; margin: 10px; display: flex; gap: 20px" >
     <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 100%; height: 100px; width: 100px;">
