@@ -61,7 +61,7 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 ## Built With
 
-- ![Node.js](https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white) - The runtime environment for the backend
+- | <img height="50" src="https://user-images.githubusercontent.com/25181517/189715289-df3ee512-6eca-463f-a0f4-c10d94a06b2f.png"> |      Figma  - The runtime environment for the backend
 - ![Express](https://img.shields.io/badge/express-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) - The web framework used for the backend
 - ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) - The web framework used for the frontend
 - ![SQL Server](https://img.shields.io/badge/Microsoft_SQL_Server-%23CC2927.svg?style=for-the-badge&logo=microsoft-sql-server&logoColor=white) - Database for storing product and user data
