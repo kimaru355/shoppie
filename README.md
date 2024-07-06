@@ -71,16 +71,23 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 - **Emanuel Marshal**  
   ![Emanuel Marshal](https://github.com/Marshal-Emanuel.png?size=100)  
-  [Marshal-Emanuel](https://github.com/Marshal-Emanuel)
+  <li style="list-style-type: none; display: flex; align-items: center;">
+    <img src="https://github.com/Marshal-Emanuel.png?size=100" alt="Emanuel Marshal" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
+    <a href="https://github.com/Marshal-Emanuel">Emanuel Marshal</a>
+  </li>
 
 - **Kimaru Emanuel**  
   ![Kimaru Emanuel](https://github.com/kimaru355.png?size=100)  
-  [kimaru355](https://github.com/kimaru355)
+  <li style="list-style-type: none; display: flex; align-items: center;">
+    <img src="https://github.com/kimaru355.png?size=100" alt="Kimaru Emanuel" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
+    <a href="https://github.com/kimaru355">Kimaru Emanuel</a>
+  </li>
 
 - **Felix Okoth**  
-  ![Felix Okoth](https://github.com/Xhechar.png?size=100)  
-  [Xhechar](https://github.com/Xhechar)
-
+  <li style="list-style-type: none; display: flex; align-items: center;">
+    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
+    <a href="https://github.com/Xhechar">Felix Okoth</a>
+  </li>
 ## Support
 
 If you encounter any issues or have any questions, please [open an issue](https://github.com/kimaru355/shoppie/issues) on the GitHub repository.
