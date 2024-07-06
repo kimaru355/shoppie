@@ -71,7 +71,7 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 - **Emanuel Marshal** - [Marshal-Emanuel](https://github.com/Marshal-Emanuel)
 - **Kimaru Emanuel** - [kimaru355](https://github.com/kimaru355)
-- **Xhechar** - [Xhechar](https://github.com/Xhechar)
+- **Felix Okoth** - [Xhechar](https://github.com/Xhechar)
 
 ## Support
 
