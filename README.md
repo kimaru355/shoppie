@@ -69,25 +69,23 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 ## Authors
 
-- **Emanuel Marshal**  
-  ![Emanuel Marshal](https://github.com/Marshal-Emanuel.png?size=100)  
-  <li style="list-style-type: none; display: flex; align-items: center;">
-    <img src="https://github.com/Marshal-Emanuel.png?size=100" alt="Emanuel Marshal" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
-    <a href="https://github.com/Marshal-Emanuel">Emanuel Marshal</a>
-  </li>
+<div style="display: flex; justify-content: space-evenly;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <img src="https://github.com/Marshal-Emanuel.png?size=128" alt="Emanuel Marshal" style="border-radius: 50%; height: 128px; width: 128px;">
+    <a href="https://github.com/Marshal-Emanuel" style="font-size: 24px; font-weight: bold;">Emanuel Marshal</a>
+  </div>
 
-- **Kimaru Emanuel**  
-  ![Kimaru Emanuel](https://github.com/kimaru355.png?size=100)  
-  <li style="list-style-type: none; display: flex; align-items: center;">
-    <img src="https://github.com/kimaru355.png?size=100" alt="Kimaru Emanuel" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
-    <a href="https://github.com/kimaru355">Kimaru Emanuel</a>
-  </li>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <img src="https://github.com/kimaru355.png?size=128" alt="Kimaru Emanuel" style="border-radius: 50%; height: 128px; width: 128px;">
+    <a href="https://github.com/kimaru355" style="font-size: 24px; font-weight: bold;">Kimaru Emanuel</a>
+  </div>
 
-- **Felix Okoth**  
-  <li style="list-style-type: none; display: flex; align-items: center;">
-    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 50%; height: 60px; width: 60px; margin-right: 10px;">
-    <a href="https://github.com/Xhechar">Felix Okoth</a>
-  </li>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <img src="https://github.com/Xhechar.png?size=128" alt="Felix Okoth" style="border-radius: 50%; height: 128px; width: 128px;">
+    <a href="https://github.com/Xhechar" style="font-size: 24px; font-weight: bold;">Felix Okoth</a>
+  </div>
+</div>
+
 ## Support
 
 If you encounter any issues or have any questions, please [open an issue](https://github.com/kimaru355/shoppie/issues) on the GitHub repository.
