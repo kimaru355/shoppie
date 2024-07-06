@@ -80,8 +80,8 @@ Use the Angular frontend application to browse products, add them to your cart, 
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/kimaru355" style="color: black; text-decoration: none;">Kimaru Emanuel</a></div>
   </div>
 
-  <div style="text-align: center; margin: 10px;">
-    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 50%; height: 100px; width: 100px;">
+  <div style="text-align: center; margin: 10px; display: flex; gap: 20px" >
+    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 100%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Xhechar" style="color: black; text-decoration: none;">Felix Okoth</a></div>
   </div>
 </div>
