@@ -69,10 +69,9 @@ Use the Angular frontend application to browse products, add them to your cart, 
 
 ## Authors
 
-- Emanuel Marshal - Marshal-Emanuel - github.com/Marshal-Emanuel
-- KIMARU EMMANUEL - kimaru355 - github.com/kimaru355
-- Xhechar - github.com/Xhechar
-
+- **Emanuel Marshal** - [Marshal-Emanuel](https://github.com/Marshal-Emanuel)
+- **Kimaru Emanuel** - [kimaru355](https://github.com/kimaru355)
+- **Xhechar** - [Xhechar](https://github.com/Xhechar)
 
 ## Support
 
