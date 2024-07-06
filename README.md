@@ -95,8 +95,17 @@ If you encounter any issues or have any questions, please [open an issue](https:
 
 ## Acknowledgments
 
-We would like to thank the following individuals for their valuable feedback:
+We would like to thank:
 
-- [Daniel Kainyi](https://github.com/kithekadk) - for providing valuable feedback
+<div style="text-align: center; margin: 20px 0;">
+  <div style="display: inline-block; margin: 10px;">
+    <img src="https://github.com/kithekadk.png?size=100" alt="Daniel Kainyi" style="border-radius: 50%; height: 100px; width: 100px;">
+    <div style="font-size: 18px; font-weight: bold; margin-top: 10px;">
+      <a href="https://github.com/kithekadk" style="color: black; text-decoration: none;">Daniel Kainyi</a>
+    </div>
+    <div style="font-size: 14px;">for providing valuable feedback</div>
+  </div>
+</div>
+
 
 
