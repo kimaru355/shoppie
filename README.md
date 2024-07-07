@@ -1,5 +1,3 @@
-
-
 # Shoppie
 
 Shoppie is an e-commerce platform designed to facilitate the seamless listing, updating, and purchasing of products. It includes a backend server to manage products, orders, reviews, and user authentication, along with a frontend application for a user-friendly shopping experience.
@@ -26,8 +24,7 @@ Follow these steps to set up your development environment:
 
 2. Set up the SQL Server database:
     - Ensure SQL Server is running on your machine.
-    - Create a new database named ShoppieDB.
-    - Use the SQL script provided in shoppie/backend/sql to create the necessary tables and relationships.
+    - Create a new database named `shoppie`.
 
 3. Install backend dependencies:
     ```bash
@@ -35,25 +32,38 @@ Follow these steps to set up your development environment:
     npm install
     ```
 
-4. Update the database connection string in shoppie/backend/config/database.js to reflect your SQL Server credentials and database name.
+4. Create a `.env` file in the `shoppie/backend` directory and add the following configurations, customizing the `DATABASE_URL` with your SQL Server details, and setting a secure `JWT_SECRET`:
+    ```env
+    DATABASE_URL="sqlserver://<your_sql_server_host>;database=shoppie;user=<your_username>;password=<your_password>;encrypt=true;trustServerCertificate=true"
+    JWT_SECRET="your_jwt_secret_here"
 
-5. Start the backend server:
+    # Optional email configuration for nodemailer
+    USER="your_email@example.com"
+    APP_PASSWORD="your_app_password"
+    ```
+
+5. Run Prisma migrations to set up the database schema:
+    ```bash
+    npx prisma migrate dev --name init
+    ```
+
+6. Start the backend server:
     ```bash
     npm start
     ```
 
-6. Install frontend dependencies:
+7. Install frontend dependencies:
     ```bash
-    cd shoppie/frontend
+    cd ../frontend
     npm install
     ```
 
-7. Start the Angular development server:
+8. Start the Angular development server:
     ```bash
     ng serve
     ```
 
-8. Navigate to http://localhost:4200/ to view the application.
+9. Navigate to http://localhost:4200/ to view the application.
 
 ## Usage
 
@@ -66,8 +76,6 @@ Use the Angular frontend application to browse products, add them to your cart, 
 - <img height="40" src="https://user-images.githubusercontent.com/25181517/183890595-779a7e64-3f43-4634-bad2-eceef4e80268.png" alt="Angular"> Angular - The web framework used for the frontend
 - <img height="40" src="https://github.com/marwin1991/profile-technology-icons/assets/19180175/3b371807-db7c-45b4-8720-c0cfc901680a" alt="MSSQL"> MSSQL - Database for storing product and user data
 
-
-
 ## Authors
 
 <div style="display: flex; justify-content: space-around; align-items: center;">
@@ -75,20 +83,17 @@ Use the Angular frontend application to browse products, add them to your cart, 
     <img src="https://github.com/Marshal-Emanuel.png?size=100" alt="Emanuel Marshal" style="border-radius: 50%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Marshal-Emanuel" style="color: black; text-decoration: none;">Emanuel Marshal</a></div>
   </div>
-  <br>
 
   <div style="text-align: center; margin: 10px;">
     <img src="https://github.com/kimaru355.png?size=100" alt="Kimaru Emanuel" style="border-radius: 50%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/kimaru355" style="color: black; text-decoration: none;">Kimaru Emanuel</a></div>
   </div>
-  <br>
 
-  <div style="text-align: center; margin: 10px; display: flex; gap: 20px" >
-    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 100%; height: 100px; width: 100px;">
+  <div style="text-align: center; margin: 10px;">
+    <img src="https://github.com/Xhechar.png?size=100" alt="Felix Okoth" style="border-radius: 50%; height: 100px; width: 100px;">
     <div style="font-size: 18px; font-weight: bold; margin-top: 10px;"><a href="https://github.com/Xhechar" style="color: black; text-decoration: none;">Felix Okoth</a></div>
   </div>
 </div>
-
 
 ## Support
 
@@ -107,6 +112,3 @@ We would like to thank:
     <div style="font-size: 14px;">for providing valuable feedback</div>
   </div>
 </div>
-
-
-
